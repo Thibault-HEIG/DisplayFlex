@@ -15,12 +15,15 @@ import java.nio.charset.StandardCharsets;
 public class AppServer {
 
     public static void main(String[] args) throws IOException {
+        // 1. On lance la BDD avant le serveur Web
+        DatabaseManager.initialiser();
+        
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         // Route pour servir les fichiers statiques (HTML, CSS)
         server.createContext("/", new StaticFileHandler());
-        
+
         // Route pour traiter l'input (API)
         server.createContext("/api/process", new ApiHandler());
 
@@ -34,12 +37,13 @@ public class AppServer {
         @Override
         public void handle(HttpExchange t) throws IOException {
             String uri = t.getRequestURI().toString();
-            if (uri.equals("/")) uri = "/index.html"; // Page par défaut
-            
-            // Attention: Chemin relatif simple pour l'exercice. 
+            if (uri.equals("/"))
+                uri = "/index.html"; // Page par défaut
+
+            // Attention: Chemin relatif simple pour l'exercice.
             // À adapter selon ton dossier de lancement.
-            String filePath = "public" + uri; 
-            
+            String filePath = "public" + uri;
+
             if (Files.exists(Paths.get(filePath))) {
                 byte[] response = Files.readAllBytes(Paths.get(filePath));
                 t.sendResponseHeaders(200, response.length);
@@ -63,10 +67,10 @@ public class AppServer {
             if ("POST".equals(t.getRequestMethod())) {
                 InputStream is = t.getRequestBody();
                 String input = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-                
+
                 // --- LOGIQUE MÉTIER ---
                 // TODO: Remplacer cette ligne par ta propre logique Java
-                String reponseJava = "Java a reçu : " + input.toUpperCase(); 
+                String reponseJava = "Java a reçu : " + input.toUpperCase();
                 // ----------------------
 
                 byte[] bytes = reponseJava.getBytes(StandardCharsets.UTF_8);
