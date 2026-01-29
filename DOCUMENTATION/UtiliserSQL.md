@@ -4,7 +4,7 @@ Pour que le bouton "Run" ou tes raccourcis fonctionnent depuis ton fichier .sql,
 
 ----
 
-1. Installer l'extension Va dans l'onglet Extensions de VS Code et installe *SQLite* (l'auteur est alexcvzz). C'est la référence.
+1. Installer l'extension Va dans l'onglet Extensions de VS Code et installe *SQLite* (l'auteur est alexcvzz).
 
 ----
 
