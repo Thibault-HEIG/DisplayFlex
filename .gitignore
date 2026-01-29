@@ -1,0 +1,9 @@
+# Fichiers compilés Java
+*.class
+
+# Fichiers système Mac
+.DS_Store
+
+# Dossiers de configuration IDE (optionnel mais recommandé)
+.vscode/
+.idea/
