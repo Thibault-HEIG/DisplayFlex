@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Projet Collaboratif</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Interface de Commande</h1>
         <p>Entrez une donnée à traiter par le serveur Java.</p>
-        
+
         <div class="input-group">
             <input type="text" id="userInput" placeholder="Tapez ici...">
             <button onclick="sendToJava()">Envoyer</button>
@@ -20,26 +22,7 @@
             <p id="serverOutput">...</p>
         </div>
     </div>
-
-    <script>
-        // Ce script fait le pont entre HTML et Java sans recharger la page
-        async function sendToJava() {
-            const input = document.getElementById('userInput').value;
-            const output = document.getElementById('serverOutput');
-            
-            output.innerText = "Traitement en cours...";
-
-            try {
-                const response = await fetch('/api/process', {
-                    method: 'POST',
-                    body: input
-                });
-                const text = await response.text();
-                output.innerText = text;
-            } catch (error) {
-                output.innerText = "Erreur de connexion au serveur.";
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>

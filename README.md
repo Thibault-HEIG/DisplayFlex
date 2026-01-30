@@ -11,12 +11,13 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 
 /DisplayFlex
 │
-├── 📁 src/main/java/
+├── 📁 src/main/java/            <-- ☕ BACK-END
 │   ├── ☕ AppServer.java         <-- ⚠️ ZONE DANGER : Infrastructure serveur (NE PAS TOUCHER).
 │   ├── ☕ ApiHandler.java        <-- ✏️ ZONE OK : ApiHandler (modifier le code ici).
 │   └── ☕ DatabaseManager.java   <-- ⚙️ Gestionnaire de connexion SQLite et exécution SQL.
 │
-├── 📁 public/                   <-- 🎨 ZONE CRÉATIVE (Frontend)
+├── 📁 public/                   <-- 🎨 FRONT-END
+│   ├── 📄 script.js             <-- ⚠️ ZONE DANGER : Communication avec Java (NE PAS TOUCHER)
 │   ├── 📄 index.html            <-- Structure HTML de l'interface.
 │   └── 🎨 style.css             <-- Design et mise en page CSS.
 │
@@ -35,7 +36,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   └── 📦 sqlite-jdbc-3.42.0.0.jar <-- Driver nécessaire à la connexion Java/SQL.
 │
 ├── 🗃️ ecole.db                  <-- Fichier de base de données SQLite généré.
-├── 🧨 .gitignore                <-- ⚠️ Paramétrages Git (Ne pas toucher).
+├── 🧨 .gitignore                <-- ⚠️ Paramétrages Git (NE PAS TOUCHER).
 └── 📝 README.md                 <-- Documentation principale.
 
 
