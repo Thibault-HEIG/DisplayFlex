@@ -18,12 +18,12 @@ Allez dans le dossier :
 Prérequis : Avoir Java installé (JDK 11 ou plus récent recommandé).
 ## À chaque fois que vous voulez travailler, compiler le code java :
 
-**Mac** -> javac -cp lib/*:src src/main/java/*.java
+**Mac** -> javac -cp "lib/*:src" src/main/java/*.java
 **Windows** -> javac -cp "lib/*;src" src/main/java/*.java
 
 ## Puis lancer le programme principal :
 
-**Mac** -> java -cp lib/*:src main.java.AppServer
+**Mac** -> java -cp lib/*:src" main.java.AppServer
 **Windows** -> java -cp "lib/*;src" main.java.AppServer
 
 Ouvrir : Allez sur http://localhost:8000
