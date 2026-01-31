@@ -1,7 +1,6 @@
-# 🛠️ Installation & Démarrage**
-`Les lignes en vert sont des commandes à faire dans le terminal`
+# 🛠️ Installation & Démarrage
 
-## 1. Cloner le projet (Première fois seulement)**
+## 1. Cloner le projet (Première fois seulement)
 
 Allez dans un endroit pratique de votre machine:
 exemple : `cd ~/Desktop`
@@ -14,25 +13,25 @@ Allez dans le dossier :
 
 -----
 
-### 2. Lancer le serveur**
+## 2. Lancer le serveur
 Prérequis : Avoir Java installé (JDK 11 ou plus récent recommandé).
 **À chaque fois que vous voulez travailler, compiler le code java :**
 
-*Mac*
--> `javac -cp "lib/*:src" src/main/java/*.java`
+*Mac*  
+-> `javac -cp "lib/*:src" src/main/java/*.java`  
 
-*Windows*
--> `javac -cp "lib/*;src" src/main/java/*.java`
+*Windows*  
+-> `javac -cp "lib/*;src" src/main/java/*.java`  
 
-**Puis lancer le programme principal :**
+**Puis lancer le programme principal :**  
 
-*Mac*
--> `java -cp "lib/*:src" main.java.AppServer`
+*Mac*  
+-> `java -cp "lib/*:src" main.java.AppServer`  
 
-**Windows*
--> `java -cp "lib/*;src" main.java.AppServer`
+**Windows*  
+-> `java -cp "lib/*;src" main.java.AppServer`  
 
 -----
 
-#### 3. Ouvrir la page
+## 3. Ouvrir la page
 Allez sur http://localhost:8000

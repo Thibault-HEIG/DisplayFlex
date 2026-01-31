@@ -6,10 +6,10 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 
 ## 📂 Structure du Projet (Où travailler ?)
 
-⚠️ **ATTENTION** : Certains fichiers sont l'infrastructure du projet. Si vous les cassez, plus personne ne peut travailler.
-**🔴 NE PAS TOUCHER** - sauf si sûr à 100% de son code - *nouvelle branche git obligatoire*
-**🟠 DANGEREUX** - à modifier avec précaution - *nouvelle branche git obligatoire*
-**🟢 OPEN** - modifications autorisées - *nouvelle branche git recommandée*
+⚠️ **ATTENTION** : Certains fichiers sont l'infrastructure du projet. Si vous les cassez, plus personne ne peut travailler.  
+**🔴 NE PAS TOUCHER** - sauf si sûr à 100% de son code - *nouvelle branche git obligatoire*  
+**🟠 DANGEREUX** - à modifier avec précaution - *nouvelle branche git obligatoire*  
+**🟢 OPEN** - modifications autorisées - *nouvelle branche git recommandée*  
 
 ```
 /DisplayFlex
@@ -43,7 +43,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 └── 📝 README.md                 <-- Documentation principale
 ```
 
-### Idées de features à implémenter
+## Idées de features à implémenter
 - Créer un design CSS accueillant
 - Créer et remplir une table 'eleves' complète
 - Créer et remplir une table 'matieres'
