@@ -4,14 +4,15 @@ Pour que le bouton "Run" ou tes raccourcis fonctionnent depuis ton fichier .sql,
 
 ----
 
-## 1. Installer l'extension Va dans l'onglet Extensions de VS Code et installe **SQLite** (l'auteur est alexcvzz).
+## 1. Installer l'extension
+Va dans l'onglet Extensions de VS Code et installe **SQLite** (l'auteur est alexcvzz).
 
 ----
 
 ## 2. Lier SQL à ta base de données :
 
 Ouvre la "Palette de Commandes" *(Cmd + Maj + P)*.
-`Tape SQLite: Open Database.`
+Tape `SQLite: Open Database.`
 
 Choisis ton fichier `ecole.db` dans la liste. (Maintenant, VS Code sait que c'est la base active).
 
