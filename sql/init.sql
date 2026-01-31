@@ -9,10 +9,3 @@ CREATE TABLE IF NOT EXISTS eleves (
     classe TEXT NOT NULL,
     date_naissance DATE
 );
-
-
-
-
---INSÉRER DES DONNÉES
-INSERT INTO eleves (nom, prenom, classe, date_naissance)
-VALUES ('Moret', 'Thibault', 'M54-2', '2005-07-05');
