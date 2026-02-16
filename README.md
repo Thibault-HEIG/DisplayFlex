@@ -49,4 +49,6 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 - Créer et remplir une table 'matieres'
 - Créer un bouton qui permet d'afficher la liste des matières
 - Créer un input qui demande un prénom et affiche toutes les infos de l'étudiant
-- Implémenter le mini-jeu de Thibault dans une nouvelle page du site
+- Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site
+- Automatiser le lancement du programme Java (compilation, exécution)
+- Créer une page pour accéder à nos sites web
