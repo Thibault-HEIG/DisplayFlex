@@ -14,11 +14,9 @@ Avant de recommencer une nouvelle tâche, mettez à jour votre local (pour avoir
 ## Étape 1 : Créer sa branche
 Utilisez ces conventions de nommage pour qu'on s'y retrouve :
 
-modification du CSS : `git checkout -b [style/branche]`
+Résolution d'un bug : `git checkout -b [fix/branche]`
 
-modification du HTML : `git checkout -b [index/branche]`
-
-modification du Java : `git checkout -b [feature/branche]`
+Nouvelle fonctionnalité : `git checkout -b [feature/branche]`
 
 -----
 
