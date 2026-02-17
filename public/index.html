@@ -3,23 +3,30 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projet Collaboratif - DisplayFlex</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <section class="container">
-        <h1>Interface de Commande</h1>
-        <p>Entrez une donnée à traiter par le serveur Java.</p>
+    <nav>
+        <a href="websites.html">Projets Web</a>
+    </nav>
+    <section id="hero">
+        <h1>Projet Collaboratif M54/2</h1>
+        <div class="container">
+            <h2>Interface de Commande</h2>
+            <p>Entrez une donnée à traiter par le serveur Java.</p>
 
-        <div class="input-group">
-            <input type="text" id="userInput" placeholder="Tapez ici...">
-            <button onclick="sendToJava()">Envoyer</button>
-        </div>
+            <div class="input-group">
+                <input type="text" id="userInput" placeholder="Tapez ici...">
+                <button onclick="sendToJava()">Envoyer</button>
+            </div>
 
-        <div id="responseArea">
-            <span class="label">Réponse du serveur :</span>
-            <p id="serverOutput">...</p>
+            <div id="responseArea">
+                <span class="label">Réponse du serveur :</span>
+                <p id="serverOutput">...</p>
+            </div>
         </div>
     </section>
     <script src="script.js"></script>

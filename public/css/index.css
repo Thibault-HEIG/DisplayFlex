@@ -1,0 +1,27 @@
+@import "theme.css";
+@import "reset.css";
+
+nav {
+    margin: 3rem;
+    color: black;
+}
+
+section#hero {
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 3rem;
+    }
+
+    div.container {
+        background-color: antiquewhite;
+        display: flex;
+        flex-direction: column;
+        height: 40vh;
+        max-width: 50%;
+        margin: 0 auto;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}

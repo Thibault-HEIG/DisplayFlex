@@ -1,0 +1,23 @@
+@font-face {
+    font-family: sans-serif;
+    src: url();
+}
+
+:root {}
+
+html {
+    font-size: 14px;
+    font-family: sans-serif;
+
+    section {
+        padding: 2rem;
+    }
+
+    a.button {
+        background-color: rgb(32, 255, 210);
+        color: white;
+        padding: 1rem;
+        border-radius: 30px;
+        border: none;
+    }
+}

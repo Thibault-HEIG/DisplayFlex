@@ -1,0 +1,36 @@
+@import "theme.css";
+@import "reset.css";
+
+nav {
+    padding: 1rem;
+}
+
+section#project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+
+    div.project {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        a.button {
+            position: relative;
+            bottom: 15%;
+            width: 50%;
+            align-self: center;
+            text-align: center;
+
+            &:hover {
+                background-color: blueviolet;
+
+                a {
+                    color: white;
+                }
+
+                transition: 0.5s;
+            }
+        }
+    }
+}

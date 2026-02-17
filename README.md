@@ -21,8 +21,11 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │
 ├── 📁 public/                   <-- 🎨 FRONT-END
 │   ├── 📄 script.js             <-- 🟠 Communication avec Java
-│   ├── 📄 index.html            <-- 🟢 Structure HTML de l'interface
-│   └── 🎨 style.css             <-- 🟢 Design et mise en page CSS
+│   ├── 📄 file.html             <-- 🟢 Structure HTML d'une des pages
+│   └── 📁 css/                  <-- 🟢 Design et mise en page CSS
+│       ├── 📄 reset.css         <-- 🟠 Reset pour toute feuille de style
+│       ├── 📄 theme.css         <-- 🟢 Réglages du thème (charte graphique)
+│       ├── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
 │
 ├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📜 init.sql              <-- 🟠 Création des tables
@@ -52,8 +55,6 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 - Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site
 - Automatiser le lancement du programme Java (compilation, exécution)
 - Créer une page pour accéder à nos sites web
-<<<<<<< HEAD
 - Améliorer la documentation
-=======
+- Créer une charte graphique (```theme.css```) avec des variables de typo, couleurs, style global
 - Ajouter un mode sombre
->>>>>>> branch-name
