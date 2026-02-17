@@ -52,3 +52,8 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 - Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site
 - Automatiser le lancement du programme Java (compilation, exécution)
 - Créer une page pour accéder à nos sites web
+<<<<<<< HEAD
+- Améliorer la documentation
+=======
+- Ajouter un mode sombre
+>>>>>>> branch-name
