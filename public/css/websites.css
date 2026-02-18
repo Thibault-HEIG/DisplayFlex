@@ -11,13 +11,22 @@ section#project-grid {
     gap: 1rem;
 
     div.project {
+        position: relative;
         display: flex;
         flex-direction: column;
+        background-color: rgb(241, 246, 255);
         gap: 1rem;
+        padding: 2rem;
+        border-radius: 20px;
+
+        img {
+            flex-grow: 1;
+            object-fit: cover;
+        }
 
         a.button {
-            position: relative;
-            bottom: 15%;
+            position: absolute;
+            bottom: 10%;
             width: 50%;
             align-self: center;
             text-align: center;
