@@ -245,6 +245,6 @@ SELECT * FROM branches;
 
 SELECT * FROM modules;
 
-SELECT b.nom, m.secteur
+SELECT b.nom, m.nom
 FROM branches b
     LEFT JOIN modules m ON m.id = b.id_module;

@@ -20,12 +20,14 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   └── ☕ DatabaseManager.java   <-- 🟠 Gestionnaire de connexion avec SQLite
 │
 ├── 📁 public/                   <-- 🎨 FRONT-END
-│   ├── 📄 script.js             <-- 🟠 Communication avec Java
+│   ├── 📄 connection.js         <-- 🟠 Communication avec Java
 │   ├── 📄 file.html             <-- 🟢 Structure HTML d'une des pages
 │   └── 📁 css/                  <-- 🟢 Design et mise en page CSS
 │       ├── 📄 reset.css         <-- 🟠 Reset pour toute feuille de style
 │       ├── 📄 theme.css         <-- 🟢 Réglages du thème (charte graphique)
-│       ├── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
+│       └── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
+│   └── 📁 other/                <-- 🟢 Fichiers d'expérimentation
+│       ├── 📄 script.js         <-- 🟢 Fichier JS pour s'entrainer et expérimenter
 │
 ├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📜 init.sql              <-- 🟠 Création des tables
