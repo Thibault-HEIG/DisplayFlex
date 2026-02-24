@@ -32,7 +32,7 @@ section#project-grid {
             text-align: center;
 
             &:hover {
-                background-color: blueviolet;
+                background-color: rgb(8, 49, 71);
 
                 a {
                     color: white;
