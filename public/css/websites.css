@@ -5,7 +5,19 @@ nav {
     padding: 1rem;
 }
 
+section#intro {
+    margin: 0 0 var(--margin) var(--margin);
+
+    h1 {
+        margin-bottom: 5rem;;
+    }
+
+    p a {
+        color: var(--color-dark-blue);
+    }
+}
 section#project-grid {
+    padding: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 1rem;
@@ -14,17 +26,32 @@ section#project-grid {
         position: relative;
         display: flex;
         flex-direction: column;
-        background-color: rgb(241, 246, 255);
+        max-height: 600px;
+        background-color: var(--color-white);
         gap: 1rem;
         padding: 2rem;
+        border: solid 2px var(--color-dark-blue);
         border-radius: 20px;
+
+        h2 span {
+            font-weight: 400;
+            font-size: var(--fs-base);
+        }
+
+        h3 {
+            color: var(--color-grey);
+            font-weight: 400;
+        }
 
         img {
             flex-grow: 1;
             object-fit: cover;
+            overflow: hidden;
         }
 
         a.button {
+            background-color: var(--color-dark-blue);
+            border: none;
             position: absolute;
             bottom: 10%;
             width: 50%;
@@ -32,7 +59,7 @@ section#project-grid {
             text-align: center;
 
             &:hover {
-                background-color: blueviolet;
+                background-color: var(--color-orange);
 
                 a {
                     color: white;
