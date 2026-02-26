@@ -1,0 +1,91 @@
+@import "theme.css";
+@import "reset.css";
+
+section#hero {
+    padding: var(--margin);
+
+    h1 {
+        text-align: center;
+        margin: 3rem 0;
+    }
+
+    h2 {
+        text-align: center;
+    }
+}
+
+section#add-student {
+    padding: var(--margin);
+
+    div.container {
+        border-radius: 20px;
+        padding: var(--margin);
+        background-color: var(--color-dark-blue);
+        display: flex;
+        flex-direction: column;
+        max-width: 80%;
+        margin: 0 auto;
+        justify-content: space-evenly;
+        align-items: center;
+        color: var(--color-white);
+
+        h3 {
+            font-size: var(--fs-medium);
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+
+        div.input-group {
+            margin-top: 3rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+
+            div.field {
+                display: flex;
+                flex-direction: column;
+
+                input {
+                    font-family: Jost;
+                    font-size: var(--fs-base);
+                    padding: 0.5rem;
+                    background-color: var(--color-dark-blue);
+                    border: solid 2px var(--color-orange);
+                    color: var(--color-white);
+
+                    &::placeholder {
+                        color: var(--color-grey);
+                        font-family: Jost;
+                    }
+                }
+            }
+
+            button {
+                font-family: Jost;
+                padding: 0 2rem;
+                border-radius: 20px;
+                background-color: var(--color-orange);
+                border: none;
+                font-size: var(--fs-base);
+                color: var(--color-white);
+
+                &:hover {
+                    background-color: var(--color-dark-orange);
+                    border: none;
+                    transition: 0.5s;
+                }
+            }
+        }
+
+        div#responseArea {
+            margin-top: 2rem;
+            opacity: 80%;
+            background-color: var(--color-white);
+            padding: 1rem;
+            border-radius: 10px;
+            color: black;
+            min-width: 400px;
+        }
+    }
+}
