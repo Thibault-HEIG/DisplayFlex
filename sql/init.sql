@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS branches (
     nom TEXT NOT NULL, -- nom abrégé comme DocWeb
     sujet TEXT NOT NULL, -- description du cours comme Développement Web (HTML/CSS)
     id_module INT REFERENCES modules(id),
-    duree_semestre INT NOT NULL -- durée en demi semestre (1 à 4)
+    duree_semestre INT -- durée en demi semestre (1 à 4)
 );
 
 CREATE TABLE IF NOT EXISTS modules (
