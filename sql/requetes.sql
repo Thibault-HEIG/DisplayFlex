@@ -23,187 +23,187 @@ VALUES (
         'Mathematiques',
         'MathlM',
         1,
-        4
+        96
     ),
     (
         'Modelisation des donnees',
         'ModelDon',
         1,
-        2
+        48
     ),
     (
         'Programmation',
         'ProglM',
         1,
-        4
+        96
     ),
     (
         'Marketing digital',
         'MarDig',
         2,
-        4
+        72
     ),
     (
         'Marketing et developpement de produit',
         'MarDevProd',
         2,
-        1
+        24
     ),
     (
         'Recherche et analyse clients et publics cibles',
         'RechAnPub',
         2,
-        1
+        24
     ),
     (
         'Auditer une communication numerique',
         'AuditCom',
         3,
-        1
+        NULL
     ),
     (
         'Communication Serious Game',
         'ComGame',
         3,
-        1
+        NULL
     ),
     (
         'Bases des medias numeriques',
         'BasMedNum',
         1,
-        1
+        24
     ),
     (
         'Bases des neurosciences',
         'BasNeuro',
         1,
-        1
+        24
     ),
     (
         'Durabilite',
         'Dura',
         4,
-        1
+        24
     ),
     (
         'Sociologie des medias',
         'Socio',
         4,
-        1
+        24
     ),
     (
         'Document web',
         'DocuWeb',
         5,
-        2
+        48
     ),
     (
         'Outils de developpement',
         'OutDev',
         5,
-        1
+        24
     ),
     (
         'Reseaux et environnement internet',
         'ResInt',
         5,
-        1
+        24
     ),
     (
         'English for Engineers',
         'Ang',
         6,
-        4
+        96
     ),
     (
         'Creation images',
         'Crealm',
         7,
-        2
+        24
     ),
     (
         'Production de contenu media',
         'ProdCont',
         7,
-        1
+        36
     ),
     (
         'Redaction et strategie de contenu',
         'RedCont',
         7,
-        1
+        24
     ),
     (
         'Droit',
         'Droit',
         8,
-        1
+        24
     ),
     (
         'Metiers des medias',
         'MetMed',
         8,
-        1
+        12
     ),
     (
         'Infrastructure de donnees',
         'InfraDon',
         9,
-        2
+        48
     ),
     (
         'Programmation serveur',
         'ProgServ',
         9,
-        1
+        24
     ),
     (
         'Analyse de marche',
         'AnalysMar',
         2,
-        1
+        24
     ),
     (
         'Developper une application web simple',
         'DevAppliS',
         3,
-        1
+        NULL
     ),
     (
         'Mettre en place un ecosysteme digital',
         'MEPEcosys',
         3,
-        1
+        NULL
     ),
     (
         'Conception orientee objet',
         'ConcepOb',
         1,
-        1
+        24
     ),
     (
         'Outils methodologiques',
         'OutMetho',
         1,
-        1
+        24
     ),
     (
         'Identite visuelle et systeme graphique',
         'IdentVis',
         10,
-        1
+        24
     ),
     (
         'Interface utilisateur',
         'IntUtil',
         10,
-        1
+        12
     ),
     (
         'Representation graphique des donnees',
         'RepGraph',
         10,
-        1
+        12
     );
 
 INSERT INTO modules (nom, secteur)
@@ -241,10 +241,14 @@ VALUES (
 --SELECT ZONE--
 SELECT * FROM eleves;
 
-SELECT * FROM branches;
+SELECT * FROM branches
+ORDER BY duree_semestre DESC;
 
 SELECT * FROM modules;
 
 SELECT b.nom, m.nom
 FROM branches b
     LEFT JOIN modules m ON m.id = b.id_module;
+
+--DELETE ZONE--
+DELETE FROM eleves;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL DataBase</title>
+    <link rel="stylesheet" href="css/sql.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">← Retour à l'accueil</a>
+    </nav>
+    <section id="hero">
+        <h1>Zone SQL</h1>
+        <h2>Pour les passionnés de la data</h2>
+    </section>
+    <section id="add-student">
+        <div class="container">
+            <h3>Ajoutez vos données d'élèves.</h3>
+            <p>Ces informations seront directement ajoutées à la base de données.</p>
+
+            <div class="input-group">
+                <div class="field">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" placeholder="Thibault" required minlength="3" maxlength="20">
+                </div>
+                <div class="field">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" placeholder="Moret" required minlength="3" maxlength="40">
+                </div>
+                <div class="field">
+                    <label for="classe">Classe</label>
+                    <input type="text" id="classe" placeholder="M54-2" required minlength="5" maxlength="5">
+                </div>
+                <div class="field">
+                    <label for="date-naissance">Date de naissance</label>
+                    <input type="date" id="date-naissance" max="2018-12-31">
+                </div>
+                <button onclick="sendToJava()">Valider</button>
+            </div>
+
+            <div id="responseArea">
+                <span class="label">Réponse du serveur :</span>
+                <p id="serverOutput">...</p>
+            </div>
+        </div>
+    </section>
+    <script src="other/insertStudent.js"></script>
+</body>
+
+</html>

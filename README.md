@@ -15,9 +15,9 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 /DisplayFlex
 │
 ├── 📁 src/main/java/            <-- ☕ BACK-END
-│   ├── ☕ AppServer.java         <-- 🔴 Infrastructure serveur
-│   ├── ☕ ApiHandler.java        <-- 🟢 ApiHandler (modifier le code ici)
-│   └── ☕ DatabaseManager.java   <-- 🟠 Gestionnaire de connexion avec SQLite
+│   ├── ☕ AppServer.java        <-- 🔴 Infrastructure serveur
+│   ├── ☕ ApiHandler.java       <-- 🟢 ApiHandler (modifier le code ici)
+│   └── ☕ DatabaseManager.java  <-- 🟠 Gestionnaire de connexion avec SQLite
 │
 ├── 📁 public/                   <-- 🎨 FRONT-END
 │   ├── 📄 connection.js         <-- 🟠 Communication avec Java
@@ -27,7 +27,8 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │       ├── 📄 theme.css         <-- 🟢 Réglages du thème (charte graphique)
 │       └── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
 │   └── 📁 other/                <-- 🟢 Fichiers d'expérimentation
-│       ├── 📄 script.js         <-- 🟢 Fichier JS pour s'entrainer et expérimenter
+│       ├── 📄 script.js         <-- 🟢 Script pour afficher le nombre de projets
+│       └── 📄 insertStudent.js  <-- 🟢 Script pour envoyer le formulaire à Java
 │
 ├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📜 init.sql              <-- 🟠 Création des tables

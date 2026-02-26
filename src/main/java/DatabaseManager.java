@@ -13,14 +13,26 @@ public class DatabaseManager {
     private static final String URL = "jdbc:sqlite:ecole.db";
 
     public static void initialiser() {
-        // Au lieu d'écrire le SQL ici, on demande à Java de lire le fichier
+        // On demande à Java de lire le fichier SQL
         executerFichierSql("sql/init.sql");
     }
 
-    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les exécute
+    public static String insertStudent(String nom, String prenom, String classe, String dateNaissance) {
+        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + nom + "', '" + prenom
+                + "', '" + classe + "', '" + dateNaissance + "' );";
+        try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
+            stmt.execute(query.trim()); // exécute la requête
+            return "Merci";
+        } catch (SQLException e) {
+            return "Erreur SQL : " + e.getMessage();
+        }
+    }
+
+    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les
+    // exécute
     private static void executerFichierSql(String cheminFichier) {
         try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
 
             // 1. Lire le fichier complet
             String contenu = Files.readString(Paths.get(cheminFichier));
@@ -43,8 +55,9 @@ public class DatabaseManager {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
     }
-    
-    // Garde tes méthodes d'accès (ajouterEleve, etc.) ici pour l'interaction dynamique
+
+    // Garde tes méthodes d'accès (ajouterEleve, etc.) ici pour l'interaction
+    // dynamique
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
     }
