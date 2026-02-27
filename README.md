@@ -32,7 +32,8 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │
 ├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📜 init.sql              <-- 🟠 Création des tables
-│   └── 📜 requetes.sql          <-- 🟢 Fichier de tests pour vos requêtes SELECT/INSERT
+│   ├── 📜 queries-dml.sql       <-- 🟢 Requêtes DML de type INSERT, DELETE, UPDATE
+│   └── 📜 queries-dql.sql       <-- 🟢 Requêtes DQL de type SELECT
 │
 ├── 📁 DOCUMENTATION/            <-- ℹ️ ZONE INFORMATION
 │   ├── 🏁 Demarrage.md          <-- Initialisation et tutoriel Git
@@ -48,16 +49,3 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 ├── 🧨 .gitignore                <-- 🔴 Paramétrages Git
 └── 📝 README.md                 <-- Documentation principale
 ```
-
-## Idées de features à implémenter
-- Créer un design CSS accueillant
-- Créer et remplir une table 'eleves' complète
-- Créer et remplir une table 'matieres'
-- Créer un bouton qui permet d'afficher la liste des matières
-- Créer un input qui demande un prénom et affiche toutes les infos de l'étudiant
-- Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site
-- Automatiser le lancement du programme Java (compilation, exécution)
-- Créer une page pour accéder à nos sites web
-- Améliorer la documentation
-- Créer une charte graphique (```theme.css```) avec des variables de typo, couleurs, style global
-- Ajouter un mode sombre
