@@ -4,6 +4,13 @@
     font-style: normal;
 }
 
+@font-face { /* Font de secours - très ressemblante à Jost*/
+    font-family: Renner-Book;
+    src:url('../fonts/Renner-Book.ttf.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     /* COLORS */
     --color-grey: hsl(0, 0%, 77%);
@@ -27,7 +34,7 @@
 
 html {
     font-size: 20px;
-    font-family: Jost, sans-serif;
+    font-family: Jost, Renner-Book, sans-serif;
     font-weight: 400;
     background: linear-gradient(var(--color-white), var(--color-light-blue));
     min-height: 100vh;
