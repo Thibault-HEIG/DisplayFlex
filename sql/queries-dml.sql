@@ -242,3 +242,5 @@ VALUES (
 
 --DELETE ZONE--
 DELETE FROM eleves;
+
+DROP TABLE eleves; -- /!\ DANGER - utiliser pour hard reset les élèves et leur id/!\
