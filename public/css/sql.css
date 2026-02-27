@@ -63,7 +63,7 @@ section#add-student {
 
             button {
                 font-family: Jost;
-                padding: 0 2rem;
+                padding: 0.5rem 2rem;
                 border-radius: 20px;
                 background-color: var(--color-orange);
                 border: none;
