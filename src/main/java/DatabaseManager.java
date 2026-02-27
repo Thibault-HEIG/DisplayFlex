@@ -15,8 +15,8 @@ public class DatabaseManager {
     }
 
     public static String insertStudent(String[] dataStrings) {
-        String nom = dataStrings[0];
-        String prenom = dataStrings[1];
+        String nom = dataStrings[1];
+        String prenom = dataStrings[0];
         String classe = dataStrings[2];
         String dateNaissance = dataStrings[3];
 
@@ -33,8 +33,8 @@ public class DatabaseManager {
     public static boolean checkDupplicate(String[] dataStrings) {
         try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
 
-            ResultSet result = stmt.executeQuery("SELECT * FROM eleves WHERE nom = '" + dataStrings[0] + "' AND prenom = '" + dataStrings[1] + "';");
-            String student = result.getString("nom") + result.getString("prenom");
+            ResultSet result = stmt.executeQuery("SELECT * FROM eleves WHERE prenom = '" + dataStrings[0] + "' AND nom = '" + dataStrings[1] + "';");
+            String student = result.getString("prenom") + result.getString("nom") ;
             if (student.equals(dataStrings[0] + dataStrings[1])) {
                 return true; // l'élève figure déja dans la DB
             } else {
