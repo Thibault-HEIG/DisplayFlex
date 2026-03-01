@@ -36,7 +36,7 @@ section#add-student {
             margin-bottom: 2rem;
         }
 
-        div.input-group {
+        div#input-group {
             margin-top: 3rem;
             display: flex;
             gap: 2rem;
@@ -75,6 +75,19 @@ section#add-student {
                     border: none;
                     transition: 0.5s;
                 }
+
+                &#undo-button {
+                    padding: 0.2;
+                    background-color: var(--color-dark-blue);
+                    text-decoration: underline;
+                    font-size: var(--fs-small);
+                    color: var(--color-white);
+
+                    &:hover {
+                    color: var(--color-grey);
+                    transition: 0.5s;
+                }
+                }
             }
         }
 
@@ -88,4 +101,8 @@ section#add-student {
             min-width: 400px;
         }
     }
+}
+
+.hidden {
+    display: none;
 }

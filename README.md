@@ -51,7 +51,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 ├── 📁 lib/
 │   └── 📦 sqlite-jdbc-3.42.0.0.jar <-- 🔴 Driver de connexion Java/SQL
 │
-├── 🗃️ ecole.db                      <-- 🔴 Base de données locale
-├── 🧨 .gitignore                    <-- 🔴 Paramétrages Git
-└── 📝 README.md                     <-- Documentation principale
+├── 🗃️ ecole.db                  <-- 🔴 Fichier de base de données SQLite généré
+├── 🧨 .gitignore                <-- 🔴 Paramétrages Git
+└── 📝 README.md                 <-- Documentation principale
 ```

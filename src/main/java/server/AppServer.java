@@ -28,7 +28,8 @@ public class AppServer {
 
         // Route pour traiter les inputs (API) [LIEN VERS LA LOGIQUE]
         // C'est ici qu'on branche les fichiers handler/
-        server.createContext("/api/student", new StudentsHandler());
+        server.createContext("/api/student/insert", new StudentsHandler());
+        server.createContext("/api/student/undo", new StudentsHandler());
 
         server.setExecutor(null); // Default executor
         System.out.println("Serveur demarre sur http://localhost:" + port);
