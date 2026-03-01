@@ -14,38 +14,44 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 ```
 /DisplayFlex
 │
-├── 📁 src/main/java/            <-- ☕ BACK-END
-│   ├── ☕ AppServer.java        <-- 🔴 Infrastructure serveur
-│   ├── ☕ ApiHandler.java       <-- 🟢 ApiHandler (modifier le code ici)
-│   └── ☕ DatabaseManager.java  <-- 🟠 Gestionnaire de connexion avec SQLite
+├── 📁 src/main/java/                <-- ☕ BACK-END (Architecture Séparée)
+│   ├── 📁 server/
+│   │   └── ☕ AppServer.java        <-- 🔴 Infrastructure (Démarre le serveur et route les URL vers les handlers)
+│   ├── 📁 handler/                  <-- 🟠 Contrôleurs (Logique des requêtes)
+│   │   ├── ☕ BaseApiHandler.java   <-- 🔴 Classe abstraite parent (Gère la tuyauterie HTTP commune)
+│   │   └── ☕ TrucHandler.java      <-- 🟢 Gère la logique de transformation d'un input en output
+│   ├── 📁 database/                 <-- 🟠 Interactions Database
+│   │   ├── ☕ DatabaseManager.java  <-- 🟠 Exécution des requêtes SQL
+│   │   └── ☕ DatabaseSecurity.java <-- 🟠 Vérifications avant insertion
+│   └── 📁 model/                    <-- 🟢 Classes objets
+│       └── ☕ Student.java          <-- 🟢 Objet élève
 │
-├── 📁 public/                   <-- 🎨 FRONT-END
-│   ├── 📄 connection.js         <-- 🟠 Communication avec Java
-│   ├── 📄 file.html             <-- 🟢 Structure HTML d'une des pages
-│   └── 📁 css/                  <-- 🟢 Design et mise en page CSS
-│       ├── 📄 reset.css         <-- 🟠 Reset pour toute feuille de style
-│       ├── 📄 theme.css         <-- 🟢 Réglages du thème (charte graphique)
-│       └── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
-│   └── 📁 scripts/              <-- 🟢 Fichiers d'expérimentation
-│       ├── 📄 projectCount.js   <-- 🟢 Script pour afficher le nombre de projets web
-│       └── 📄 insertStudent.js  <-- 🟢 Script pour envoyer le formulaire SQL à Java
+├── 📁 public/                       <-- 🎨 FRONT-END
+│   ├── 📄 file.html                 <-- 🟢 Structure HTML d'une des pages (index, sql, websites)
+│   ├── 📁 css/                      <-- 🟢 Design et mise en page CSS
+│   │   ├── 📄 reset.css             <-- 🟠 Reset pour toute feuille de style
+│   │   ├── 📄 theme.css             <-- 🟢 Réglages du thème (charte graphique)
+│   │   └── 📄 file.css              <-- 🟢 Feuille de style propre à chaque page
+│   └── 📁 scripts/                  <-- 🟢 Scripts JavaScript
+│       ├── 📄 projectCount.js       <-- 🟢 Script pour afficher le nombre de projets
+│       └── 📄 insertStudent.js      <-- 🟢 Script avec l'appel fetch() vers /api/students
 │
-├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
-│   ├── 📜 init.sql              <-- 🟠 Création des tables
-│   ├── 📜 queries-dml.sql       <-- 🟢 Requêtes DML de type INSERT, DELETE, UPDATE
-│   └── 📜 queries-dql.sql       <-- 🟢 Requêtes DQL de type SELECT
+├── 📁 sql/                          <-- 🗄️ STRUCTURE DES DONNÉES
+│   ├── 📜 init.sql                  <-- 🟠 Création des tables
+│   ├── 📜 queries-dml.sql           <-- 🟢 Requêtes DML (INSERT, DELETE, UPDATE)
+│   └── 📜 queries-dql.sql           <-- 🟢 Requêtes DQL (SELECT)
 │
-├── 📁 DOCUMENTATION/            <-- ℹ️ ZONE INFORMATION
-│   ├── 🏁 Demarrage.md          <-- Initialisation et tutoriel Git
-│   ├── 🛠️ Fonctionnement.md     <-- Fonctionnement global du repo
-│   ├── 🤖 VibeCoding.md         <-- Guidelines et astuces pour l'IA
-│   ├── 🎋 UtiliserGit.md        <-- Guide détaillé pour Git
-│   └── 📖 UtiliserSQL.md        <-- Guide de configuration de l'extension SQLite
+├── 📁 DOCUMENTATION/                <-- ℹ️ ZONE INFORMATION
+│   ├── 🏁 Demarrage.md              <-- Initialisation et tutoriel Git
+│   ├── 🛠️ Fonctionnement.md         <-- Fonctionnement global du repo
+│   ├── 🤖 VibeCoding.md             <-- Guidelines et astuces pour l'IA
+│   ├── 🎋 UtiliserGit.md            <-- Guide détaillé pour Git
+│   └── 📖 UtiliserSQL.md            <-- Guide de configuration SQLite
 │
 ├── 📁 lib/
-│   └── 📦 sqlite-jdbc-3.42.0.0.jar <-- 🔴 Driver nécessaire à la connexion Java/SQL
+│   └── 📦 sqlite-jdbc-3.42.0.0.jar <-- 🔴 Driver de connexion Java/SQL
 │
-├── 🗃️ ecole.db                  <-- 🔴 Fichier de base de données SQLite généré
-├── 🧨 .gitignore                <-- 🔴 Paramétrages Git
-└── 📝 README.md                 <-- Documentation principale
+├── 🗃️ ecole.db                      <-- 🔴 Base de données locale
+├── 🧨 .gitignore                    <-- 🔴 Paramétrages Git
+└── 📝 README.md                     <-- Documentation principale
 ```
