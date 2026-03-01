@@ -1,41 +1,41 @@
-package main.java;
+package main.java.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
+import main.java.model.*;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
 
 public class DatabaseManager {
 
-    private static final String URL = "jdbc:sqlite:ecole.db";
+    public static final String URL = "jdbc:sqlite:ecole.db";
 
-    public static void initialiser() {
+    public static void initialize() {
         // On demande à Java de lire le fichier SQL
-        executerFichierSql("sql/init.sql");
+        executeSQLFile("sql/init.sql");
     }
 
-    public static String insertStudent(String nom, String prenom, String classe, String dateNaissance) {
-        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + nom + "', '" + prenom
-                + "', '" + classe + "', '" + dateNaissance + "' );";
+    public static String insertStudent(Student currentStudent) { // Méthode pour insérer un élève dans la DB
+
+        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + currentStudent.getNom() + "', '" + currentStudent.getPrenom()
+                + "', '" + currentStudent.getClasse() + "', '" + currentStudent.getDateNaissance() + "' );";
         try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
-            stmt.execute(query.trim()); // exécute la requête
+            stmt.execute(query); // exécute la requête et retourne true/false
             return "Merci";
         } catch (SQLException e) {
             return "Erreur SQL : " + e.getMessage();
         }
     }
 
-    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les
-    // exécute
-    private static void executerFichierSql(String cheminFichier) {
+    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les exécute
+    private static void executeSQLFile(String filePath) {
         try (Connection conn = DriverManager.getConnection(URL);
                 Statement stmt = conn.createStatement()) {
 
             // 1. Lire le fichier complet
-            String contenu = Files.readString(Paths.get(cheminFichier));
+            String contenu = Files.readString(Paths.get(filePath));
 
             // 2. Couper le texte à chaque ";" pour avoir des requêtes individuelles
             // (SQLite aime bien qu'on lui donne les ordres un par un via JDBC)
@@ -47,7 +47,7 @@ public class DatabaseManager {
                     stmt.execute(sql.trim());
                 }
             }
-            System.out.println("Fichier SQL exécuté avec succès : " + cheminFichier);
+            System.out.println("Fichier SQL exécuté avec succès : " + filePath);
 
         } catch (IOException e) {
             System.out.println("Erreur lecture fichier : " + e.getMessage());
