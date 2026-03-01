@@ -21,7 +21,7 @@
             <h3>Ajoutez vos données d'élèves.</h3>
             <p>Ces informations seront directement ajoutées à la base de données.</p>
 
-            <div class="input-group">
+            <div id="input-group">
                 <div class="field">
                     <label for="prenom">Prénom</label>
                     <input type="text" id="prenom" placeholder="Thibault" required>
@@ -42,7 +42,8 @@
                     <label for="date-naissance">Date de naissance</label>
                     <input type="date" id="date-naissance">
                 </div>
-                <button onclick="sendToJava()">Valider</button>
+                <button onclick="insertStudent()">Valider</button>
+                <button id="undo-button" class="hidden" onclick="undoInsertStudent()">Annuler</button>
             </div>
 
             <div id="responseArea">

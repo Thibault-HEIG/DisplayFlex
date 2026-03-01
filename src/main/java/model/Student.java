@@ -1,6 +1,7 @@
 package main.java.model;
 
 public class Student {
+    private int id;
     private String prenom;
     private String nom;
     private String classe;
@@ -13,6 +14,10 @@ public class Student {
         this.classe = dataStrings[2];
         this.email = dataStrings[3];
         this.dateNaissance = dataStrings[4];
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPrenom() {
@@ -33,5 +38,9 @@ public class Student {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
