@@ -1,6 +1,9 @@
 package main.java.database;
 
 import java.sql.*;
+
+import main.java.model.*;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
@@ -14,14 +17,10 @@ public class DatabaseManager {
         executeSQLFile("sql/init.sql");
     }
 
-    public static String insertStudent(String[] dataStrings) { // Méthode pour insérer un élève dans la DB
-        String nom = dataStrings[1];
-        String prenom = dataStrings[0];
-        String classe = dataStrings[2];
-        String dateNaissance = dataStrings[3];
+    public static String insertStudent(Student currentStudent) { // Méthode pour insérer un élève dans la DB
 
-        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + nom + "', '" + prenom
-                + "', '" + classe + "', '" + dateNaissance + "' );";
+        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + currentStudent.getNom() + "', '" + currentStudent.getPrenom()
+                + "', '" + currentStudent.getClasse() + "', '" + currentStudent.getDateNaissance() + "' );";
         try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
             stmt.execute(query); // exécute la requête et retourne true/false
             return "Merci";
