@@ -24,19 +24,23 @@
             <div class="input-group">
                 <div class="field">
                     <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" placeholder="Thibault" required minlength="3" maxlength="20">
+                    <input type="text" id="prenom" placeholder="Thibault" required>
                 </div>
                 <div class="field">
                     <label for="nom">Nom</label>
-                    <input type="text" id="nom" placeholder="Moret" required minlength="3" maxlength="40">
+                    <input type="text" id="nom" placeholder="Moret" required>
                 </div>
                 <div class="field">
                     <label for="classe">Classe</label>
-                    <input type="text" id="classe" placeholder="M54-2" required minlength="5" maxlength="5">
+                    <input type="text" id="classe" placeholder="M54-2" required>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="prenom.nom@heig-vd.ch" required>
                 </div>
                 <div class="field">
                     <label for="date-naissance">Date de naissance</label>
-                    <input type="date" id="date-naissance" max="2018-12-31">
+                    <input type="date" id="date-naissance">
                 </div>
                 <button onclick="sendToJava()">Valider</button>
             </div>

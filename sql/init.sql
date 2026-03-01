@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS eleves (
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
     classe TEXT NOT NULL,
+    email TEXT,
     date_naissance DATE
 );
 

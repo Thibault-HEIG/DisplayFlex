@@ -19,8 +19,8 @@ public class DatabaseManager {
 
     public static String insertStudent(Student currentStudent) { // Méthode pour insérer un élève dans la DB
 
-        String query = "INSERT INTO eleves (nom, prenom, classe, date_naissance) VALUES ('" + currentStudent.getNom() + "', '" + currentStudent.getPrenom()
-                + "', '" + currentStudent.getClasse() + "', '" + currentStudent.getDateNaissance() + "' );";
+        String query = "INSERT INTO eleves (nom, prenom, classe, email, date_naissance) VALUES ('" + currentStudent.getNom() + "', '" + currentStudent.getPrenom()
+                + "', '" + currentStudent.getClasse() + "', '" + currentStudent.getEmail() + "', '" + currentStudent.getDateNaissance() + "' );";
         try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
             stmt.execute(query); // exécute la requête et retourne true/false
             return "Merci";

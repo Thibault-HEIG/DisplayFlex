@@ -37,6 +37,8 @@ public class DatabaseSecurity {
             message = "Erreur : La classe doit être sous la forme 'M54-2'";
         } else if (birthYear > 2010) {
             message = "Erreur : il semble que " + birthYear + " soit trop récent pour une date de naissance...";
+        } else if (!currentStudent.getEmail().contains("@heig-vd.ch")) {
+            message = "Merci d'utiliser un email professionnel (@heig-vd.ch)";
         } else if (checkDupplicate(currentStudent) == true) {
             message = "L'élève figure déjà dans la base de données. L'opération a été annulée.";
         } else {

@@ -4,12 +4,13 @@ async function sendToJava() {
     const prenom = document.getElementById('prenom').value;
     const nom = document.getElementById('nom').value;
     const classe = document.getElementById('classe').value;
+    const email = document.getElementById('email').value;
     const dateNaissance = document.getElementById('date-naissance').value;
     const output = document.getElementById('serverOutput');
 
     output.innerText = "Traitement en cours...";
     // const formData = { prenom: prenom, nom: nom, classe: classe, dateNaissance: dateNaissance};
-    const formData = prenom + "/" + nom + "/" + classe + "/" + dateNaissance;
+    const formData = prenom + "/" + nom + "/" + classe + "/" + email + "/" + dateNaissance;
 
     try {
         const response = await fetch('/api/student', {
