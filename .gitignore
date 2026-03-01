@@ -7,3 +7,6 @@
 # Dossiers de configuration IDE
 .vscode/
 .idea/
+
+# Base de données
+.ecole.db

@@ -26,9 +26,9 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │       ├── 📄 reset.css         <-- 🟠 Reset pour toute feuille de style
 │       ├── 📄 theme.css         <-- 🟢 Réglages du thème (charte graphique)
 │       └── 📄 file.css          <-- 🟢 Feuille de style propre à chaque page
-│   └── 📁 other/                <-- 🟢 Fichiers d'expérimentation
-│       ├── 📄 script.js         <-- 🟢 Script pour afficher le nombre de projets
-│       └── 📄 insertStudent.js  <-- 🟢 Script pour envoyer le formulaire à Java
+│   └── 📁 scripts/              <-- 🟢 Fichiers d'expérimentation
+│       ├── 📄 projectCount.js   <-- 🟢 Script pour afficher le nombre de projets web
+│       └── 📄 insertStudent.js  <-- 🟢 Script pour envoyer le formulaire SQL à Java
 │
 ├── 📁 sql/                      <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📜 init.sql              <-- 🟠 Création des tables
