@@ -14,7 +14,7 @@ public class AppServer {
 
     public static void main(String[] args) throws IOException {
         // 1. On lance la BDD avant le serveur Web
-        DatabaseManager.initialiser();
+        DatabaseManager.initialize();
         
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);

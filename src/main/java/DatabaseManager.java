@@ -9,9 +9,9 @@ public class DatabaseManager {
 
     private static final String URL = "jdbc:sqlite:ecole.db";
 
-    public static void initialiser() {
+    public static void initialize() {
         // On demande à Java de lire le fichier SQL
-        executerFichierSql("sql/init.sql");
+        executeSQLFile("sql/init.sql");
     }
 
     public static String insertStudent(String[] dataStrings) {
@@ -63,14 +63,13 @@ public class DatabaseManager {
         return message;
     }
 
-    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les
-    // exécute
-    private static void executerFichierSql(String cheminFichier) {
+    // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les exécute
+    private static void executeSQLFile(String filePath) {
         try (Connection conn = DriverManager.getConnection(URL);
                 Statement stmt = conn.createStatement()) {
 
             // 1. Lire le fichier complet
-            String contenu = Files.readString(Paths.get(cheminFichier));
+            String contenu = Files.readString(Paths.get(filePath));
 
             // 2. Couper le texte à chaque ";" pour avoir des requêtes individuelles
             // (SQLite aime bien qu'on lui donne les ordres un par un via JDBC)
@@ -82,7 +81,7 @@ public class DatabaseManager {
                     stmt.execute(sql.trim());
                 }
             }
-            System.out.println("Fichier SQL exécuté avec succès : " + cheminFichier);
+            System.out.println("Fichier SQL exécuté avec succès : " + filePath);
 
         } catch (IOException e) {
             System.out.println("Erreur lecture fichier : " + e.getMessage());
