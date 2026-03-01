@@ -18,7 +18,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   ├── 📁 server/
 │   │   └── ☕ AppServer.java        <-- 🔴 Infrastructure (Démarre le serveur et route les URL vers les handlers)
 │   ├── 📁 handler/                  <-- 🟠 Contrôleurs (Logique des requêtes)
-│   │   ├── ☕ BaseApiHandler.java   <-- 🔴 Classe abstraite parent (Gère la tuyauterie HTTP commune)
+│   │   ├── ☕ BaseApiHandler.java   <-- 🔴 Classe abstraite parent (Gère la structure HTTP commune)
 │   │   └── ☕ TrucHandler.java      <-- 🟢 Gère la logique de transformation d'un input en output
 │   ├── 📁 database/                 <-- 🟠 Interactions Database
 │   │   ├── ☕ DatabaseManager.java  <-- 🟠 Exécution des requêtes SQL
