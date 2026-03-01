@@ -9,11 +9,10 @@ async function sendToJava() {
 
     output.innerText = "Traitement en cours...";
     // const formData = { prenom: prenom, nom: nom, classe: classe, dateNaissance: dateNaissance};
-    const formData = prenom + "/" + nom + "/" + classe + "/" + dateNaissance
-    console.log(formData);
+    const formData = prenom + "/" + nom + "/" + classe + "/" + dateNaissance;
 
     try {
-        const response = await fetch('/api/process', {
+        const response = await fetch('/api/student', {
             method: 'POST',
             body: formData,
         });

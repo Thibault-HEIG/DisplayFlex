@@ -1,6 +1,10 @@
-package main.java;
+package main.java.server;
 
 import com.sun.net.httpserver.HttpServer;
+
+import main.java.database.DatabaseManager; // importe la connection avec la DB
+import main.java.handler.*; // importe les logiques de nos fichiers
+
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,8 +17,8 @@ import java.nio.file.Paths;
 public class AppServer {
 
     public static void main(String[] args) throws IOException {
-        // 1. On lance la BDD avant le serveur Web
-        DatabaseManager.initialiser();
+        // 1. On initialise la database avant le serveur Web
+        DatabaseManager.initialize();
         
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -22,9 +26,9 @@ public class AppServer {
         // Route pour servir les fichiers statiques (HTML, CSS) [INFRASTRUCTURE]
         server.createContext("/", new StaticFileHandler());
 
-        // Route pour traiter l'input (API) [LIEN VERS TON CODE]
-        // C'est ici qu'on branche le fichier ApiHandler.java
-        server.createContext("/api/process", new ApiHandler());
+        // Route pour traiter les inputs (API) [LIEN VERS LA LOGIQUE]
+        // C'est ici qu'on branche les fichiers handler/
+        server.createContext("/api/student", new StudentsHandler());
 
         server.setExecutor(null); // Default executor
         System.out.println("Serveur demarre sur http://localhost:" + port);

@@ -1,4 +1,4 @@
-// Functions
+// Function
 
 function showProjectCount() {
     let spanElement = document.getElementById("project-count"); // Va cherche l'élément avec l'id #project-count
@@ -8,6 +8,6 @@ function showProjectCount() {
     spanElement.textContent = projectCount; // Affiche ce nombre
 }
 
-// Actions
+// Action
 
 showProjectCount();
