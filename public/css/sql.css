@@ -20,14 +20,14 @@ section#add-student {
     div.container {
         border-radius: 20px;
         padding: var(--margin);
-        background-color: var(--color-dark-blue);
+        background-color: var(--color-dark-primary);
         display: flex;
         flex-direction: column;
         max-width: 80%;
         margin: 0 auto;
         justify-content: space-evenly;
         align-items: center;
-        color: var(--color-white);
+        color: var(--color-light-bg);
 
         h3 {
             font-size: var(--fs-medium);
@@ -50,9 +50,9 @@ section#add-student {
                     font-family: Jost;
                     font-size: var(--fs-base);
                     padding: 0.5rem;
-                    background-color: var(--color-dark-blue);
-                    border: solid 2px var(--color-orange);
-                    color: var(--color-white);
+                    background-color: var(--color-dark-primary);
+                    border: solid 2px var(--color-accent);
+                    color: var(--color-light-bg);
 
                     &::placeholder {
                         color: var(--color-grey);
@@ -65,15 +65,27 @@ section#add-student {
                 font-family: Jost;
                 padding: 0 2rem;
                 border-radius: 20px;
-                background-color: var(--color-orange);
+                background: linear-gradient(to right, var(--color-accent), var(--color-accent-hover));
                 border: none;
                 font-size: var(--fs-base);
                 color: var(--color-white);
 
                 &:hover {
-                    background-color: var(--color-dark-orange);
-                    border: none;
+                    background: linear-gradient(var(--color-accent), var(--color-accent));
                     transition: 0.5s;
+                }
+
+                &#undo-button {
+                    padding: 0.2;
+                    background-color: var(--color-dark-primary);
+                    text-decoration: underline;
+                    font-size: var(--fs-small);
+                    color: var(--color-light-bg);
+
+                    &:hover {
+                    color: var(--color-grey);
+                    transition: 0.5s;
+                }
                 }
             }
         }
@@ -81,10 +93,10 @@ section#add-student {
         div#responseArea {
             margin-top: 2rem;
             opacity: 80%;
-            background-color: var(--color-white);
+            background-color: var(--color-light-bg);
             padding: 1rem;
             border-radius: 10px;
-            color: black;
+            color: var(--color-dark-bg);
             min-width: 400px;
         }
     }

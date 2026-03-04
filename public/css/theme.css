@@ -4,15 +4,38 @@
     font-style: normal;
 }
 
+@font-face {
+    /* Font de secours - très ressemblante à Jost*/
+    font-family: Renner-Book;
+    src: url('../fonts/Renner-Book.ttf.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
-    /* COLORS */
+
+    /* LIGHT Theme Colors*/
+    --color-light-bg: rgb(255, 255, 255);
+    --color-dark-bg: rgb(14, 14, 14);
     --color-grey: hsl(0, 0%, 77%);
-    --color-white: rgb(255, 255, 255);
-    --color-light-blue: rgb(231, 244, 255);
-    --color-dark-blue: rgb(19, 73, 118);
-    --color-blue: rgb(53, 145, 220);
-    --color-orange: rgb(181, 130, 36);
-    --color-dark-orange: rgb(128, 91, 22);
+    --color-light-primary: rgb(231, 244, 255);
+    --color-dark-primary: rgb(19, 73, 118);
+    --color-primary: rgb(53, 145, 220);
+    --color-accent: rgb(212, 151, 38);
+    --color-accent-hover: rgb(169, 121, 33);
+
+    /* DARK Theme Colors*/
+    .page:has(input#dark:checked) {
+        /* regarde si le bouton dark est coché */
+        --color-light-bg: rgb(22, 22, 22);
+        --color-dark-bg: rgb(255, 255, 255);
+        --color-grey: hsl(0, 0%, 64%);
+        --color-light-primary: rgb(27, 47, 65);
+        --color-dark-primary: rgb(182, 212, 237);
+        --color-primary: rgb(53, 145, 220);
+        --color-accent: rgb(212, 151, 38);
+        --color-accent-hover: rgb(211, 169, 91);
+    }
 
     /* FONT SIZES */
     --fs-huge: 12vw;
@@ -29,7 +52,7 @@ html {
     font-size: 20px;
     font-family: Jost, sans-serif;
     font-weight: 400;
-    background: linear-gradient(var(--color-white), var(--color-light-blue));
+    background: linear-gradient(var(--color-light-bg), var(--color-light-primary));
     min-height: 100vh;
 
     h1 {
@@ -41,24 +64,40 @@ html {
 
     h2 {
         font-size: var(--fs-medium);
+        color: var(--color-dark-bg);
         font-weight: 600;
         line-height: 1.2;
     }
 
-    nav {
-        margin: var(--margin);
-        color: black;
+    p,
+    li {
+        color: var(--color-dark-bg);
+    }
 
-        a {
-            margin-right: 2rem;
+    nav {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--margin);
+
+        div.nav-menu {
+            color: var(--color-dark-bg);
+
+            a {
+                margin-right: 2rem;
+            }
+        }
+
+        fieldset {
+            color: var(--color-dark-bg);
+            padding: 0.5rem 2rem 0.5rem 0.5rem;
         }
     }
 
     a.button {
-        background: rgba(255, 255, 255, 0.4);
-        color: white;
+        background: var(--color-grey);
+        color: var(--color-light-bg);
         padding: 1rem;
         border-radius: 30px;
-        border: solid 2px var(--color-white);
+        border: solid 2px var(--color-light-bg);
     }
 }

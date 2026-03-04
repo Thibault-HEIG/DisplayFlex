@@ -1,10 +1,6 @@
 @import "theme.css";
 @import "reset.css";
 
-nav {
-    padding: 1rem;
-}
-
 section#intro {
     margin: 0 0 var(--margin) var(--margin);
 
@@ -13,7 +9,7 @@ section#intro {
     }
 
     p a {
-        color: var(--color-dark-blue);
+        color: var(--color-dark-primary);
     }
 }
 section#project-grid {
@@ -27,10 +23,10 @@ section#project-grid {
         display: flex;
         flex-direction: column;
         max-height: 600px;
-        background-color: var(--color-white);
+        background-color: var(--color-light-bg);
         gap: 1rem;
         padding: 2rem;
-        border: solid 2px var(--color-dark-blue);
+        border: solid 2px var(--color-dark-primary);
         border-radius: 20px;
 
         h2 span {
@@ -50,7 +46,7 @@ section#project-grid {
         }
 
         a.button {
-            background-color: var(--color-dark-blue);
+            background-color: var(--color-dark-primary);
             border: none;
             position: absolute;
             bottom: 10%;
@@ -59,10 +55,10 @@ section#project-grid {
             text-align: center;
 
             &:hover {
-                background-color: var(--color-orange);
+                background-color: var(--color-accent);
 
                 a {
-                    color: white;
+                    color: var(--color-light-bg);
                 }
 
                 transition: 0.5s;
