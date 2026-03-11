@@ -46,16 +46,21 @@ section#project-grid {
         }
 
         a.button {
-            background-color: var(--color-dark-primary);
-            border: none;
             position: absolute;
             bottom: 10%;
             width: 50%;
             align-self: center;
             text-align: center;
+            /* Glassmorphism button */
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5.6px);
+            -webkit-backdrop-filter: blur(5.6px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
 
             &:hover {
-                background-color: var(--color-accent);
+                background-color: var(--color-dark-primary);
 
                 a {
                     color: var(--color-light-bg);
