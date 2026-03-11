@@ -9,6 +9,7 @@ public class StudentsHandler extends BaseApiHandler {
 
         String responseJava = "";
 
+        // Si le but est de undo une insertion
         if (input.startsWith("undo/")) {
             int id = Integer.parseInt(input.substring(5)); // Accède à l'id
             if (DatabaseManager.undoInsertStudent(id) == true) {
@@ -16,6 +17,8 @@ public class StudentsHandler extends BaseApiHandler {
             } else {
                 responseJava = "Erreur lors de l'annulation.";
             }
+            
+        // Si le but est d'ajouter un étudiant
         } else {
 
             String[] dataStrings = input.split("/"); // stocke les valeurs séparées de "/" dans un tableau

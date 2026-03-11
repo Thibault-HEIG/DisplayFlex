@@ -4,15 +4,21 @@ const undoButton = document.getElementById("undo-button");
 // Ce script fait le pont entre HTML et Java sans recharger la page
 async function insertStudent() {
     console.log("sent");
+    output.innerText = "Traitement en cours...";
+
+    var formData;
+
     const prenom = document.getElementById('prenom').value;
     const nom = document.getElementById('nom').value;
     const classe = document.getElementById('classe').value;
     const email = document.getElementById('email').value;
     const dateNaissance = document.getElementById('date-naissance').value;
-
-    output.innerText = "Traitement en cours...";
-    // const formData = { prenom: prenom, nom: nom, classe: classe, dateNaissance: dateNaissance};
-    const formData = prenom + "/" + nom + "/" + classe + "/" + email + "/" + dateNaissance;
+    if (dateNaissance.trim() === "") {
+        formData = prenom + "/" + nom + "/" + classe + "/" + email;
+        console.log("pas de date");
+    } else {
+        formData = prenom + "/" + nom + "/" + classe + "/" + email + "/" + dateNaissance;
+    }
 
     try {
         const response = await fetch('/api/student/insert', {
@@ -22,7 +28,7 @@ async function insertStudent() {
         var text = await response.text();
         if (text.startsWith("SUCCESS")) {
             let outputArray = text.split("/");
-            document.getElementById("undo-button").dataset.studentId = outputArray[1];
+            document.getElementById("undo-button").dataset.studentId = outputArray[1]; // Ajoute l'id de l'lève au bouton pour la méthode UNDO
             text = outputArray[2];
             showButton();
         }
@@ -32,6 +38,7 @@ async function insertStudent() {
     }
 }
 
+// Méthode d'annulation du dernier étudiant inséré
 async function undoInsertStudent() {
     const extractedId = undoButton.dataset.studentId;
 
