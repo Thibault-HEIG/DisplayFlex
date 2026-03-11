@@ -46,6 +46,8 @@ section#project-grid {
         }
 
         a.button {
+            background-color: var(--color-dark-blue);
+            border: none;
             position: absolute;
             bottom: 10%;
             width: 50%;

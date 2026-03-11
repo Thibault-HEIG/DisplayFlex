@@ -21,24 +21,29 @@
             <h3>Ajoutez vos données d'élèves.</h3>
             <p>Ces informations seront directement ajoutées à la base de données.</p>
 
-            <div class="input-group">
+            <div id="input-group">
                 <div class="field">
                     <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" placeholder="Thibault" required minlength="3" maxlength="20">
+                    <input type="text" id="prenom" placeholder="Thibault" required>
                 </div>
                 <div class="field">
                     <label for="nom">Nom</label>
-                    <input type="text" id="nom" placeholder="Moret" required minlength="3" maxlength="40">
+                    <input type="text" id="nom" placeholder="Moret" required>
                 </div>
                 <div class="field">
                     <label for="classe">Classe</label>
-                    <input type="text" id="classe" placeholder="M54-2" required minlength="5" maxlength="5">
+                    <input type="text" id="classe" placeholder="M54-2" required>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="prenom.nom@heig-vd.ch" required>
                 </div>
                 <div class="field">
                     <label for="date-naissance">Date de naissance</label>
-                    <input type="date" id="date-naissance" max="2018-12-31">
+                    <input type="date" id="date-naissance">
                 </div>
-                <button onclick="sendToJava()">Valider</button>
+                <button onclick="insertStudent()">Valider</button>
+                <button id="undo-button" class="hidden" onclick="undoInsertStudent()">Annuler</button>
             </div>
 
             <div id="responseArea">
@@ -47,7 +52,7 @@
             </div>
         </div>
     </section>
-    <script src="other/insertStudent.js"></script>
+    <script src="scripts/insertStudent.js"></script>
 </body>
 
 </html>

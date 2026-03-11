@@ -36,7 +36,7 @@ section#add-student {
             margin-bottom: 2rem;
         }
 
-        div.input-group {
+        div#input-group {
             margin-top: 3rem;
             display: flex;
             gap: 2rem;
