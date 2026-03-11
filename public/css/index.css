@@ -1,6 +1,10 @@
 @import "theme.css";
 @import "reset.css";
 
+div.page {
+    background: linear-gradient(var(--color-light-bg), var(--color-light-bg), var(--color-light-primary));
+}
+
 section#hero {
     padding: var(--margin);
 
@@ -16,15 +20,29 @@ section#hero {
 
 section#tasks {
     padding: var(--margin);
+
     h2 {
         margin-bottom: 2rem;
         font-size: var(--fs-medium);
         font-weight: 600;
         line-height: 1.2;
     }
+
     ul li {
         list-style: inside;
         list-style-type: circle;
         line-height: 2;
+    }
+}
+
+footer {
+    position: relative;
+    height: 300px;
+
+    img {
+        width: 40%;
+        position: absolute;
+        left: 55%;
+        bottom: 0;
     }
 }

@@ -9,29 +9,48 @@
 </head>
 
 <body>
-    <nav>
-        <a href="websites.html">Projets Web</a>
-        <a href="sql.html">DataBase</a>
-    </nav>
-    <section id="hero">
-        <h1>Projet Collaboratif M54/2</h1>
-        <h2>Mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans un seul et même environnement</h2>
-        <p>Bienvenue sur la page d'accueil du projet ! Le site est en construction continue, n'hésite pas à faire part
-            de tes idées pour les implémenter seul ou en équipe.<br>Bonne visite !</p>
-    </section>
-    <section id="tasks">
-        <h2>Listes des idées</h2>
-        <ul>
-            <li>Créer un design CSS accueillant pour chaque page</li>
-            <li>Créer un bouton qui permet d'afficher la liste des matières</li>
-            <li>Créer un input qui demande un prénom et affiche toutes les infos de l'étudiant</li>
-            <li>Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site</li>
-            <li>Automatiser le lancement du programme Java (compilation, exécution)</li>
-            <li>Ajouter un mode sombre</li>
-            <li>Créer une galerie photo de la classe</li>
-            <li>Ajouter un mail comme donnée d'élève et l'ajouter au formulaire d'insertion</li>
-        </ul>
-    </section>
+    <div class="page">
+        <nav>
+            <div class="nav-menu">
+                <a href="websites.html">Projets Web</a>
+                <a href="sql.html">DataBase</a>
+            </div>
+            <fieldset>
+                <legend>Thème</legend>
+                <div>
+                    <input type="radio" id="light" name="drone" value="light" checked />
+                    <label for="dewey">Light</label>
+                </div>
+                <div>
+                    <input type="radio" id="dark" name="drone" value="dark" />
+                    <label for="huey">Dark</label>
+                </div>
+            </fieldset>
+        </nav>
+        <section id="hero">
+            <h1>Projet Collaboratif M54/2</h1>
+            <h2>Mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans un seul et même environnement</h2>
+            <p>Bienvenue sur la page d'accueil du projet ! Le site est en construction continue, n'hésite pas à faire
+                part
+                de tes idées pour les implémenter seul ou en équipe.<br>Bonne visite !</p>
+        </section>
+        <section id="tasks">
+            <h2>Listes des idées</h2>
+            <ul>
+                <li>Créer un design CSS accueillant pour chaque page</li>
+                <li>Créer un bouton qui permet d'afficher la liste des matières</li>
+                <li>Créer un input qui demande un prénom et affiche toutes les infos de l'étudiant</li>
+                <li>Implémenter le mini-jeu de Thibault et Christian dans une nouvelle page du site</li>
+                <li>Automatiser le lancement du programme Java (compilation, exécution)</li>
+                <li>Ajouter un mode sombre</li>
+                <li>Créer une galerie photo de la classe</li>
+                <li>Ajouter un mail comme donnée d'élève et l'ajouter au formulaire d'insertion</li>
+            </ul>
+        </section>
+        <footer>
+            <img src="img/statue.webp">
+        </footer>
+    </div>
 </body>
 
 </html>
