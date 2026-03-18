@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conseiller d'orientation</title>
+    <link rel="stylesheet" href="css/profile-guesser.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">← Retour à l'accueil</a>
+    </nav>
+    <section id="hero">
+        <h1>Quelles perspectives d'avenir?</h1>
+        <h2>Trouver un métier adapté</h2>
+    </section>
+    <section id="test-form">
+        <div class="container">
+            <h3>Auto-évaluez vos compétences dans ces domaines.</h3>
+            <p>L'algorithme trouvera les métiers adaptés pour vous.</p>
+
+            <div id="input-group">
+                <div class="skill" id="marketing">
+                    <span class="skill-dot"></span>
+                    <h3 class="skill-name">Marketing</h3>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s0">
+                    <span class="skill-value" id="v0"></span>
+                </div>
+                <div class="skill" id="design">
+                    <span class="skill-dot"></span>
+                    <h3 class="skill-name">Design</h3>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s1">
+                    <span class="skill-value" id="v1"></span>
+                </div>
+                <div class="skill" id="coding">
+                    <span class="skill-dot"></span>
+                    <h3 class="skill-name">Code</h3>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s2">
+                    <span class="skill-value" id="v2"></span>
+                </div>
+                <div class="skill" id="management">
+                    <span class="skill-dot"></span>
+                    <h3 class="skill-name">Management</h3>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s3">
+                    <span class="skill-value" id="v3"></span>
+                </div>
+                <button onclick="runAlgorithm()">Trouver son métier</button>
+            </div>
+
+            <div id="responseArea">
+                <span class="label">Résultats :</span>
+                <p id="serverOutput">...</p>
+            </div>
+        </div>
+    </section>
+    <script src="scripts/profile-guesser.js"></script>
+</body>
+
+</html>
