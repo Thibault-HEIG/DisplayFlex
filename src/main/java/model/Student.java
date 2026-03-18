@@ -13,7 +13,11 @@ public class Student {
         this.nom = dataStrings[1];
         this.classe = dataStrings[2];
         this.email = dataStrings[3];
-        this.dateNaissance = dataStrings[4];
+        if (dataStrings.length > 4) {
+            this.dateNaissance = dataStrings[4];
+        } else {
+            this.dateNaissance = "";
+        }
     }
 
     public void setId(int id) {

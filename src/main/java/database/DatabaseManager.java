@@ -1,7 +1,6 @@
 package main.java.database;
 
 import java.sql.*;
-
 import main.java.model.*;
 
 import java.nio.file.Files;
@@ -18,13 +17,17 @@ public class DatabaseManager {
     }
 
     public static String insertStudent(Student currentStudent) { // Méthode pour insérer un élève dans la DB
+        
+        String query = "INSERT INTO eleves (nom, prenom, classe, email, date_naissance) VALUES (?, ?, ?, ?, ?);";
 
-        String query = "INSERT INTO eleves (nom, prenom, classe, email, date_naissance) VALUES ('"
-                + currentStudent.getNom() + "', '" + currentStudent.getPrenom()
-                + "', '" + currentStudent.getClasse() + "', '" + currentStudent.getEmail() + "', '"
-                + currentStudent.getDateNaissance() + "' );";
         try (Connection conn = DriverManager.getConnection(URL)) {
             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, currentStudent.getNom());
+            pstmt.setString(2, currentStudent.getPrenom());
+            pstmt.setString(3, currentStudent.getClasse());
+            pstmt.setString(4, currentStudent.getEmail());
+            pstmt.setString(5, currentStudent.getDateNaissance());
+
             pstmt.executeUpdate(); // exécute la requête et retourne true/false
             ResultSet result = pstmt.getGeneratedKeys();
 
