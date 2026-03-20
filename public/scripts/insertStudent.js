@@ -3,7 +3,6 @@ const undoButton = document.getElementById("undo-button");
 
 // Ce script fait le pont entre HTML et Java sans recharger la page
 async function insertStudent() {
-    console.log("sent");
     output.innerText = "Traitement en cours...";
 
     var formData;
@@ -15,7 +14,6 @@ async function insertStudent() {
     const dateNaissance = document.getElementById('date-naissance').value;
     if (dateNaissance.trim() === "") {
         formData = prenom + "/" + nom + "/" + classe + "/" + email;
-        console.log("pas de date");
     } else {
         formData = prenom + "/" + nom + "/" + classe + "/" + email + "/" + dateNaissance;
     }
@@ -34,7 +32,7 @@ async function insertStudent() {
         }
         output.innerText = text;
     } catch (error) {
-        output.innerText = "Erreur de connexion au serveur.";
+        output.innerText = "Merci de remplir les champs obligatoires.";
     }
 }
 

@@ -1,13 +1,17 @@
 package main.java.handler;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import main.java.model.Profile;
 import main.java.model.Vector;
 
-public class ProfileGuesserHandler {
+public class ProfileGuesserHandler extends BaseApiHandler {
     // Scores (compétences) de l'utilisateur - à modifier pour tester le programme.
     // Format : {marketing, design, coding, leadership}
-    public static double[] userScores = { 2, 1, 8, 3 };
-    public static final Profile[] PROFILES = new Profile[userScores.length];
+    public static double[] userScores;
+    final static int NB_OF_SKILLS = 4;
+    public static final Profile[] PROFILES = new Profile[NB_OF_SKILLS];
 
     public static Profile dataAnalyst;
     public static Profile webDesigner;
@@ -30,7 +34,13 @@ public class ProfileGuesserHandler {
         PROFILES[3] = marketingManager;
     }
 
-    public static void main(String[] args) {
+    @Override
+    public String process(String input) {
+        System.out.println(input); // CHECKPOINT
+
+        // input = marketing/design/coding/leadership
+        userScores = toDouble(input.split("/"));
+
         initProfiles();
         Vector userVector = userProfile.getVector();
 
@@ -42,8 +52,23 @@ public class ProfileGuesserHandler {
             PROFILES[i].setScore(score);
         }
 
+        Arrays.sort(PROFILES, Comparator.comparingInt(Profile::getScore).reversed());
+
         for (int i = 0; i < PROFILES.length; i++) {
             System.out.println(PROFILES[i].getName() + " : " + PROFILES[i].getScore() + "%");
         }
+
+        String output = "SUCCESS/" + PROFILES[0].getName() + "-" + PROFILES[0].getScore() + "/"
+                + PROFILES[1].getName() + "-" + PROFILES[1].getScore() + "/"
+                + PROFILES[2].getName() + "-" + PROFILES[2].getScore();
+        return output;
+    }
+
+    private double[] toDouble(String[] input) {
+        double[] scores = new double[input.length];
+        for (int i = 0; i < input.length; i++) {
+            scores[i] = Double.parseDouble(input[i]);
+        }
+        return scores;
     }
 }
