@@ -71,7 +71,7 @@ public class Vector {
         }
         double average = sum / values.length;
         for (int i = 0; i < centered.length; i++) {
-            centered[i] -= values[i] - average;
+            centered[i] = values[i] - average;
         }
         return centered;
     }

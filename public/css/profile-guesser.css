@@ -90,15 +90,62 @@ section#test-form {
                 }
             }
         }
+    }
 
-        div#responseArea {
-            margin-top: 2rem;
-            opacity: 80%;
-            background-color: var(--color-white);
-            padding: 1rem;
-            border-radius: 10px;
-            color: black;
-            min-width: 400px;
+    div#server-output {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        justify-items: center;
+
+        div.rank-1 {
+            span.result-rank {
+                color: goldenrod;
+                font-size: 3rem;
+            }
+        }
+
+        div.rank-2 {
+            span.result-rank {
+                color: silver;
+                font-size: 2.5rem;
+            }
+        }
+
+        div.rank-3 {
+            span.result-rank {
+                color: rgb(163, 86, 86);
+                font-size: 2rem;
+            }
+        }
+
+        div.result-item {
+            display: flex;
+            width: 80%;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 20px;
+            background-color: rgb(22, 22, 22);
+            color: white;
+
+            div {
+                div.title {
+                    h3 {
+                        font-size: 2rem;
+                        font-weight: normal;
+                    }
+                }
+            }
+
+            span.result-score {
+                background: rgba(223, 255, 172, 0.231);
+                padding: 1.5rem 2rem;
+                border-radius: 40px;
+                margin: auto 2rem auto auto;
+                font-size: var(--fs-medium);
+                color: rgb(209, 255, 134);
+            }
         }
     }
 }
