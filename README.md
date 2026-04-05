@@ -24,6 +24,8 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   │   ├── ☕ DatabaseManager.java  <-- 🟠 Exécution des requêtes SQL
 │   │   └── ☕ DatabaseSecurity.java <-- 🟠 Vérifications avant insertion
 │   └── 📁 model/                    <-- 🟢 Classes objets
+│       ├── ☕ Vector.java           <-- 🟢 Objet vecteur
+│       ├── ☕ Profile.java           <-- 🟢 Objet métier
 │       └── ☕ Student.java          <-- 🟢 Objet élève
 │
 ├── 📁 public/                       <-- 🎨 FRONT-END
@@ -34,6 +36,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   │   └── 📄 file.css              <-- 🟢 Feuille de style propre à chaque page
 │   └── 📁 scripts/                  <-- 🟢 Scripts JavaScript
 │       ├── 📄 projectCount.js       <-- 🟢 Script pour afficher le nombre de projets
+│       ├── 📄 profileGuesser.js     <-- 🟢 Script lié à l'orientateur de métier
 │       └── 📄 insertStudent.js      <-- 🟢 Script avec l'appel fetch() vers /api/students
 │
 ├── 📁 sql/                          <-- 🗄️ STRUCTURE DES DONNÉES

@@ -22,73 +22,151 @@
             <p>L'algorithme trouvera les métiers adaptés pour vous.</p>
 
             <div id="input-group">
+                <!-- All skills use the same structure: .skill-top (name + value), optional description, then the range input -->
                 <div class="skill" id="marketing">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Marketing</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Marketing</h3>
+                        <span class="skill-value" id="v0">5</span>
+                    </div>
+                    <p class="description">Analyse & Stratégie</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s0">
-                    <span class="skill-value" id="v0"></span>
                 </div>
+
                 <div class="skill" id="graphic-design">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Design</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Design Graphique</h3>
+                        <span class="skill-value" id="v1">5</span>
+                    </div>
+                    <p class="description">Identité visuelle & mise en page</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s1">
-                    <span class="skill-value" id="v1"></span>
                 </div>
+
                 <div class="skill" id="coding">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Code</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Programmation</h3>
+                        <span class="skill-value" id="v2">5</span>
+                    </div>
+                    <p class="description">Développement & code</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s2">
-                    <span class="skill-value" id="v2"></span>
                 </div>
+
                 <div class="skill" id="writing">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Writing</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Écriture</h3>
+                        <span class="skill-value" id="v3">5</span>
+                    </div>
+                    <p class="description">Rédaction & storytelling</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s3">
-                    <span class="skill-value" id="v3"></span>
                 </div>
+
                 <div class="skill" id="interface">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Interface</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Interface</h3>
+                        <span class="skill-value" id="v4">5</span>
+                    </div>
+                    <p class="description">Expérience Utilisateur & Design d'Interfaces</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s4">
-                    <span class="skill-value" id="v4"></span>
                 </div>
+
                 <div class="skill" id="data">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Data</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Données</h3>
+                        <span class="skill-value" id="v5">5</span>
+                    </div>
+                    <p class="description">SQL & analytics</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s5">
-                    <span class="skill-value" id="v5"></span>
                 </div>
+
                 <div class="skill" id="media">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Media</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Média</h3>
+                        <span class="skill-value" id="v6">5</span>
+                    </div>
+                    <p class="description">Photo, Vidéo & Son</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s6">
-                    <span class="skill-value" id="v6"></span>
                 </div>
+
                 <div class="skill" id="maths">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Maths</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Maths</h3>
+                        <span class="skill-value" id="v7">5</span>
+                    </div>
+                    <p class="description">Logique et Calcul</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s7">
-                    <span class="skill-value" id="v7"></span>
                 </div>
+
                 <div class="skill" id="english">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">English</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Anglais</h3>
+                        <span class="skill-value" id="v8">5</span>
+                    </div>
+                    <p class="description">Communication Orale et Écrite</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s8">
-                    <span class="skill-value" id="v8"></span>
                 </div>
+
                 <div class="skill" id="economy">
-                    <span class="skill-dot"></span>
-                    <h3 class="skill-name">Economy</h3>
+                    <div class="skill-top">
+                        <h3 class="skill-name">Économie</h3>
+                        <span class="skill-value" id="v9">5</span>
+                    </div>
+                    <p class="description">Économie et Gestion</p>
                     <input type="range" min="0" max="10" step="1" value="5" id="s9">
-                    <span class="skill-value" id="v9"></span>
                 </div>
-                <button onclick="runAlgorithm()">Trouver son métier</button>
+                <div class="skill" id="leadership">
+                    <div class="skill-top">
+                        <h3 class="skill-name">Leadership</h3>
+                        <span class="skill-value" id="v10">5</span>
+                    </div>
+                    <p class="description">Direction & Gestion d'Equipe</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s10">
+                </div>
+                <div class="skill" id="oral-communication">
+                    <div class="skill-top">
+                        <h3 class="skill-name">Communication Orale</h3>
+                        <span class="skill-value" id="v11">5</span>
+                    </div>
+                    <p class="description">Prise de parole & Présentation</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s11">
+                </div>
+                <div class="skill" id="creativity">
+                    <div class="skill-top">
+                        <h3 class="skill-name">Créativité</h3>
+                        <span class="skill-value" id="v12">5</span>
+                    </div>
+                    <p class="description">Imagination & Originalité</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s12">
+                </div>
+                <div class="skill" id="analytical-thinking">
+                    <div class="skill-top">
+                        <h3 class="skill-name">Pensée Analytique</h3>
+                        <span class="skill-value" id="v13">5</span>
+                    </div>
+                    <p class="description">Raisonnement & Synthèse</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s13">
+                </div>
+                <div class="skill" id="project-management">
+                    <div class="skill-top">
+                        <h3 class="skill-name">Gestion de Projets</h3>
+                        <span class="skill-value" id="v14">5</span>
+                    </div>
+                    <p class="description">Organisation & Planification</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s14">
+                </div>
+                <div class="skill" id="storytelling">
+                    <div class="skill-top">
+                        <h3 class="skill-name">StoryTelling</h3>
+                        <span class="skill-value" id="v15">5</span>
+                    </div>
+                    <p class="description">Émotion & Sens</p>
+                    <input type="range" min="0" max="10" step="1" value="5" id="s15">
+                </div>
             </div>
+            <button onclick="runAlgorithm()">Trouver son métier</button>
         </div>
 
         <div id="server-output"></div>
     </section>
-    <script src="scripts/profile-guesser.js"></script>
+    <script src="scripts/profileGuesser.js"></script>
 </body>
 
 </html>

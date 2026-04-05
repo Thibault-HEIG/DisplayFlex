@@ -8,67 +8,97 @@ import main.java.model.Vector;
 
 public class ProfileGuesserHandler extends BaseApiHandler {
     // Scores (compétences) de l'utilisateur - à modifier pour tester le programme.
-    // Format : {marketing, graphic design, programming, writing, interface, data,
-    // media, maths, english, economy}
     public static double[] userScores;
-    final static int NB_OF_PROFILES = 13;
-    final static int NB_OF_SKILLS = 10;
-    public static final Profile[] PROFILES = new Profile[NB_OF_PROFILES];
 
-    public static Profile dataAnalyst;
-    public static Profile webDesigner;
-    public static Profile communicationSpecialist;
-    public static Profile marketingManager;
-    public static Profile uxUiDesigner;
-    public static Profile webDeveloper;
-    public static Profile motionDesigner;
-    public static Profile graphicDesigner;
-    public static Profile contentStrategist;
-    public static Profile productManager;
-    public static Profile creativeDirector;
-    public static Profile seoSpecialist;
-    public static Profile fullStackDeveloper;
+    final static int NB_OF_PROFILES = 13;
+    final static int NB_OF_SKILLS = 16;
+
+    // Index des lignes Profiles
+    final static int dataAnalystIndex = 0;
+    final static int webDesignerIndex = 1;
+    final static int communicationSpecialistIndex = 2;
+    final static int marketingManagerIndex = 3;
+    final static int uxUiDesignerIndex = 4;
+    final static int webDeveloperIndex = 5;
+    final static int motionDesignerIndex = 6;
+    final static int graphicDesignerIndex = 7;
+    final static int contentStrategistIndex = 8;
+    final static int productManagerIndex = 9;
+    final static int creativeDirectorIndex = 10;
+    final static int seoSpecialistIndex = 11;
+    final static int fullStackDeveloperIndex = 12;
+
+    // Index des colonnes skills
+    // Hard Skills
+    final static int marketingIndex = 0;
+    final static int graphicDesignIndex = 1;
+    final static int programmingIndex = 2;
+    final static int writingIndex = 3;
+    final static int interfaceIndex = 4;
+    final static int dataIndex = 5;
+    final static int mediaIndex = 6;
+    final static int mathsIndex = 7;
+    final static int englishIndex = 8;
+    final static int economyIndex = 9;
+
+    // Soft Skills
+    final static int leadershipIndex = 10;
+    final static int oralCommunicationIndex = 11;
+    final static int creativityIndex = 12;
+    final static int analyticalThinkingIndex = 13;
+    final static int projectManagementIndex = 14;
+    final static int storyTellingIndex = 15;
+
+    public static double[][] WEIGHTS_MATRIX = {
+            // dataAnalystIndex
+            { 7, 3, 14, 11, 5, 20, 3, 17, 13, 10, 6, 12, 0, 20, 0, 0 },
+            // webDesignerIndex (web/digital interface designer)
+            { 10, 18, 11, 7, 19, 8, 9, 4, 11, 5, 5, 11, 18, 12, 0, 10 },
+            // communicationSpecialistIndex (PR / comms)
+            { 18, 6, 2, 19, 6, 7, 18, 5, 17, 11, 10, 19, 15, 0, 14, 19 },
+            // marketingManagerIndex
+            { 20, 7, 3, 14, 7, 16, 8, 12, 17, 18, 18, 16, 15, 17, 19, 14 },
+            // uxUiDesignerIndex
+            { 9, 14, 7, 10, 20, 13, 9, 6, 13, 8, 8, 15, 18, 16, 11, 13 },
+            // webDeveloperIndex
+            { 5, 4, 20, 8, 10, 11, 7, 12, 13, 6, 7, 0, 12, 19, 0, 0 },
+            // motionDesignerIndex
+            { 8, 20, 4, 6, 9, 4, 17, 7, 10, 5, 5, 0, 20, 0, 9, 18 },
+            // graphicDesignerIndex
+            { 11, 20, 3, 7, 11, 4, 15, 5, 11, 7, 6, 12, 20, 0, 12, 16 },
+            // contentStrategistIndex
+            { 17, 5, 4, 20, 9, 14, 15, 7, 18, 11, 9, 15, 16, 17, 16, 20 },
+            // productManagerIndex
+            { 15, 4, 8, 14, 11, 16, 8, 13, 15, 18, 19, 17, 14, 18, 20, 16 },
+            // creativeDirectorIndex
+            { 18, 17, 2, 14, 10, 9, 17, 6, 16, 15, 20, 18, 20, 13, 17, 19 },
+            // seoSpecialistIndex
+            { 19, 4, 12, 15, 11, 18, 12, 11, 17, 10, 0, 14, 13, 19, 15, 0 },
+            // fullStackDeveloperIndex
+            { 4, 3, 20, 9, 12, 17, 7, 14, 14, 7, 10, 0, 13, 19, 0, 0 }
+    };
+
+    public static final String[] jobNames = { "Data Analyst", "Web Designer", "Communication Specialist",
+            "Digital Marketing Manager", "UX-UI Designer", "Web Developer", "Motion Designer", "Graphic Designer",
+            "Content Strategist", "Product Manager", "Creative Director", "SEO Specialist", "Full-Stack Developer" };
+
+    public static final Profile[] PROFILES = new Profile[NB_OF_PROFILES];
 
     public static Profile userProfile;
 
     public static void initProfiles() {
-        webDesigner = new Profile("Web Designer", new double[] { 8, 10, 9, 8, 15, 4, 6, 2, 7, 1 });
-        communicationSpecialist = new Profile("Communication Specialist",
-                new double[] { 10, 7, 0, 15, 5, 5, 8, 1, 13, 4 });
-        marketingManager = new Profile("Marketing Manager", new double[] { 12, 2, 3, 8, 3, 6, 4, 4, 15, 7 });
-        uxUiDesigner = new Profile("UX-UI Designer", new double[] { 4, 10, 4, 7, 15, 7, 4, 2, 7, 1 });
-        webDeveloper = new Profile("Web Developer", new double[] { 2, 3, 15, 3, 7, 6, 2, 8, 5, 1 });
-        dataAnalyst = new Profile("Data Analyst", new double[] { 5, 2, 10, 3, 4, 15, 1, 12, 7, 6 });
-        motionDesigner = new Profile("Motion Designer", new double[] { 5, 10, 4, 4, 7, 3, 15, 2, 6, 1 });
-        graphicDesigner = new Profile("Graphic Designer", new double[] { 6, 15, 2, 5, 8, 2, 8, 1, 5, 1 });
-        contentStrategist = new Profile("Content Strategist", new double[] { 10, 3, 1, 15, 3, 5, 7, 1, 13, 3 });
-        productManager = new Profile("Product Manager", new double[] { 10, 3, 5, 8, 10, 8, 3, 5, 10, 7 });
-        creativeDirector = new Profile("Creative Director", new double[] { 12, 12, 2, 8, 8, 4, 10, 1, 8, 5 });
-        seoSpecialist = new Profile("SEO Specialist", new double[] { 10, 2, 7, 10, 5, 12, 3, 6, 10, 5 });
-        fullStackDeveloper = new Profile("Full-Stack Developer", new double[] { 1, 1, 15, 2, 5, 8, 2, 10, 8, 1 });
+        for (int i = 0; i < NB_OF_PROFILES; i++) {
+            PROFILES[i] = new Profile(jobNames[i], WEIGHTS_MATRIX[i]);
+        }
 
         userProfile = new Profile("User", userScores);
-
-        PROFILES[0] = dataAnalyst;
-        PROFILES[1] = webDesigner;
-        PROFILES[2] = communicationSpecialist;
-        PROFILES[3] = marketingManager;
-        PROFILES[4] = uxUiDesigner;
-        PROFILES[5] = webDeveloper;
-        PROFILES[6] = motionDesigner;
-        PROFILES[7] = graphicDesigner;
-        PROFILES[8] = contentStrategist;
-        PROFILES[9] = productManager;
-        PROFILES[10] = creativeDirector;
-        PROFILES[11] = seoSpecialist;
-        PROFILES[12] = fullStackDeveloper;
     }
 
     @Override
     public String process(String input) {
-        System.out.println(input); // CHECKPOINT
+        System.out.println("input : " + input); // CHECKPOINT
 
-        // input = marketing/design/coding/leadership
+        // input
         userScores = toDouble(input.split("/"));
 
         initProfiles();
@@ -77,8 +107,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
         // findFinalScore() appelle en cascade : calculerCosAngle →
         // calculerProduitScalaire + calculerNorme
         for (int i = 0; i < PROFILES.length; i++) {
-            Vector profileVector = PROFILES[i].getVector();
-            int score = (int) Math.round(userVector.findFinalScore(profileVector));
+            int score = (int) Math.round(userVector.findFinalScore(PROFILES[i]));
             PROFILES[i].setScore(score);
         }
 
