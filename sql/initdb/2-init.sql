@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS eleves (
     prenom TEXT NOT NULL,
     classe TEXT NOT NULL,
     email TEXT,
-    date_naissance DATE
+    date_naissance VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS modules (

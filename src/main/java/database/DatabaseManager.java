@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class DatabaseManager {
 
-    private static final String HOST = System.getenv("DB_HOST");
-    private static final String PORT = System.getenv("DB_PORT");
-    private static final String NAME = System.getenv("DB_NAME");
-    private static final String USER = System.getenv("DB_USER");
-    private static final String PASSWORD = System.getenv("DB_PASSWORD");
+    public static final String HOST = System.getenv("DB_HOST");
+    public static final String PORT = System.getenv("DB_PORT");
+    public static final String NAME = System.getenv("DB_NAME");
+    public static final String USER = System.getenv("DB_USER");
+    public static final String PASSWORD = System.getenv("DB_PASSWORD");
 
     public static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + NAME;
 
@@ -41,10 +41,13 @@ public class DatabaseManager {
             pstmt.executeUpdate(); // exécute la requête et retourne true/false
             ResultSet result = pstmt.getGeneratedKeys();
 
-            int id = result.getInt(1);
-            currentStudent.setId(id);
-
-            return "SUCCESS/" + id;
+            if (result.next()) {
+                int id = result.getInt(1);
+                currentStudent.setId(id);
+                return "SUCCESS/" + id;
+            } else {
+                return "Erreur SQL : Aucun ID n'a été généré";
+            }
 
         } catch (SQLException e) {
             return "Erreur SQL : " + e.getMessage();
