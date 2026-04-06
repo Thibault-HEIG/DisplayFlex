@@ -20,19 +20,23 @@ section#test-form {
     div.container {
         border-radius: 20px;
         padding: var(--margin);
-        background-color: var(--color-dark-blue);
+        background-color: var(--color-dark-primary);
         display: flex;
         flex-direction: column;
         max-width: 80%;
         margin: 0 auto;
         align-items: center;
-        color: var(--color-white);
+        color: var(--color-light-bg);
 
         &>h3 {
             font-size: var(--fs-medium);
             font-weight: 400;
             line-height: 1;
             margin-bottom: 2rem;
+        }
+
+        &>p {
+            color: var(--color-light-bg);
         }
 
         div#input-group {
@@ -47,7 +51,7 @@ section#test-form {
                 flex-grow: 1;
                 align-content: space-between;
                 min-width: 30%;
-                background-color: rgb(31, 31, 31);
+                background-color: var(--color-dark-bg);
                 padding: 2rem;
                 border-radius: 30px;
 
@@ -56,7 +60,7 @@ section#test-form {
                     justify-content: space-between;
 
                     h3 {
-                        color: var(--color-blue);
+                        color: var(--color-primary);
                         font-size: var(--fs-medium);
                         font-weight: 400;
                     }
@@ -69,6 +73,7 @@ section#test-form {
                 }
 
                 p {
+                    color: var(--color-light-bg);
                     font-size: var(--fs-base);
                 }
 
@@ -92,8 +97,9 @@ section#test-form {
                         width: 20px;
                         height: 20px;
                         border-radius: 50%;
-                        background: var(--color-orange);
-                        margin-top: -7px; /* centers it on the track */
+                        background: var(--color-accent);
+                        margin-top: -7px;
+                        /* centers it on the track */
                         cursor: pointer;
                     }
                 }
@@ -106,23 +112,23 @@ section#test-form {
         font-family: Jost;
         padding: 1rem 2rem;
         border-radius: 20px;
-        background-color: var(--color-orange);
+        background-color: var(--color-accent);
         border: none;
         font-size: var(--fs-base);
-        color: var(--color-white);
+        color: var(--color-light-bg);
 
         &:hover {
-            background-color: var(--color-dark-orange);
+            background-color: var(--color-accent-hover);
             border: none;
             transition: 0.5s;
         }
 
         &#undo-button {
             padding: 0.2;
-            background-color: var(--color-dark-blue);
+            background-color: var(--color-dark-primary);
             text-decoration: underline;
             font-size: var(--fs-small);
-            color: var(--color-white);
+            color: var(--color-light-bg);
 
             &:hover {
                 color: var(--color-grey);
@@ -166,8 +172,8 @@ div#server-output {
         margin: 0 auto;
         padding: 2rem;
         border-radius: 20px;
-        background-color: rgb(22, 22, 22);
-        color: white;
+        background-color: var(--color-dark-bg);
+        color: var(--color-light-bg);
 
         div {
             div.title {
@@ -196,7 +202,7 @@ div#server-output {
     margin: 0 auto 2rem auto;
     padding: 2rem;
     border-radius: 20px;
-    background: rgb(22, 22, 22);
+    background: var(--color-dark-bg);
     gap: 1.5rem;
     height: 250px;
 }
