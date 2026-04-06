@@ -182,6 +182,10 @@ div#server-output {
                     font-weight: normal;
                 }
             }
+
+            p {
+                color: var(--color-light-bg);
+            }
         }
 
         span.result-score {
