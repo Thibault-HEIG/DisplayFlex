@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db  # Docker internal DNS, resolves to the postgres container
+      - DB_PORT=5432
+      - DB_NAME=displayflex
+      - DB_USER=admin
+      - DB_PASSWORD=gitcommit
+
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: displayflex
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: gitcommit
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # persists data between restarts
+      - ./sql/initdb/:/docker-entrypoint-initdb.d  # Lance les fichiers du dossier init.db au moment du docker compose up.
+
+volumes:
+  postgres_data:

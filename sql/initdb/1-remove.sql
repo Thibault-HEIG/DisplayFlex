@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS modules;
+DROP TABLE IF EXISTS branches;
