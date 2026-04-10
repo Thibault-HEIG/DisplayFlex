@@ -8,6 +8,5 @@
 .vscode/
 .idea/
 
-# Base de données
-ecole.db
+# Variables secrètes
 .env

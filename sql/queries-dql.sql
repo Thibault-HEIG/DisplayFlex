@@ -15,8 +15,6 @@ FROM eleves
 WHERE
     nom = 'Moret' AND prenom = 'Thibault';
 
-DROP TABLE eleves; -- /!\ DANGER - utiliser pour hard reset les élèves et leur id/!\
-
 INSERT INTO eleves (
         nom,
         prenom,

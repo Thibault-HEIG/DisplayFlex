@@ -21,9 +21,7 @@ public class DatabaseManager {
 
     public static void initialize() {
         // On demande à Java de lire le fichier SQL
-        executeSQLFile("sql/initdb/1-remove.sql");
-        executeSQLFile("sql/initdb/2-init.sql");
-        executeSQLFile("sql/initdb/3-insert.sql");
+        executeSQLFile("sql/initdb/1-init.sql");
     }
 
     public static String insertStudent(Student currentStudent) {
