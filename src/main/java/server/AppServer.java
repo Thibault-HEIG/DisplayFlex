@@ -29,7 +29,6 @@ public class AppServer {
         server.createContext("/api/student/insert", new StudentsHandler());
         server.createContext("/api/student/undo", new StudentsHandler());
         server.createContext("/api/algorithm/job", new ProfileGuesserHandler());
-
         server.setExecutor(null); // Default executor
         System.out.println("Serveur demarre sur http://localhost:" + port);
         server.start();

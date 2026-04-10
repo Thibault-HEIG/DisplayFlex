@@ -29,3 +29,10 @@ VALUES (
         'thibault.moret@heig-vd.ch',
         '2005-07-05'
     );
+
+SELECT COUNT(*), metier FROM resultats_test
+WHERE rang <= 3
+GROUP BY metier
+ORDER BY COUNT(*) DESC;
+
+DROP TABLE resultats_test;

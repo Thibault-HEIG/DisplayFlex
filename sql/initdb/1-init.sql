@@ -24,3 +24,13 @@ CREATE TABLE IF NOT EXISTS branches (
     id_module INT REFERENCES modules (id),
     duree_semestre INT -- durée en demi semestre (1 à 4)
 );
+
+CREATE TABLE IF NOT EXISTS resultats_test (
+    id SERIAL PRIMARY KEY,
+    id_eleve INT REFERENCES eleves (id),
+    metier VARCHAR(50),
+    pourcentage INT,
+    rang SMALLINT,
+    timestamp TIMESTAMP,
+    humain BOOLEAN
+);

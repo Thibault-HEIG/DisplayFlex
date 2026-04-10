@@ -18,7 +18,6 @@ public class DatabaseManager {
     public static final String PASSWORD = System.getenv("DB_PASSWORD");
 
     public static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + NAME;
-
     public static void initialize() {
         // On demande à Java de lire le fichier SQL
         executeSQLFile("sql/initdb/1-init.sql");
@@ -54,7 +53,8 @@ public class DatabaseManager {
 
     public static boolean undoInsertStudent(int id) {
         String query = "DELETE FROM eleves WHERE id = " + id + ";";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Statement stmt = conn.createStatement()) {
             stmt.execute(query);
             return true;
 
@@ -116,9 +116,25 @@ public class DatabaseManager {
         }
     }
 
-    // Garde tes méthodes d'accès (ajouterEleve, etc.) ici pour l'interaction
-    // dynamique
+    public static void setProfileGuesserResult(PreparedStatement pstmt, String jobName, int percentage, boolean human,
+            int rank) throws SQLException {
+
+        pstmt.setString(1, jobName);
+        pstmt.setInt(2, percentage);
+        pstmt.setInt(3, rank);
+        pstmt.setBoolean(4, human);
+
+        pstmt.addBatch();
+    }
+
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        return conn;
+    }
+
+    public static PreparedStatement getPreparedStatement(String query) throws SQLException {
+        Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        return pstmt;
     }
 }

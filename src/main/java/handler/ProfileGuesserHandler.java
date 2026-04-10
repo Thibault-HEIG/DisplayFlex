@@ -10,8 +10,8 @@ public class ProfileGuesserHandler extends BaseApiHandler {
     // Scores (compétences) de l'utilisateur - à modifier pour tester le programme.
     public static double[] userScores;
 
-    final static int NB_OF_PROFILES = 13;
-    final static int NB_OF_SKILLS = 16;
+    final public static int NB_OF_PROFILES = 13;
+    final public static int NB_OF_SKILLS = 16;
 
     // Index des lignes Profiles
     final static int dataAnalystIndex = 0;
