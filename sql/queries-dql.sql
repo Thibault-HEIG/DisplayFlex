@@ -30,9 +30,14 @@ VALUES (
         '2005-07-05'
     );
 
-SELECT COUNT(*), metier FROM resultats_test
-WHERE rang <= 3
-GROUP BY metier
-ORDER BY COUNT(*) DESC;
+SELECT metier, COUNT(*) AS total_recommendations, AVG(pourcentage) AS average_score, MIN(pourcentage) AS min_score, MAX(pourcentage) AS max_score, AVG(rang) AS average_rank
+    FROM resultats_test
+    WHERE rang <= 3
+    GROUP BY metier
+    ORDER BY total_recommendations DESC;
 
-DROP TABLE resultats_test;
+SELECT metier, COUNT(*) AS total_top_1
+    FROM resultats_test
+    WHERE rang = 1
+    GROUP BY metier
+    ORDER BY total_top_1 DESC;
