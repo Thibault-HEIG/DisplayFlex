@@ -7,25 +7,25 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 ## 📂 Structure du Projet (Où travailler ?)
 
 ⚠️ **ATTENTION** : Certains fichiers sont l'infrastructure du projet. Si vous les cassez, plus personne ne peut travailler.  
-**🔴 NE PAS TOUCHER** - sauf si sûr à 100% de son code - *nouvelle branche git obligatoire*  
-**🟠 DANGEREUX** - à modifier avec précaution - *nouvelle branche git obligatoire*  
-**🟢 OPEN** - modifications autorisées - *nouvelle branche git recommandée*  
+**🔴 NE PAS TOUCHER** - sauf si sûr à 100% de son code
+**🟠 DANGEREUX** - à modifier avec précaution 
+**🟢 OPEN** - modifications autorisées
 
 ```
 /DisplayFlex
 │
 ├── 📁 src/main/java/                <-- ☕ BACK-END (Architecture Séparée)
 │   ├── 📁 server/
-│   │   └── ☕ AppServer.java        <-- 🔴 Infrastructure (Démarre le serveur et route les URL vers les handlers)
+│   │   └── ☕ AppServer.java        <-- 🔴 Démarre le serveur et route les URL vers les handlers
 │   ├── 📁 handler/                  <-- 🟠 Contrôleurs (Logique des requêtes)
 │   │   ├── ☕ BaseApiHandler.java   <-- 🔴 Classe abstraite parent (Gère la structure HTTP commune)
 │   │   └── ☕ TrucHandler.java      <-- 🟢 Gère la logique de transformation d'un input en output
-│   ├── 📁 database/                 <-- 🟠 Interactions Database
-│   │   ├── ☕ DatabaseManager.java  <-- 🟠 Exécution des requêtes SQL
+│   ├── 📁 database/                 <-- 🟢 Interactions Database
+│   │   ├── ☕ DatabaseManager.java  <-- 🟢 Exécution des requêtes SQL
 │   │   └── ☕ DatabaseSecurity.java <-- 🟠 Vérifications avant insertion
 │   └── 📁 model/                    <-- 🟢 Classes objets
 │       ├── ☕ Vector.java           <-- 🟢 Objet vecteur
-│       ├── ☕ Profile.java           <-- 🟢 Objet métier
+│       ├── ☕ Profile.java          <-- 🟢 Objet métier
 │       └── ☕ Student.java          <-- 🟢 Objet élève
 │
 ├── 📁 public/                       <-- 🎨 FRONT-END
@@ -40,21 +40,20 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │       └── 📄 insertStudent.js      <-- 🟢 Script avec l'appel fetch() vers /api/students
 │
 ├── 📁 sql/                          <-- 🗄️ STRUCTURE DES DONNÉES
-│   ├── 📜 init.sql                  <-- 🟠 Création des tables
-│   ├── 📜 queries-dml.sql           <-- 🟢 Requêtes DML (INSERT, DELETE, UPDATE)
-│   └── 📜 queries-dql.sql           <-- 🟢 Requêtes DQL (SELECT)
+│   ├── 📁 initdb/                   <-- 🟠 Scripts exécutés au démarrage du conteneur DB         
+│   │   └── 📜 1-init.sql
+│   ├── 📜 insert.sql                <-- 🟠 Sauvegarde des données initiales statiques
+│   ├── 📜 remove.sql                <-- 🟢 Commandes usuelles pour la réinitialisation de tables
+│   └── 📜 queries-dql.sql           <-- 🟢 Requêtes DQL de test (SELECT)
 │
 ├── 📁 DOCUMENTATION/                <-- ℹ️ ZONE INFORMATION
-│   ├── 🏁 Demarrage.md              <-- Initialisation et tutoriel Git
-│   ├── 🛠️ Fonctionnement.md         <-- Fonctionnement global du repo
-│   ├── 🤖 VibeCoding.md             <-- Guidelines et astuces pour l'IA
-│   ├── 🎋 UtiliserGit.md            <-- Guide détaillé pour Git
-│   └── 📖 UtiliserSQL.md            <-- Guide de configuration SQLite
 │
 ├── 📁 lib/
-│   └── 📦 sqlite-jdbc-3.42.0.0.jar <-- 🔴 Driver de connexion Java/SQL
+│   └── 📦 postgresql-42.7.10.jar    <-- 🔴 Driver de connexion Java/PostgreSQL
 │
-├── 🗃️ ecole.db                  <-- 🔴 Fichier de base de données SQLite généré
-├── 🧨 .gitignore                <-- 🔴 Paramétrages Git
-└── 📝 README.md                 <-- Documentation principale
+├── 🐳 Dockerfile                    <-- 🔴 Instructions de build du serveur Java
+├── 🐳 docker-compose.yml            <-- 🔴 Orchestration de l'app et de la DB PostgreSQL
+├── 🧨 .gitignore                    <-- 🔴 Fichiers ignorés par Git
+├── ⚙️ .env                          <-- 🔴 Variables sensible (à garder secrètes)
+└── 📝 README.md                     <-- 👈🏼 Vous êtes ici
 ```

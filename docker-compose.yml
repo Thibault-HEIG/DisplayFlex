@@ -1,0 +1,63 @@
+# Defines the group of containers (services) that make up your application and need to run together.
+services:
+
+  # ---------------------------------------------------------
+  # SERVICE 1: Your custom Java application
+  # ---------------------------------------------------------
+  app:
+    # Instead of downloading a pre-built image, Docker will look for a 'Dockerfile' 
+    # in the current directory ('.') and execute it to build the image from scratch.
+    build: .
+    
+    # Maps port 8000 on your MacBook (host) to port 8000 inside this container. 
+    # This is what allows you to open a browser to localhost:8000 to see your app.
+    ports:
+      - "8000:8000"
+      
+    # Tells Docker to start the 'db' container before starting this 'app' container.
+    depends_on:
+      - db
+      
+    # Injects these environment variables into your running container. 
+    # These are pulling values from a local .env file so you don't hardcode
+    # sensitive passwords directly into this file.
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+  # ---------------------------------------------------------
+  # SERVICE 2: The database
+  # ---------------------------------------------------------
+  db:
+    # Pulls the official PostgreSQL version 16 blueprint directly from Docker Hub.
+    image: postgres:16
+    
+    # Exposes Postgres on its default port to your host machine. This is useful 
+    # if you want to connect a local database tool (like DBeaver) to inspect the data.
+    ports:
+      - "5432:5432"
+      
+    # Standard variables required by the official Postgres image. It reads these 
+    # on its very first startup to automatically create the initial database and admin user.
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      
+    # Mounts file paths to preserve data or inject files. Containers are ephemeral; 
+    # without these, any data written to the database is permanently deleted when the container stops.
+    volumes:
+      # Maps a Docker-managed storage space (defined at the bottom of the file) 
+      # to the exact internal directory where Postgres saves its binary data.
+      - postgres_data:/var/lib/postgresql/data  
+      
+      # Maps a folder on your MacBook ('./sql/initdb/') to a special directory inside the container. 
+      # The official Postgres image is programmed to automatically execute any .sql scripts found here the first time it boots.
+      - ./sql/initdb/:/docker-entrypoint-initdb.d  
+
+# Declares the named volumes used by the services above so Docker knows to allocate persistent storage for them.
+volumes:
+  postgres_data:

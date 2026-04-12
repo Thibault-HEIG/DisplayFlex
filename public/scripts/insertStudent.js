@@ -23,6 +23,7 @@ async function insertStudent() {
             method: 'POST',
             body: formData,
         });
+        console.log(formData);
         var text = await response.text();
         if (text.startsWith("SUCCESS")) {
             let outputArray = text.split("/");

@@ -1,6 +1,8 @@
 package main.java.database;
 
 import java.sql.*;
+import java.util.List;
+
 import main.java.model.*;
 
 import java.nio.file.Files;
@@ -9,18 +11,24 @@ import java.io.IOException;
 
 public class DatabaseManager {
 
-    public static final String URL = "jdbc:sqlite:ecole.db";
+    public static final String HOST = System.getenv("DB_HOST");
+    public static final String PORT = System.getenv("DB_PORT");
+    public static final String NAME = System.getenv("DB_NAME");
+    public static final String USER = System.getenv("DB_USER");
+    public static final String PASSWORD = System.getenv("DB_PASSWORD");
+
+    public static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + NAME;
 
     public static void initialize() {
         // On demande à Java de lire le fichier SQL
-        executeSQLFile("sql/init.sql");
+        executeSQLFile("sql/initdb/1-init.sql");
     }
 
     public static String insertStudent(Student currentStudent) {
 
         String query = "INSERT INTO eleves (nom, prenom, classe, email, date_naissance) VALUES (?, ?, ?, ?, ?);";
 
-        try (Connection conn = DriverManager.getConnection(URL)) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, currentStudent.getNom());
             pstmt.setString(2, currentStudent.getPrenom());
@@ -31,10 +39,13 @@ public class DatabaseManager {
             pstmt.executeUpdate(); // exécute la requête et retourne true/false
             ResultSet result = pstmt.getGeneratedKeys();
 
-            int id = result.getInt(1);
-            currentStudent.setId(id);
-
-            return "SUCCESS/" + id;
+            if (result.next()) {
+                int id = result.getInt(1);
+                currentStudent.setId(id);
+                return "SUCCESS/" + id;
+            } else {
+                return "Erreur SQL : Aucun ID n'a été généré";
+            }
 
         } catch (SQLException e) {
             return "Erreur SQL : " + e.getMessage();
@@ -43,7 +54,7 @@ public class DatabaseManager {
 
     public static boolean undoInsertStudent(int id) {
         String query = "DELETE FROM eleves WHERE id = " + id + ";";
-        try (Connection conn = DriverManager.getConnection(URL); Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD); Statement stmt = conn.createStatement()) {
             stmt.execute(query);
             return true;
 
@@ -54,67 +65,33 @@ public class DatabaseManager {
 
     public static String updateWeight(double newWeight, String columnName, String profileName) {
 
-        String query = "UPDATE poids SET ? = ? WHERE id = ?;";
+        final List<String> ALLOWED_COLUMNS = List.of(
+        // ✏️ Skills List TO BE COMPLETED
+        );
+        if (!ALLOWED_COLUMNS.contains(columnName))
+            return "Erreur : colonne invalide";
 
-        int profileId = findProfileID(profileName);
-        if (profileId == -1) {
-            return "Erreur : résultats multiples";
+        String query = "UPDATE poids SET " + columnName + " = ? WHERE id = ?;";
 
-        } else if (profileId == -2) {
-            return "Erreur : colonne introuvable";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, columnName);
+            pstmt.setDouble(2, newWeight);
+            // ✏️ Profile ID TO BE COMPLETED with a JOIN statement
 
-        } else if (profileId == -3) {
-            return "Erreur SQL";
+            pstmt.executeUpdate();
 
-        } else {
-
-            try (Connection conn = DriverManager.getConnection(URL)) {
-                PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                pstmt.setString(1, columnName);
-                pstmt.setDouble(2, newWeight);
-                pstmt.setInt(3, profileId);
-
-                pstmt.executeUpdate(); // exécute la requête
-
-                return "SUCCESS";
-
-            } catch (SQLException e) {
-                return "Erreur SQL : " + e.getMessage();
-            }
-        }
-    }
-
-    public static int findProfileID(String profileName) {
-        int profileID;
-        String query = "SELECT id FROM metiers WHERE nom LIKE '" + profileName + "';";
-        try (Connection conn = DriverManager.getConnection(DatabaseManager.URL);
-                Statement stmt = conn.createStatement()) {
-
-            // exécute la requête et retourne un ResultSet
-            ResultSet result = stmt.executeQuery(query);
-            if (result.next()) {
-                profileID = result.getInt("id");
-
-                if (result.next()) {
-                    // This means there is a second row
-                    System.out.println("Error: Multiple profiles found with the same name.");
-                    return -1;
-                }
-
-                return profileID;
-            } else {
-                return -2;
-            }
+            return "SUCCESS";
 
         } catch (SQLException e) {
-            return -3;
+            return "Erreur SQL : " + e.getMessage();
         }
     }
 
     // Méthode outil : Lit un fichier .sql, coupe les commandes au ";" et les
     // exécute
     private static void executeSQLFile(String filePath) {
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                 Statement stmt = conn.createStatement()) {
 
             // 1. Lire le fichier complet
@@ -142,6 +119,6 @@ public class DatabaseManager {
     // Garde tes méthodes d'accès (ajouterEleve, etc.) ici pour l'interaction
     // dynamique
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

@@ -2,7 +2,6 @@ package main.java.server;
 
 import com.sun.net.httpserver.HttpServer;
 
-import main.java.database.DatabaseManager; // importe la connection avec la DB
 import main.java.handler.*; // importe les logiques de nos fichiers
 
 import com.sun.net.httpserver.HttpHandler;
@@ -18,7 +17,6 @@ public class AppServer {
 
     public static void main(String[] args) throws IOException {
         // 1. On initialise la database avant le serveur Web
-        DatabaseManager.initialize();
         
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);

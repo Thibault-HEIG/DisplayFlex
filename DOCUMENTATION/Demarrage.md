@@ -14,14 +14,21 @@ Allez dans le dossier :
 -----
 
 ## 2. Lancer le serveur
-Pour communiquer, *le front-end et le backend utilisent HTTP*. Il faut donc lancer le serveur pour pouvoir travailler sur les deux. Si vous modifiez uniquement le front-end ou le SQL, cette étape est *dispensable*.
+L'application et la base de données (PostgreSQL) sont conteneurisées.
 
-Prérequis : Avoir Java installé (JDK 11 ou plus récent recommandé).
-**À chaque fois que vous voulez travailler, lancer le programme principal :**
+Prérequis : Avoir [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé et lancé.
 
--> Lancer `src/main/java/AppServer.java`
+**À chaque fois que vous voulez travailler, lancez cette commande à la racine du projet :**
+`docker compose up --build`
+Cela reconstruit le programme avec la dernière version des fichiers.
+
+**Pour arrêter le conteneur :**
+`docker compose down`
+⚠️ NE PAS FAIRE `docker compose down -v`, ça supprimera la base de données.
+
+*Note : Si vous modifiez uniquement le front-end (HTML/CSS/JS), cette étape est dispensable.*
 
 -----
 
-## 3. Ouvrir la page
-Allez sur http://localhost:8000 proposé dans le terminal.
+## 3. Ouvrir l'application
+Allez sur http://localhost:8000 dans un navigateur.
