@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fruit Fall</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      background: #f4f6fb;
+      font-family: Jost;
+    }
+
+    .wrap {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding-top: 60px;
+    }
+
+    canvas {
+      background: linear-gradient(#ffffff, #eef2fb);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, .1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .1);
+    }
+
+    .hud {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 1px solid rgba(0, 0, 0, .1);
+      border-radius: 12px;
+      padding: 8px 14px;
+      display: flex;
+      gap: 14px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(0, 0, 0, .6);
+      user-select: none;
+    }
+
+    .overlayBtn {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, 130px);
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, .15);
+      background: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+      display: none;
+    }
+
+    .overlayBtn:active {
+      transform: translate(-50%, 131px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="hud">
+    <nav>
+      <a href="../mini-games.html">← Retour au menu</a>
+    </nav>
+    Score: <span id="score">0</span>
+    |
+    Ratés: <span id="misses">0</span>/10
+    |
+    Vies: <span id="lives">❤️❤️❤️</span>
+  </div>
+
+  <button id="restartBtn" class="overlayBtn">Rejouer</button>
+
+  <div class="wrap">
+    <canvas id="game" width="900" height="520"></canvas>
+  </div>
+
+  <div class="hint">Bouge la souris pour déplacer Jayleen • Espace = rejouer (si fin)</div>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    const scoreEl = document.getElementById("score");
+    const missesEl = document.getElementById("misses");
+    const livesEl = document.getElementById("lives");
+    const restartBtn = document.getElementById("restartBtn");
+
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const pick = (arr) => arr[(Math.random() * arr.length) | 0];
+
+    const WIN_SCORE = 1000;
+
+    // --- Images (bucket + screens)
+    const bucketImg = new Image(); bucketImg.src = "../img/games/jayleen-game/bucket.png";
+    const gameoverImg = new Image(); gameoverImg.src = "../img/games/jayleen-game/gameover.png";
+    const winImg = new Image(); winImg.src = "../img/games/jayleen-game/win.png";
+
+    // --- NEW: bomb + paradis
+    const bombImg = new Image(); bombImg.src = "../img/games/jayleen-game/bomb.png";
+    const paradisImg = new Image(); paradisImg.src = "../img/games/jayleen-game/paradis.png";
+
+    // --- Fruit PNGs: images/fruit1.png ... fruit5.png
+    const fruitImgs = Array.from({ length: 5 }, (_, i) => {
+      const img = new Image();
+      img.src = `../img/games/jayleen-game/fruit${i + 1}.png`;
+      return img;
+    });
+
+    const state = {
+      score: 0,
+      misses: 0,
+      maxMiss: 10,
+
+      lives: 3,
+      maxLives: 3,
+
+      items: [], // fruits + bombes dans la même liste
+      spawnTimer: 0,
+      spawnRate: 0.6,
+      running: true,
+      win: false,
+      lose: false,
+
+      paradisTimer: 0, // affiche l'image paradis quand on perd une vie
+      paradisDuration: 0.9
+    };
+
+    const bucket = {
+      x: canvas.width / 2,
+      y: canvas.height - 70,
+      w: 120, // hitbox
+      h: 50,
+      drawW: 140,
+      drawH: 90
+    };
+
+    function renderLives() {
+      livesEl.textContent = "❤️".repeat(state.lives) + "🖤".repeat(state.maxLives - state.lives);
+    }
+
+    function setGameEnd(type) {
+      state.running = false;
+      state.win = (type === "win");
+      state.lose = (type === "lose");
+      restartBtn.style.display = "block";
+    }
+
+    function reset() {
+      state.score = 0;
+      state.misses = 0;
+
+      state.lives = state.maxLives;
+
+      state.items.length = 0;
+      state.spawnTimer = 0;
+      state.spawnRate = 0.6;
+      state.running = true;
+      state.win = false;
+      state.lose = false;
+
+      state.paradisTimer = 0;
+
+      scoreEl.textContent = state.score;
+      missesEl.textContent = state.misses;
+      renderLives();
+
+      restartBtn.style.display = "none";
+    }
+
+    restartBtn.addEventListener("click", reset);
+
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !state.running) reset();
+    });
+
+    // Mouse move => bucket x
+    window.addEventListener("mousemove", e => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+      bucket.x = clamp(x, bucket.w / 2, canvas.width - bucket.w / 2);
+    });
+
+    // Collision: circle (item) vs rect (bucket hitbox)
+    function circleRect(cx, cy, r, rx, ry, rw, rh) {
+      const nx = clamp(cx, rx, rx + rw);
+      const ny = clamp(cy, ry, ry + rh);
+      const dx = cx - nx;
+      const dy = cy - ny;
+      return dx * dx + dy * dy < r * r;
+    }
+
+    function spawnItem() {
+      // PROBA bombe (réglable)
+      const bombChance = 0.18; // 18% de bombes
+      const isBomb = Math.random() < bombChance;
+
+      const size = isBomb ? rand(46, 70) : rand(42, 64);
+      const r = size * 0.40;
+
+      const img = isBomb ? bombImg : pick(fruitImgs);
+
+      state.items.push({
+        kind: isBomb ? "bomb" : "fruit",
+        x: rand(20, canvas.width - 20),
+        y: -40,
+        vy: rand(140, 260) * (isBomb ? 1.05 : 1.0),
+        img,
+        size,
+        r,
+        wobble: rand(0.8, 1.6),
+        phase: rand(0, Math.PI * 2),
+        pts: isBomb ? 0 : 10
+      });
+    }
+
+    function loseLife() {
+      state.lives = Math.max(0, state.lives - 1);
+      renderLives();
+
+      // déclenche l'image paradis
+      state.paradisTimer = state.paradisDuration;
+
+      if (state.lives <= 0) {
+        setGameEnd("lose");
+      }
+    }
+
+    let last = performance.now();
+    function loop(now) {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+
+      update(dt);
+      draw();
+
+      requestAnimationFrame(loop);
+    }
+
+    function update(dt) {
+      if (!state.running) return;
+
+      // paradis overlay timer
+      if (state.paradisTimer > 0) {
+        state.paradisTimer = Math.max(0, state.paradisTimer - dt);
+      }
+
+      // spawn
+      state.spawnTimer += dt;
+      if (state.spawnTimer >= state.spawnRate) {
+        state.spawnTimer = 0;
+        spawnItem();
+      }
+
+      // update items
+      for (let i = state.items.length - 1; i >= 0; i--) {
+        const it = state.items[i];
+
+        it.phase += dt * it.wobble;
+        it.y += it.vy * dt;
+        it.x += Math.sin(it.phase) * 30 * dt;
+
+        // catch
+        if (circleRect(
+          it.x, it.y, it.r,
+          bucket.x - bucket.w / 2,
+          bucket.y,
+          bucket.w,
+          bucket.h
+        )) {
+          if (it.kind === "bomb") {
+            // bombe attrapée => perd une vie
+            loseLife();
+          } else {
+            // fruit attrapé => score
+            state.score += it.pts;
+            scoreEl.textContent = state.score;
+            if (state.score >= WIN_SCORE) {
+              setGameEnd("win");
+            }
+          }
+
+          state.items.splice(i, 1);
+          continue;
+        }
+
+        // miss (uniquement les fruits comptent comme ratés)
+        if (it.y > canvas.height + 60) {
+          if (it.kind === "fruit") {
+            state.misses++;
+            missesEl.textContent = state.misses;
+            if (state.misses >= state.maxMiss) {
+              setGameEnd("lose");
+            }
+          }
+          state.items.splice(i, 1);
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // items
+      for (const it of state.items) {
+        if (it.img.complete) {
+          ctx.drawImage(it.img, it.x - it.size / 2, it.y - it.size / 2, it.size, it.size);
+        } else {
+          // fallback simple if image not loaded
+          ctx.save();
+          ctx.globalAlpha = 0.6;
+          ctx.beginPath();
+          ctx.arc(it.x, it.y, it.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#111";
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      // bucket
+      if (bucketImg.complete) {
+        ctx.drawImage(
+          bucketImg,
+          bucket.x - bucket.drawW / 2,
+          bucket.y - bucket.drawH + bucket.h,
+          bucket.drawW,
+          bucket.drawH
+        );
+      }
+
+      // NEW: paradis overlay quand on perd une vie
+      if (state.paradisTimer > 0 && paradisImg.complete) {
+        // léger effet de fondu
+        const t = state.paradisTimer / state.paradisDuration; // 1 -> 0
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, 0.35 + t);
+        drawCenteredOverlay(paradisImg, 520, 320);
+        ctx.restore();
+      }
+
+      // overlays fin de partie
+      if (state.lose && gameoverImg.complete) {
+        drawCenteredOverlay(gameoverImg, 520, 360);
+      }
+      if (state.win && winImg.complete) {
+        drawCenteredOverlay(winImg, 520, 360);
+      }
+    }
+
+    function drawCenteredOverlay(img, maxW = 520, maxH = 360) {
+      const iw = img.naturalWidth || maxW;
+      const ih = img.naturalHeight || maxH;
+      const scale = Math.min(maxW / iw, maxH / ih);
+      const w = iw * scale;
+      const h = ih * scale;
+      ctx.drawImage(img, canvas.width / 2 - w / 2, canvas.height / 2 - h / 2, w, h);
+    }
+
+    // start
+    reset();
+    requestAnimationFrame(loop);
+  </script>
+
+</body>
+
+</html>

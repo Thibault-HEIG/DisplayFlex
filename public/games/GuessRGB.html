@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devine la Couleur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-light-bg: rgb(255, 255, 255);
+      --color-dark-bg: rgb(14, 14, 14);
+      --color-grey: hsl(0, 0%, 77%);
+      --color-light-primary: rgb(231, 244, 255);
+      --color-dark-primary: rgb(19, 73, 118);
+      --color-primary: rgb(53, 145, 220);
+      --color-accent: rgb(212, 151, 38);
+      --color-accent-hover: rgb(169, 121, 33);
+      --fs-huge: clamp(3.5rem, 13vw, 8rem);
+      --fs-large: 2.2rem;
+      --fs-medium: 1.2rem;
+      --fs-base: 1rem;
+      --fs-small: 0.72rem;
+      --margin: 2rem;
+      --radius: 16px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--color-dark-bg);
+      color: var(--color-light-bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--margin);
+      overflow-x: hidden;
+    }
+
+    /* Subtle noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 580px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeUp 0.35s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── INTRO ── */
+    #screen-intro {
+      text-align: center;
+    }
+
+    .game-title {
+      font-size: var(--fs-huge);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin: 4rem 0 2rem 0;
+    }
+
+    .game-title span {
+      color: var(--color-primary);
+    }
+
+    nav a {
+      font-size: var(--fs-base);
+      letter-spacing: 0.22em;
+      color: var(--color-grey);
+    }
+
+    .rainbow-bar {
+      width: 100%;
+      height: 72px;
+      border-radius: var(--radius);
+      background: linear-gradient(90deg,
+          rgb(220, 60, 60), rgb(220, 145, 53), rgb(210, 210, 53),
+          rgb(53, 210, 80), rgb(53, 145, 220), rgb(145, 53, 220));
+      margin-bottom: 2.5rem;
+      opacity: 0.75;
+    }
+
+    .section-label {
+      font-size: var(--fs-small);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-grey);
+      margin-bottom: 0.9rem;
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .diff-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 0.9rem 0.4rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: 'Jost', sans-serif;
+      color: var(--color-grey);
+    }
+
+    .diff-btn .name {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-light-bg);
+      margin-bottom: 0.2rem;
+    }
+
+    .diff-btn .tol {
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+    }
+
+    .diff-btn:hover,
+    .diff-btn.selected {
+      border-color: var(--color-primary);
+      background: rgba(53, 145, 220, 0.1);
+    }
+
+    .diff-btn.selected .name {
+      color: var(--color-primary);
+    }
+
+    .diff-btn.selected .tol {
+      color: var(--color-primary);
+      opacity: 0.7;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 1rem 2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-primary:hover {
+      background: rgb(72, 158, 235);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(53, 145, 220, 0.35);
+    }
+
+    /* ── GAME ── */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .lives-track {
+      display: flex;
+      gap: 0.28rem;
+    }
+
+    .gem {
+      width: 17px;
+      height: 17px;
+      background: var(--color-primary);
+      border-radius: 4px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .gem.lost {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(0.85);
+    }
+
+    .token-badge {
+      color: var(--color-accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: rgba(212, 151, 38, 0.1);
+      border: 1px solid rgba(212, 151, 38, 0.25);
+      border-radius: 20px;
+      padding: 0.3rem 0.75rem;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .swatch-label {
+      font-size: var(--fs-small);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-grey);
+      margin-bottom: 0.45rem;
+    }
+
+    .swatch {
+      width: 100%;
+      height: 130px;
+      border-radius: var(--radius);
+      border: 1.5px solid rgba(255, 255, 255, 0.07);
+      transition: background-color 0.1s;
+    }
+
+    /* Sliders */
+    .slider-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: 18px 1fr 42px;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .ch {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .ch.r {
+      color: rgb(255, 100, 100);
+    }
+
+    .ch.g {
+      color: rgb(80, 210, 110);
+    }
+
+    .ch.b {
+      color: rgb(100, 150, 255);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #sl-r {
+      background: linear-gradient(90deg, rgb(30, 30, 30), rgb(255, 80, 80));
+    }
+
+    #sl-g {
+      background: linear-gradient(90deg, rgb(30, 30, 30), rgb(80, 210, 100));
+    }
+
+    #sl-b {
+      background: linear-gradient(90deg, rgb(30, 30, 30), rgb(100, 150, 255));
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .slider-val {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-light-bg);
+    }
+
+    /* Actions */
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .btn-guess {
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.85rem 1.5rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-guess:hover {
+      background: rgb(72, 158, 235);
+      transform: translateY(-1px);
+    }
+
+    .btn-shop {
+      background: rgba(212, 151, 38, 0.12);
+      color: var(--color-accent);
+      border: 1.5px solid rgba(212, 151, 38, 0.35);
+      border-radius: 50px;
+      padding: 0.85rem 1.1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+
+    .btn-shop:hover {
+      background: rgba(212, 151, 38, 0.22);
+    }
+
+    /* Feedback */
+    .feedback {
+      min-height: 2.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.88rem;
+      color: var(--color-grey);
+      text-align: center;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      transition: all 0.25s;
+    }
+
+    .feedback.wrong {
+      background: rgba(255, 80, 80, 0.07);
+      color: rgb(255, 130, 130);
+      border: 1px solid rgba(255, 80, 80, 0.18);
+    }
+
+    .feedback.hint {
+      background: rgba(212, 151, 38, 0.07);
+      color: var(--color-accent);
+      border: 1px solid rgba(212, 151, 38, 0.2);
+    }
+
+    /* Hint log */
+    .hint-log {
+      margin-top: 0.4rem;
+    }
+
+    .hint-entry {
+      font-size: 0.75rem;
+      color: rgba(212, 151, 38, 0.75);
+      padding: 0.18rem 0;
+      text-align: center;
+    }
+
+    /* ── SHOP MODAL ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .shop-panel {
+      background: rgb(20, 20, 20);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 24px 24px 16px 16px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 580px;
+      animation: slideUp 0.28s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(28px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .shop-hd {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.1rem;
+    }
+
+    .shop-title {
+      font-size: var(--fs-medium);
+      font-weight: 700;
+    }
+
+    .shop-tokens-badge {
+      color: var(--color-accent);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+
+    .shop-close {
+      background: rgba(255, 255, 255, 0.07);
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .shop-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .shop-sep {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.05);
+      margin: 0.1rem 0;
+    }
+
+    .shop-item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.16s;
+    }
+
+    .shop-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .shop-item-name {
+      font-size: 0.87rem;
+      font-weight: 500;
+    }
+
+    .shop-item-desc {
+      font-size: 0.68rem;
+      color: var(--color-grey);
+      margin-top: 0.08rem;
+    }
+
+    .shop-cost {
+      color: var(--color-accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .shop-buy {
+      background: rgba(212, 151, 38, 0.13);
+      border: 1px solid rgba(212, 151, 38, 0.28);
+      color: var(--color-accent);
+      border-radius: 8px;
+      padding: 0.3rem 0.65rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s;
+    }
+
+    .shop-buy:hover {
+      background: rgba(212, 151, 38, 0.28);
+    }
+
+    /* ── RESULT ── */
+    #screen-result {
+      text-align: center;
+    }
+
+    .result-title {
+      font-size: var(--fs-large);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .result-title.win {
+      color: var(--color-primary);
+    }
+
+    .result-title.lose {
+      color: rgb(255, 100, 100);
+    }
+
+    .result-info {
+      color: var(--color-grey);
+      font-size: var(--fs-small);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.3rem;
+    }
+
+    .result-swatches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .result-swatch {
+      height: 160px;
+      border-radius: var(--radius);
+    }
+
+    .result-rgb {
+      font-size: 0.82rem;
+      color: var(--color-grey);
+      margin-bottom: 1.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      color: var(--color-grey);
+      border-radius: 50px;
+      padding: 0.9rem 2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--color-light-bg);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <nav>
+      <a href="../mini-games.html">← Retour au menu</a>
+    </nav>
+    <div class="game-title">Devine<br>la <span>Couleur</span></div>
+    <div class="rainbow-bar"></div>
+    <p class="section-label">Difficulté</p>
+    <div class="diff-grid">
+      <button class="diff-btn" onclick="selectDiff(this,30)">
+        <span class="name">Facile</span><span class="tol">±30</span>
+      </button>
+      <button class="diff-btn selected" onclick="selectDiff(this,15)">
+        <span class="name">Moyen</span><span class="tol">±15</span>
+      </button>
+      <button class="diff-btn" onclick="selectDiff(this,5)">
+        <span class="name">Difficile</span><span class="tol">±5</span>
+      </button>
+      <button class="diff-btn" onclick="selectDiff(this,0)">
+        <span class="name">Expert</span><span class="tol">±0</span>
+      </button>
+    </div>
+    <button class="btn-primary" onclick="startGame()">Jouer →</button>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="status-bar">
+      <div class="lives-track" id="lives"></div>
+      <div class="token-badge" id="tokens">🪙 10</div>
+    </div>
+
+    <div class="swatches">
+      <div>
+        <div class="swatch-label">Objectif</div>
+        <div class="swatch" id="goal-sw"></div>
+      </div>
+      <div>
+        <div class="swatch-label">Ta couleur</div>
+        <div class="swatch" id="user-sw"></div>
+      </div>
+    </div>
+
+    <div class="slider-card">
+      <div class="slider-row">
+        <span class="ch r">R</span>
+        <input type="range" id="sl-r" min="0" max="255" value="128" oninput="onSlide()">
+        <span class="slider-val" id="vr">128</span>
+      </div>
+      <div class="slider-row">
+        <span class="ch g">G</span>
+        <input type="range" id="sl-g" min="0" max="255" value="128" oninput="onSlide()">
+        <span class="slider-val" id="vg">128</span>
+      </div>
+      <div class="slider-row">
+        <span class="ch b">B</span>
+        <input type="range" id="sl-b" min="0" max="255" value="128" oninput="onSlide()">
+        <span class="slider-val" id="vb">128</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-guess" onclick="submitGuess()">Valider ma couleur</button>
+      <button class="btn-shop" onclick="openShop()">🛒 Boutique</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="hint-log" id="hint-log"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="screen-result">
+    <div class="result-title" id="res-title">Bravo !</div>
+    <div class="result-info" id="res-info"></div>
+    <div class="result-swatches">
+      <div>
+        <div class="swatch-label">Objectif</div>
+        <div class="result-swatch" id="res-goal"></div>
+      </div>
+      <div>
+        <div class="swatch-label">Ta réponse</div>
+        <div class="result-swatch" id="res-user"></div>
+      </div>
+    </div>
+    <div class="result-rgb" id="res-rgb"></div>
+    <div class="result-actions">
+      <button class="btn-primary" onclick="startGame()">Rejouer →</button>
+      <button class="btn-ghost" onclick="showScreen('screen-intro')">Changer de difficulté</button>
+    </div>
+  </div>
+
+  <!-- SHOP MODAL -->
+  <div class="overlay" id="overlay" onclick="closeShopOutside(event)">
+    <div class="shop-panel">
+      <div class="shop-hd">
+        <div>
+          <div class="shop-title">🛒 Boutique d'indices</div>
+          <div class="shop-tokens-badge" id="shop-tk">🪙 10 jetons</div>
+        </div>
+        <button class="shop-close" onclick="closeShop()">✕</button>
+      </div>
+      <div class="shop-list">
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Luminosité</div>
+            <div class="shop-item-desc">Trop clair ou trop foncé ?</div>
+          </div>
+          <div class="shop-cost">🪙 1</div>
+          <button class="shop-buy" onclick="buyHint('ask_l',1)">Acheter</button>
+        </div>
+        <div class="shop-sep"></div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Indice Rouge</div>
+            <div class="shop-item-desc">Trop haut ou trop bas ?</div>
+          </div>
+          <div class="shop-cost">🪙 3</div>
+          <button class="shop-buy" onclick="buyHint('ask_r',3)">Acheter</button>
+        </div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Indice Vert</div>
+            <div class="shop-item-desc">Trop haut ou trop bas ?</div>
+          </div>
+          <div class="shop-cost">🪙 3</div>
+          <button class="shop-buy" onclick="buyHint('ask_g',3)">Acheter</button>
+        </div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Indice Bleu</div>
+            <div class="shop-item-desc">Trop haut ou trop bas ?</div>
+          </div>
+          <div class="shop-cost">🪙 3</div>
+          <button class="shop-buy" onclick="buyHint('ask_b',3)">Acheter</button>
+        </div>
+        <div class="shop-sep"></div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Révéler la luminosité</div>
+            <div class="shop-item-desc">Valeur exacte (R+G+B)</div>
+          </div>
+          <div class="shop-cost">🪙 5</div>
+          <button class="shop-buy" onclick="buyHint('reveal_l',5)">Acheter</button>
+        </div>
+        <div class="shop-sep"></div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Révéler Rouge</div>
+            <div class="shop-item-desc">Valeur exacte de R</div>
+          </div>
+          <div class="shop-cost">🪙 9</div>
+          <button class="shop-buy" onclick="buyHint('reveal_r',9)">Acheter</button>
+        </div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Révéler Vert</div>
+            <div class="shop-item-desc">Valeur exacte de G</div>
+          </div>
+          <div class="shop-cost">🪙 9</div>
+          <button class="shop-buy" onclick="buyHint('reveal_g',9)">Acheter</button>
+        </div>
+        <div class="shop-item">
+          <div>
+            <div class="shop-item-name">Révéler Bleu</div>
+            <div class="shop-item-desc">Valeur exacte de B</div>
+          </div>
+          <div class="shop-cost">🪙 9</div>
+          <button class="shop-buy" onclick="buyHint('reveal_b',9)">Acheter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── State ──
+    let goal = [0, 0, 0];
+    let user = [0, 0, 0];
+    let tries = 10;
+    let tokens = 10;
+    let tol = 15;
+    let count = 0;
+    let over = false;
+
+    // ── Helpers ──
+    const $ = id => document.getElementById(id);
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      $(id).classList.add('active');
+    }
+    function rnd256() { return Math.floor(Math.random() * 256); }
+    function rgb(c) { return `rgb(${c[0]},${c[1]},${c[2]})`; }
+
+    // ── Difficulty ──
+    function selectDiff(btn, t) {
+      document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      tol = t;
+    }
+
+    // ── Game Init ──
+    function startGame() {
+      goal = [rnd256(), rnd256(), rnd256()];
+      user = [128, 128, 128];
+      tries = 10;
+      tokens = 10;
+      count = 0;
+      over = false;
+
+      ['sl-r', 'sl-g', 'sl-b'].forEach(id => $(id).value = 128);
+      ['vr', 'vg', 'vb'].forEach(id => $(id).textContent = 128);
+      $('feedback').className = 'feedback';
+      $('feedback').textContent = '';
+      $('hint-log').innerHTML = '';
+
+      $('goal-sw').style.backgroundColor = rgb(goal);
+      $('user-sw').style.backgroundColor = rgb(user);
+      renderLives();
+      renderTokens();
+      showScreen('screen-game');
+    }
+
+    // ── Slider ──
+    function onSlide() {
+      $('vr').textContent = $('sl-r').value;
+      $('vg').textContent = $('sl-g').value;
+      $('vb').textContent = $('sl-b').value;
+      // No live swatch update — the color reveals only on submit
+    }
+
+    // ── Render ──
+    function renderLives() {
+      const el = $('lives');
+      el.innerHTML = '';
+      for (let i = 0; i < 10; i++) {
+        const g = document.createElement('div');
+        g.className = 'gem' + (i >= tries ? ' lost' : '');
+        el.appendChild(g);
+      }
+    }
+
+    function renderTokens() {
+      $('tokens').textContent = '🪙 ' + tokens;
+      $('shop-tk').textContent = '🪙 ' + tokens + ' jetons';
+    }
+
+    function setFeedback(txt, cls) {
+      const el = $('feedback');
+      el.textContent = txt;
+      el.className = 'feedback ' + (cls || '');
+    }
+
+    function logHint(txt) {
+      const row = document.createElement('div');
+      row.className = 'hint-entry';
+      row.textContent = '→ ' + txt;
+      $('hint-log').appendChild(row);
+    }
+
+    // ── Submit ──
+    function submitGuess() {
+      if (over) return;
+      user = [$('sl-r').value, $('sl-g').value, $('sl-b').value].map(Number);
+      $('user-sw').style.backgroundColor = rgb(user);
+
+      tries--;
+      count++;
+      renderLives();
+
+      // Snap within tolerance
+      const snapped = goal.map((g, i) => Math.abs(user[i] - g) <= tol ? g : user[i]);
+
+      if (snapped.every((v, i) => v === goal[i])) {
+        over = true;
+        showResult(true);
+      } else if (tries <= 0) {
+        over = true;
+        showResult(false);
+      } else {
+        setFeedback(`Pas tout à fait… encore ${tries} essai${tries > 1 ? 's' : ''} !`, 'wrong');
+      }
+    }
+
+    // ── Result ──
+    function showResult(win) {
+      $('res-goal').style.backgroundColor = rgb(goal);
+      $('res-user').style.backgroundColor = rgb(user);
+      $('res-title').textContent = win ? 'Bravo !' : 'Dommage…';
+      $('res-title').className = 'result-title ' + (win ? 'win' : 'lose');
+      $('res-info').textContent = win
+        ? `Trouvé en ${count} essai${count > 1 ? 's' : ''}`
+        : 'Tu n\'as pas trouvé la couleur';
+      $('res-rgb').textContent = `Objectif : R ${goal[0]}  G ${goal[1]}  B ${goal[2]}`;
+      showScreen('screen-result');
+    }
+
+    // ── Shop ──
+    function openShop() { if (!over) $('overlay').classList.add('open'); }
+    function closeShop() { $('overlay').classList.remove('open'); }
+    function closeShopOutside(e) { if (e.target === $('overlay')) closeShop(); }
+
+    function buyHint(type, cost) {
+      if (tokens < cost) { logHint('Pas assez de jetons !'); closeShop(); return; }
+      tokens -= cost;
+      renderTokens();
+      user = [$('sl-r').value, $('sl-g').value, $('sl-b').value].map(Number);
+
+      const names = ['rouge', 'vert', 'bleu'];
+      const capIdx = { ask_r: 0, ask_g: 1, ask_b: 2, reveal_r: 0, reveal_g: 1, reveal_b: 2 };
+
+      let msg = '';
+      switch (type) {
+        case 'ask_l': {
+          const us = user.reduce((a, v) => a + v, 0), gs = goal.reduce((a, v) => a + v, 0);
+          msg = us > gs ? '☀️ Ta couleur est trop claire' : us < gs ? '🌑 Ta couleur est trop foncée' : '✅ Luminosité parfaite !';
+          break;
+        }
+        case 'ask_r': case 'ask_g': case 'ask_b': {
+          const i = capIdx[type], n = names[i];
+          msg = user[i] > goal[i] ? `↓ Trop de ${n}` : user[i] < goal[i] ? `↑ Pas assez de ${n}` : `✅ ${n[0].toUpperCase() + n.slice(1)} parfait !`;
+          break;
+        }
+        case 'reveal_l': {
+          msg = `Luminosité exacte : ${goal.reduce((a, v) => a + v, 0)}`;
+          break;
+        }
+        case 'reveal_r': case 'reveal_g': case 'reveal_b': {
+          const i = capIdx[type], n = names[i];
+          msg = `${n[0].toUpperCase() + n.slice(1)} exact : ${goal[i]}`;
+          break;
+        }
+      }
+
+      closeShop();
+      logHint(msg);
+      setFeedback(msg, 'hint');
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+@import "theme.css";
+@import "reset.css";
+
+section#intro {
+    margin: 0 0 var(--margin) var(--margin);
+
+    h1 {
+        margin-bottom: 5rem;
+        ;
+    }
+}
+
+section#games-grid {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media screen and (max-width: 1150px) {
+        grid-template-columns: 1fr;
+    }
+    gap: 1rem;
+
+    div.game {
+        display: flex;
+        background-color: var(--color-light-bg);
+        gap: 1rem;
+        padding: 2rem;
+        border: solid 2px var(--color-dark-primary);
+        border-radius: 20px;
+
+        .infos {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            gap: 1rem;
+            width: 60%;
+
+            h2 span {
+                font-weight: 400;
+                font-size: var(--fs-base);
+            }
+
+            h3 {
+                color: var(--color-grey);
+                font-weight: 400;
+            }
+
+            h4 {
+                font-weight: 500;
+                color: var(--color-accent);
+            }
+
+            a.button {
+                border: none;
+                text-align: center;
+                width: 60%;
+                /* Glassmorphism button */
+                background-color: var(--color-accent);
+                border-radius: 16px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(5.6px);
+                -webkit-backdrop-filter: blur(5.6px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+
+                &:hover {
+                    background-color: var(--color-accent-hover);
+
+                    a {
+                        color: var(--color-light-bg);
+                    }
+
+                    transition: 0.5s;
+                }
+            }
+        }
+
+        img {
+            object-fit: contain;
+            overflow: hidden;
+        }
+    }
+}
