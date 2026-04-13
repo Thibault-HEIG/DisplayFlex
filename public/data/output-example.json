@@ -1,0 +1,83 @@
+{
+    "status": "success",
+    "jobs": [
+        {
+            "name": "UX-UI Designer",
+            "description": "Conçoit des expériences et interfaces centrées utilisateur, mène la recherche UX, crée wireframes, prototypes et maquettes UI, puis teste et itère les parcours pour améliorer l'ergonomie sur web et mobile.",
+            "rank": 1,
+            "similarity": 82
+        },
+        {
+            "name": "Web Designer",
+            "description": "Crée l'identité visuelle et la mise en page de sites web, définit la charte graphique digitale, conçoit maquettes responsives et éléments graphiques en veillant à la cohérence de marque et à l'accessibilité.",
+            "rank": 2,
+            "similarity": 78
+        },
+        {
+            "name": "Web Developer",
+            "description": "Développe et maintient des sites et applications web, écrit du code propre et testable (front et/ou back), intègre maquettes, optimise les performances et corrige les bugs en collaboration avec les designers et chefs de projet.",
+            "rank": 3,
+            "similarity": 75
+        },
+        {
+            "name": "Data Analyst",
+            "description": "Collecte, nettoie et analyse des données pour dégager des insights, construit tableaux de bord et rapports, formule des recommandations métier basées sur les indicateurs clés pour aider à la décision.",
+            "rank": 4,
+            "similarity": 72
+        },
+        {
+            "name": "Digital Marketing Manager",
+            "description": "Pilote les stratégies marketing digitales (SEO/SEA, e-mail, réseaux sociaux, display), planifie et exécute les campagnes, suit les KPIs, optimise les budgets médias et coordonne agences et équipes internes.",
+            "rank": 5,
+            "similarity": 68
+        },
+        {
+            "name": "Motion Designer",
+            "description": "Crée des animations 2D/3D et visuels en mouvement pour le web, la publicité ou le produit, participe à la conception créative, prépare storyboards et moodboards, puis anime typographie, illustration et vidéo.",
+            "rank": 6,
+            "similarity": 65
+        },
+        {
+            "name": "Graphic Designer",
+            "description": "Conçoit des identités visuelles et supports print/digitaux (logos, affiches, bannières, interfaces), met en forme messages et concepts de marque en images claires et impactantes, en respectant charte et contraintes techniques.",
+            "rank": 7,
+            "similarity": 61
+        },
+        {
+            "name": "Content Strategist",
+            "description": "Définit la stratégie éditoriale multicanale, planifie et coordonne la production de contenus, structure les messages selon les objectifs business et SEO, mesure la performance et ajuste les formats et sujets.",
+            "rank": 8,
+            "similarity": 58
+        },
+        {
+            "name": "Product Manager",
+            "description": "Porter la vision du produit, analyser besoins utilisateurs et marché, prioriser la roadmap, rédiger user stories et coordonner équipes design, tech et business pour livrer des fonctionnalités à forte valeur.",
+            "rank": 9,
+            "similarity": 54
+        },
+        {
+            "name": "Creative Director",
+            "description": "Définit la vision créative globale d'une marque ou d'un projet, supervise les concepts visuels et narratifs, encadre les équipes créatives, valide les pistes et garantit la cohérence esthétique et stratégique.",
+            "rank": 10,
+            "similarity": 50
+        },
+        {
+            "name": "SEO Specialist",
+            "description": "Optimise la visibilité d'un site sur les moteurs de recherche via audit technique, recherche de mots-clés, optimisation on-page, netlinking et analyse de performances pour augmenter trafic organique qualifié.",
+            "rank": 11,
+            "similarity": 45
+        },
+        {
+            "name": "Full-Stack Developer",
+            "description": "Développe le front-end et le back-end d'applications web, conçoit APIs et modèles de données, intègre interfaces, gère la logique serveur et veille à la performance, la sécurité et la maintenabilité de l'ensemble.",
+            "rank": 12,
+            "similarity": 42
+        },
+        {
+            "name": "Communication Specialist",
+            "description": "Conçoit et met en œuvre des stratégies de communication 360° (médias, réseaux sociaux, événements, RP), rédige contenus et messages clés, gère la relation avec les parties prenantes et suit la réputation de la marque.",
+            "rank": 13,
+            "similarity": 38
+        }
+    ]
+}

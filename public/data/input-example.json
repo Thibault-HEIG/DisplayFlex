@@ -1,0 +1,69 @@
+{
+    "skills": [
+        {
+            "skill": "Marketing",
+            "value": 0
+        },
+        {
+            "skill": "Graphic Design",
+            "value": 0
+        },
+        {
+            "skill": "Coding",
+            "value": 0
+        },
+        {
+            "skill": "Writing",
+            "value": 0
+        },
+        {
+            "skill": "Interface",
+            "value": 0
+        },
+        {
+            "skill": "Data",
+            "value": 0
+        },
+        {
+            "skill": "Media",
+            "value": 0
+        },
+        {
+            "skill": "Maths",
+            "value": 0
+        },
+        {
+            "skill": "English",
+            "value": 0
+        },
+        {
+            "skill": "Economy",
+            "value": 0
+        },
+        {
+            "skill": "Leadership",
+            "value": 0
+        },
+        {
+            "skill": "Oral Communication",
+            "value": 0
+        },
+        {
+            "skill": "Creativity",
+            "value": 0
+        },
+        {
+            "skill": "Analytical Thinking",
+            "value": 0
+        },
+        {
+            "skill": "Project Management",
+            "value": 0
+        },
+        {
+            "skill": "Storytelling",
+            "value": 0
+        }
+    ],
+    "student": null
+}

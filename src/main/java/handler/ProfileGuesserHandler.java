@@ -1,7 +1,18 @@
 package main.java.handler;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import com.sun.net.httpserver.HttpExchange;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import main.java.model.Profile;
 import main.java.model.Vector;
@@ -78,9 +89,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
             { 4, 3, 20, 9, 12, 17, 7, 14, 14, 7, 10, 0, 13, 19, 0, 0 }
     };
 
-    public static final String[] jobNames = { "Data Analyst", "Web Designer", "Communication Specialist",
-            "Digital Marketing Manager", "UX-UI Designer", "Web Developer", "Motion Designer", "Graphic Designer",
-            "Content Strategist", "Product Manager", "Creative Director", "SEO Specialist", "Full-Stack Developer" };
+    public static final String[] jobNames = new String[NB_OF_PROFILES];
 
     public static final Profile[] PROFILES = new Profile[NB_OF_PROFILES];
 
@@ -98,8 +107,29 @@ public class ProfileGuesserHandler extends BaseApiHandler {
     public String process(String input) {
         System.out.println("input : " + input); // CHECKPOINT
 
-        // input
-        userScores = toDouble(input.split("/"));
+        JsonObject inputData = JsonParser.parseString(input).getAsJsonObject();
+
+        String jsonContent = null;
+        try {
+            jsonContent = Files.readString(Paths.get("public/data/job-profiles.json"));
+            JsonObject jsonJobs = JsonParser.parseString(jsonContent).getAsJsonObject();
+            for (int i = 0; i < NB_OF_PROFILES; i++) {
+                String name = jsonJobs.get("jobs").getAsJsonArray().get(i)
+                        .getAsJsonObject().get("name").getAsString();
+                jobNames[i] = name;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erreur de lecture du fichier job-profiles.json : " + e);
+            return "{\"status\":\"error\", \"message\":\"Erreur de lecture du fichier job-profiles.json : " + e + "\"}";
+        }
+
+        userScores = new double[NB_OF_SKILLS];
+
+        for (int i = 0; i < NB_OF_SKILLS; i++) {
+            userScores[i] = inputData.get("skills").getAsJsonArray().get(i)
+                    .getAsJsonObject().get("value").getAsDouble();
+        }
 
         initProfiles();
         Vector userVector = userProfile.getVector();
@@ -111,23 +141,46 @@ public class ProfileGuesserHandler extends BaseApiHandler {
             PROFILES[i].setScore(score);
         }
 
-        Arrays.sort(PROFILES, Comparator.comparingInt(Profile::getScore).reversed());
+        Arrays.sort(PROFILES, Comparator.comparingInt(Profile::getScore).reversed()); // Trie la liste = classement
 
-        for (int i = 0; i < PROFILES.length; i++) {
+        for (int i = 0; i < PROFILES.length; i++) { // Just to get an update in the terminal
             System.out.println(PROFILES[i].getName() + " : " + PROFILES[i].getScore() + "%");
         }
 
-        String output = "SUCCESS/" + PROFILES[0].getName() + "_" + PROFILES[0].getScore() + "/"
-                + PROFILES[1].getName() + "_" + PROFILES[1].getScore() + "/"
-                + PROFILES[2].getName() + "_" + PROFILES[2].getScore();
-        return output;
+        JsonObject output = new JsonObject();
+        output.addProperty("status", "success");
+
+        JsonArray results = new JsonArray(); // Liste des métiers
+        for (int i = 0; i < PROFILES.length; i++) {
+            JsonObject result = new JsonObject();
+            result.addProperty("name", PROFILES[i].getName());
+            result.addProperty("rank", i + 1);
+            result.addProperty("score", PROFILES[i].getScore());
+            results.add(result);
+        }
+        output.add("results", results);
+
+        System.out.println(output.toString()); // CHECKPOINT
+
+        return output.toString();
     }
 
-    private double[] toDouble(String[] input) {
-        double[] scores = new double[input.length];
-        for (int i = 0; i < input.length; i++) {
-            scores[i] = Double.parseDouble(input[i]);
+    @Override
+    public void handle(HttpExchange t) throws IOException {
+        if ("POST".equals(t.getRequestMethod())) {
+            // 1. Lire ce que le site web a envoyé
+            InputStream is = t.getRequestBody();
+            String input = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+
+            String output = process(input);
+
+            // 2. Renvoyer la réponse au site web
+            byte[] bytes = output.getBytes(StandardCharsets.UTF_8);
+            t.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
         }
-        return scores;
     }
 }
