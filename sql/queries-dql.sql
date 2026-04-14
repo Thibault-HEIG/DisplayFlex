@@ -41,3 +41,5 @@ SELECT metier, COUNT(*) AS total_top_1
     WHERE rang = 1
     GROUP BY metier
     ORDER BY total_top_1 DESC;
+
+SELECT * FROM task_list;

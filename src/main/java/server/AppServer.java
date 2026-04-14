@@ -40,7 +40,7 @@ public class AppServer {
         public void handle(HttpExchange t) throws IOException {
             String uri = t.getRequestURI().toString();
             if (uri.equals("/"))
-                uri = "/index.html"; 
+                uri = "/index.php"; 
 
             String filePath = "public" + uri;
 

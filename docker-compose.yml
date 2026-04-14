@@ -29,7 +29,27 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
 
   # ---------------------------------------------------------
-  # SERVICE 2: The database
+  # SERVICE 2: Web Server (PHP)
+  # ---------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    ports:
+      - "8080:80"  # Accessible on http://localhost:8080
+    volumes:
+      - .:/var/www/html  # Synchronize local files with the server
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      
+  # ---------------------------------------------------------
+  # SERVICE 3: The database (PostgreSQL)
   # ---------------------------------------------------------
   db:
     # Pulls the official PostgreSQL version 16 blueprint directly from Docker Hub.
