@@ -1,6 +1,6 @@
 -- Active: 1775506739659@@localhost@5432@displayflex
 --SELECT ZONE--
-SELECT * FROM eleves;
+SELECT * FROM utilisateurs;
 
 SELECT * FROM branches ORDER BY duree_semestre DESC;
 
@@ -11,11 +11,11 @@ FROM branches b
     LEFT JOIN modules m ON m.id = b.id_module;
 
 SELECT *
-FROM eleves
+FROM utilisateurs
 WHERE
     nom = 'Moret' AND prenom = 'Thibault';
 
-INSERT INTO eleves (
+INSERT INTO utilisateurs (
         nom,
         prenom,
         classe,

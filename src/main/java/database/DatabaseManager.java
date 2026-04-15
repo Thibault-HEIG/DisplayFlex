@@ -25,7 +25,7 @@ public class DatabaseManager {
 
     public static String insertStudent(Student currentStudent) {
 
-        String query = "INSERT INTO eleves (nom, prenom, classe, email, date_naissance) VALUES (?, ?, ?, ?, ?);";
+        String query = "INSERT INTO utilisateurs (nom, prenom, classe, email, date_naissance) VALUES (?, ?, ?, ?, ?);";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -52,7 +52,7 @@ public class DatabaseManager {
     }
 
     public static boolean undoInsertStudent(int id) {
-        String query = "DELETE FROM eleves WHERE id = " + id + ";";
+        String query = "DELETE FROM utilisateurs WHERE id = " + id + ";";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                 Statement stmt = conn.createStatement()) {
             stmt.execute(query);

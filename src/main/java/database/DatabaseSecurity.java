@@ -24,7 +24,7 @@ public class DatabaseSecurity {
                 Statement stmt = conn.createStatement()) {
 
             // exécute la requête et retourne un ResultSet
-            ResultSet result = stmt.executeQuery("SELECT * FROM eleves WHERE prenom = '" + currentStudent.getPrenom()
+            ResultSet result = stmt.executeQuery("SELECT * FROM utilisateurs WHERE prenom = '" + currentStudent.getPrenom()
                     + "' AND nom = '" + currentStudent.getNom() + "';");
             if (result.next()) { // check if a row exists first
                 return true; // duplicate found
