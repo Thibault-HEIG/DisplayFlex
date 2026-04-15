@@ -29,11 +29,15 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │       └── ☕ Student.java          <-- 🟢 Objet élève
 │
 ├── 📁 public/                       <-- 🎨 FRONT-END
-│   ├── 📄 file.html                 <-- 🟢 Structure HTML d'une des pages (index, sql, websites)
+│   ├── 📄 file.html                 <-- 🟢 Structure HTML d'une page statique
+│   ├── 📄 file.php                  <-- 🟢 Structure HTML d'une page dynamique
 │   ├── 📁 css/                      <-- 🟢 Design et mise en page CSS
 │   │   ├── 📄 reset.css             <-- 🟠 Reset pour toute feuille de style
 │   │   ├── 📄 theme.css             <-- 🟢 Réglages du thème (charte graphique)
 │   │   └── 📄 file.css              <-- 🟢 Feuille de style propre à chaque page
+│   ├── 📁 php/                      <-- 🟢 Design et mise en page CSS
+│   │   ├── 📄 db-connection.php     <-- 🟠 Script de création de connexion avec la DB
+│   │   └── 📄 script-home.php       <-- 🟢 Script pour afficher la liste des tâches sur l'accueil
 │   └── 📁 scripts/                  <-- 🟢 Scripts JavaScript
 │       ├── 📄 projectCount.js       <-- 🟢 Script pour afficher le nombre de projets
 │       ├── 📄 profileGuesser.js     <-- 🟢 Script lié à l'orientateur de métier
@@ -52,8 +56,10 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans
 │   └── 📦 postgresql-42.7.10.jar    <-- 🔴 Driver de connexion Java/PostgreSQL
 │
 ├── 🐳 Dockerfile                    <-- 🔴 Instructions de build du serveur Java
-├── 🐳 docker-compose.yml            <-- 🔴 Orchestration de l'app et de la DB PostgreSQL
+├── 🐳 php.Dockerfile                <-- 🔴 Instructions de build du serveur PHP
+├── 🐋 docker-compose.yml            <-- 🔴 Orchestration de l'app et de la DB PostgreSQL
 ├── 🧨 .gitignore                    <-- 🔴 Fichiers ignorés par Git
 ├── ⚙️ .env                          <-- 🔴 Variables sensible (à garder secrètes)
+├── ⚙️ nginx.conf                    <-- 🔴 Gestion des ports entre Java et PHP
 └── 📝 README.md                     <-- 👈🏼 Vous êtes ici
 ```
