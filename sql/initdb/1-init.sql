@@ -2,15 +2,15 @@
 
 --CRÉER DES TABLES (💡 Ajouter IF NOT EXTISTS éviter les doublons)
 
-CREATE TABLE IF NOT EXISTS task_list (
+CREATE TABLE IF NOT EXISTS liste_taches (
     id SERIAL PRIMARY KEY,
-    task TEXT NOT NULL,
-    completed BOOLEAN DEFAULT FALSE,
+    tache TEXT NOT NULL,
+    fait BOOLEAN DEFAULT FALSE,
     responsable VARCHAR(50),
     duree_h INT
 );
 
-CREATE TABLE IF NOT EXISTS eleves (
+CREATE TABLE IF NOT EXISTS utilisateurs (
     id SERIAL PRIMARY KEY,
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS branches (
 
 CREATE TABLE IF NOT EXISTS resultats_test (
     id SERIAL PRIMARY KEY,
-    id_eleve INT REFERENCES eleves (id),
+    id_utilisateur INT REFERENCES utilisateurs (id),
     metier VARCHAR(50),
     pourcentage INT,
     rang SMALLINT,
