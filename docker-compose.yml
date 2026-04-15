@@ -2,7 +2,20 @@
 services:
 
   # ---------------------------------------------------------
-  # SERVICE 1: Your custom Java application
+  # SERVICE 1: NGINX Proxy Server
+  # ---------------------------------------------------------
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80" # On expose le port standard HTTP
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+      - web
+
+  # ---------------------------------------------------------
+  # SERVICE 2: Your custom Java application
   # ---------------------------------------------------------
   app:
     # Instead of downloading a pre-built image, Docker will look for a 'Dockerfile' 
@@ -11,8 +24,8 @@ services:
     
     # Maps port 8000 on your MacBook (host) to port 8000 inside this container. 
     # This is what allows you to open a browser to localhost:8000 to see your app.
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
       
     # Tells Docker to start the 'db' container before starting this 'app' container.
     depends_on:
@@ -29,14 +42,14 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
 
   # ---------------------------------------------------------
-  # SERVICE 2: Web Server (PHP)
+  # SERVICE 3: Web Server (PHP)
   # ---------------------------------------------------------
   web:
     build:
       context: .
       dockerfile: php.Dockerfile
-    ports:
-      - "8080:80"  # Accessible on http://localhost:8080
+    expose:
+      - "8080"  # Accessible on http://localhost:8080
     volumes:
       - .:/var/www/html  # Synchronize local files with the server
     depends_on:
@@ -49,7 +62,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       
   # ---------------------------------------------------------
-  # SERVICE 3: The database (PostgreSQL)
+  # SERVICE 4: The database (PostgreSQL)
   # ---------------------------------------------------------
   db:
     # Pulls the official PostgreSQL version 16 blueprint directly from Docker Hub.
@@ -76,7 +89,7 @@ services:
       
       # Maps a folder on your MacBook ('./sql/initdb/') to a special directory inside the container. 
       # The official Postgres image is programmed to automatically execute any .sql scripts found here the first time it boots.
-      - ./sql/initdb/:/docker-entrypoint-initdb.d  
+      - ./sql/initdb/:/docker-entrypoint-initdb.d
 
 # Declares the named volumes used by the services above so Docker knows to allocate persistent storage for them.
 volumes:
