@@ -5,7 +5,7 @@ Ce projet est un site web "tout-en-un". Il contient à la fois la partie visible
 ## 🏗️ Qui fait quoi ? (Les 4 Piliers)
 
 ### 1. Le Frontend (La Vitrine)
-* **C'est quoi ?** Les fichiers `index.html` et `style.css` dans le dossier `public/`.
+* **C'est quoi ?** Les fichiers `index.php` et `style.css` dans le dossier `public/`.
 * **Son rôle :** C'est l'interface que l'utilisateur voit.
 * **Comment il parle au Java ?** Il utilise du JavaScript (une fonction `fetch`) pour envoyer des messages (requêtes POST) au serveur.
 

@@ -2,6 +2,14 @@
 
 --CRÉER DES TABLES (💡 Ajouter IF NOT EXTISTS éviter les doublons)
 
+CREATE TABLE IF NOT EXISTS liste_taches (
+    id SERIAL PRIMARY KEY,
+    tache TEXT NOT NULL,
+    fait BOOLEAN DEFAULT FALSE,
+    responsable VARCHAR(50),
+    duree_h INT
+);
+
 CREATE TABLE IF NOT EXISTS utilisateurs (
     id SERIAL PRIMARY KEY,
     nom VARCHAR (50) NOT NULL,
