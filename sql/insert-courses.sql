@@ -196,7 +196,7 @@ WHERE
     nom = 'Utilisateurs et interfaces';
 
 INSERT INTO
-    task_list (task)
+    liste_taches (tache)
 VALUES (
         'Créer un bouton qui permet dafficher la liste des matières'
     ),

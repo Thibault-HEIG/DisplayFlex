@@ -13,12 +13,15 @@ FROM branches b
 SELECT *
 FROM utilisateurs
 WHERE
-    nom = 'Moret' AND prenom = 'Thibault';
+    nom = 'Moret'
+    AND prenom = 'Thibault';
 
-INSERT INTO utilisateurs (
+INSERT INTO
+    utilisateurs (
         nom,
         prenom,
         classe,
+        est_eleve,
         email,
         date_naissance
     )
@@ -26,20 +29,33 @@ VALUES (
         'Moret',
         'Thibault',
         'M54-2',
+        TRUE,
         'thibault.moret@heig-vd.ch',
         '2005-07-05'
     );
 
-SELECT metier, COUNT(*) AS total_recommendations, AVG(pourcentage_similitude) AS average_score, MIN(pourcentage_similitude) AS min_score, MAX(pourcentage_similitude) AS max_score, AVG(rang) AS average_rank
-    FROM resultats_test
-    WHERE rang <= 3
-    GROUP BY metier
-    ORDER BY total_recommendations DESC;
+SELECT
+    metier,
+    COUNT(*) AS total_recommendations,
+    AVG(pourcentage_similitude) AS average_score,
+    MIN(pourcentage_similitude) AS min_score,
+    MAX(pourcentage_similitude) AS max_score,
+    AVG(rang) AS average_rank
+FROM resultats_test
+WHERE
+    rang <= 3
+GROUP BY
+    metier
+ORDER BY total_recommendations DESC;
 
 SELECT metier, COUNT(*) AS total_top_1
-    FROM resultats_test
-    WHERE rang = 1
-    GROUP BY metier
-    ORDER BY total_top_1 DESC;
+FROM resultats_test
+WHERE
+    rang = 1
+GROUP BY
+    metier
+ORDER BY total_top_1 DESC;
 
 SELECT * FROM liste_taches;
+
+SELECT * FROM metiers LEFT JOIN poids ON metiers.id_poids = poids.id;

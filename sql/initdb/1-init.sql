@@ -1,4 +1,4 @@
--- Active: 1776260232183@@localhost@5432@displayflex
+-- Active: 1775506739659@@localhost@5432@displayflex
 
 --CRÉER DES TABLES (💡 Ajouter IF NOT EXTISTS éviter les doublons)
 
@@ -10,17 +10,6 @@ CREATE TABLE IF NOT EXISTS liste_taches (
     duree_h INT
 );
 
-CREATE TABLE IF NOT EXISTS utilisateurs (
-    id SERIAL PRIMARY KEY,
-    nom VARCHAR (50) NOT NULL,
-    prenom VARCHAR (50) NOT NULL,
-    classe VARCHAR(8),
-    est_eleve BOOLEAN NOT NULL,
-    email VARCHAR (30),
-    date_naissance VARCHAR(10),
-    id_competences INT REFERENCES competences (id)
-);
-
 CREATE TABLE IF NOT EXISTS modules (
     id SERIAL PRIMARY KEY,
     nom VARCHAR (50) NOT NULL,
@@ -30,7 +19,7 @@ CREATE TABLE IF NOT EXISTS modules (
 CREATE TABLE IF NOT EXISTS competences (
     id SERIAL PRIMARY KEY,
     marketing FLOAT NOT NULL DEFAULT 5,
-    design_graphique FLOAT NOT NULL DEFAULT 5
+    design_graphique FLOAT NOT NULL DEFAULT 5,
     programmation FLOAT NOT NULL DEFAULT 5,
     ecriture FLOAT NOT NULL DEFAULT 5,
     design_interface FLOAT NOT NULL DEFAULT 5,
@@ -74,6 +63,24 @@ CREATE TABLE IF NOT EXISTS branches (
     duree_semestre INT -- durée en demi semestre (1 à 4)
 );
 
+CREATE TABLE IF NOT EXISTS utilisateurs (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR (50) NOT NULL,
+    prenom VARCHAR (50) NOT NULL,
+    classe VARCHAR(8),
+    est_eleve BOOLEAN NOT NULL,
+    email VARCHAR (30),
+    date_naissance VARCHAR(10),
+    id_competences INT REFERENCES competences (id)
+);
+
+CREATE TABLE IF NOT EXISTS metiers (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR (50),
+    description TEXT,
+    id_poids INT REFERENCES poids (id)
+);
+
 CREATE TABLE IF NOT EXISTS resultats_test (
     id SERIAL PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateurs (id),
@@ -90,10 +97,3 @@ CREATE TABLE IF NOT EXISTS utilisateurs_branches (
     id_branches INT REFERENCES branches (id),
     moyenne DECIMAL(2,1)
 );
-
-CREATE TABLE IF NOT EXISTS metiers(
-    nom VARCHAR (50),
-    description VARCHAR (200),
-    id_poids INT REFERENCES poids (id)
-);
-
