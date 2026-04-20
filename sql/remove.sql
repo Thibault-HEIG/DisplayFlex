@@ -1,5 +1,7 @@
+-- Active: 1775506739659@@localhost@5432@displayflex
 DROP TABLE branches;
 DROP TABLE modules;
+DROP TABLE poids;
 DROP TABLE metiers;
 DROP TABLE utilisateurs; -- /!\ DANGER - utiliser pour hard reset les élèves et leur id /!\
 

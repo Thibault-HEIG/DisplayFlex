@@ -1,7 +1,5 @@
 -- Active: 1775506739659@@localhost@5432@displayflex
 
---INSERT ZONE--
-
 INSERT INTO
     modules (nom, secteur)
 VALUES (

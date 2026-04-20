@@ -16,7 +16,7 @@
             <div class="nav-menu">
                 <a href="websites.html">Projets Web</a>
                 <a href="sql.html">DataBase</a>
-                <a href="profile-guesser.html">Orientation</a>
+                <a href="profile-guesser.php">Orientation</a>
                 <a href="mini-games.html">Mini-Jeux</a>
             </div>
             <fieldset>

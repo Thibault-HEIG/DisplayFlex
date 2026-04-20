@@ -317,7 +317,7 @@ VALUES (
         12
     ),
     (
-        'Full Stack Developer',
+        'Full-Stack Developer',
         'Développe le front-end et le back-end d''applications web, conçoit APIs et modèles de données, intègre interfaces, gère la logique serveur et veille à la performance, la sécurité et la maintenabilité de l''ensemble.',
         13
     );

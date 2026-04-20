@@ -1,6 +1,6 @@
 # Projet Collaboratif M54/2
 
-Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL et Git dans un seul et même environnement
+Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL, PHP et Git dans un seul et même environnement
 
 ---
 

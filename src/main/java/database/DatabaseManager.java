@@ -116,10 +116,10 @@ public class DatabaseManager {
         }
     }
 
-    public static void setProfileGuesserResult(PreparedStatement pstmt, String jobName, int percentage, boolean human,
+    public static void setProfileGuesserResult(PreparedStatement pstmt, int jobId, int percentage, boolean human,
             int rank) throws SQLException {
 
-        pstmt.setString(1, jobName);
+        pstmt.setInt(1, jobId);
         pstmt.setInt(2, percentage);
         pstmt.setInt(3, rank);
         pstmt.setBoolean(4, human);

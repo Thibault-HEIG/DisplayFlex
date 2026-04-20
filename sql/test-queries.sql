@@ -35,25 +35,25 @@ VALUES (
     );
 
 SELECT
-    metier,
+    m.nom,
     COUNT(*) AS total_recommendations,
     AVG(pourcentage_similitude) AS average_score,
     MIN(pourcentage_similitude) AS min_score,
     MAX(pourcentage_similitude) AS max_score,
     AVG(rang) AS average_rank
-FROM resultats_test
+FROM resultats_test LEFT JOIN metiers m ON m.id = resultats_test.id_metier
 WHERE
     rang <= 3
 GROUP BY
-    metier
+    m.nom
 ORDER BY total_recommendations DESC;
 
-SELECT metier, COUNT(*) AS total_top_1
-FROM resultats_test
+SELECT m.nom, COUNT(*) AS total_top_1
+FROM resultats_test LEFT JOIN metiers m ON m.id = resultats_test.id_metier
 WHERE
     rang = 1
 GROUP BY
-    metier
+    m.nom
 ORDER BY total_top_1 DESC;
 
 SELECT * FROM liste_taches;
