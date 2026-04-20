@@ -43,7 +43,7 @@ SELECT
     AVG(rang) AS average_rank
 FROM resultats_test LEFT JOIN metiers m ON m.id = resultats_test.id_metier
 WHERE
-    rang <= 3
+    rang <= 3 AND humain = true
 GROUP BY
     m.nom
 ORDER BY total_recommendations DESC;

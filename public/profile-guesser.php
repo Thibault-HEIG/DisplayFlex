@@ -44,7 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $posted[$id] = $val;
     }
 
+    $save = isset($_POST['save']); // true or false
+
     $payload = [
+        "save_result" => $save,
         "skills" => [
             [
                 "skill" => "Marketing",
@@ -149,17 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <nav>
         <a href="index.php">← Retour à l'accueil</a>
-        <fieldset>
-            <legend>Enregistrer le résultat</legend>
             <div>
-                <input type="radio" id="light" name="drone" value="light" checked />
-                <label for="light">Light</label>
+                <input type="checkbox" name="save" value="1" form="main-form">
+                <label>Sauvegarder le résultat</label>
             </div>
-            <div>
-                <input type="radio" id="dark" name="drone" value="dark" />
-                <label for="dark">Dark</label>
-            </div>
-        </fieldset>
     </nav>
 
     <section id="hero">
@@ -171,8 +167,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container">
             <h3>Auto-évaluez vos compétences dans ces domaines.</h3>
             <p>L'algorithme trouvera les métiers adaptés pour vous.</p>
+            <div id="server-output">
+                <?php if ($errorMsg): ?>
+                    <p class="error"><?= htmlspecialchars($errorMsg) ?></p>
 
-            <form method="post" action="">
+                <?php elseif ($results): ?>
+                    <?php foreach ($results as $r): ?>
+                        <div class="result-item rank-<?= (int) $r['rank'] ?>">
+                            <div>
+                                <div class="title">
+                                    <span class="result-rank">#<?= (int) $r['rank'] ?></span>
+                                    <h3 class="result-name"><?= htmlspecialchars($r['name']) ?></h3>
+                                </div>
+                                <p class="result-desc"><?= htmlspecialchars($jobDescriptions[$r['name']] ?? '...') ?></p>
+                            </div>
+                            <span class="result-score"><?= htmlspecialchars($r['score']) ?>%</span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+            <form method="post" action="" id="main-form">
 
                 <div id="input-group">
                     <div id="input-group">
@@ -317,26 +332,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <button type="submit">Trouver son métier</button>
             </form>
-        </div>
-
-        <div id="server-output">
-            <?php if ($errorMsg): ?>
-                <p class="error"><?= htmlspecialchars($errorMsg) ?></p>
-
-            <?php elseif ($results): ?>
-                <?php foreach ($results as $r): ?>
-                    <div class="result-item rank-<?= (int) $r['rank'] ?>">
-                        <div>
-                            <div class="title">
-                                <span class="result-rank">#<?= (int) $r['rank'] ?></span>
-                                <h3 class="result-name"><?= htmlspecialchars($r['name']) ?></h3>
-                            </div>
-                            <p class="result-desc"><?= htmlspecialchars($jobDescriptions[$r['name']] ?? '...') ?></p>
-                        </div>
-                        <span class="result-score"><?= htmlspecialchars($r['score']) ?>%</span>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </div>
     </section>
     <script src="scripts/profileGuesser.js"></script>

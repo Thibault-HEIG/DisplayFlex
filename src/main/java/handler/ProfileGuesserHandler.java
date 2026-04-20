@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -22,6 +23,7 @@ import main.java.model.Vector;
 public class ProfileGuesserHandler extends BaseApiHandler {
     // Scores (compétences) de l'utilisateur - à modifier pour tester le programme.
     public static double[] userScores;
+    public static HashMap<String, Integer> jobHashMap = new HashMap<>();
 
     final public static int NB_OF_PROFILES = 13;
     final public static int NB_OF_SKILLS = 16;
@@ -31,6 +33,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
     public static Profile userProfile;
 
     public static void initProfiles() {
+
         String query = "SELECT m.nom, p.* FROM metiers m JOIN poids p ON m.id_poids = p.id ORDER BY m.id ASC;";
 
         try (PreparedStatement pstmt = DatabaseManager.getPreparedStatement(query);
@@ -67,6 +70,43 @@ public class ProfileGuesserHandler extends BaseApiHandler {
         }
 
         userProfile = new Profile("User", userScores);
+
+        completeJobHashMap();
+    }
+
+    public static void setResults(PreparedStatement pstmt, boolean human) {
+
+        for (int i = 0; i < PROFILES.length; i++) {
+            int rank = i + 1;
+            int jobId = jobHashMap.get(PROFILES[i].getName());
+            int percentage = PROFILES[i].getScore();
+
+            // Update the database
+            try {
+                DatabaseManager.setProfileGuesserResult(pstmt, jobId, percentage, human, rank);
+            } catch (SQLException e) {
+                System.out.println("Erreur SQL : " + e.getMessage());
+            }
+        }
+    }
+
+    public static void completeJobHashMap() {
+        String query = "SELECT id FROM metiers WHERE nom = ?";
+        try (java.sql.Connection conn = DatabaseManager.getConnection();
+                PreparedStatement lookupStmt = conn.prepareStatement(query)) {
+            for (int i = 0; i < ProfileGuesserHandler.PROFILES.length; i++) {
+                String jobName = ProfileGuesserHandler.PROFILES[i].getName();
+                lookupStmt.setString(1, jobName);
+                try (ResultSet resultSet = lookupStmt.executeQuery()) {
+                    if (resultSet.next()) {
+                        int jobId = resultSet.getInt("id");
+                        jobHashMap.put(jobName, jobId);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'initialisation du jobHashMap : " + e.getMessage());
+        }
     }
 
     @Override
@@ -96,6 +136,17 @@ public class ProfileGuesserHandler extends BaseApiHandler {
 
         for (int i = 0; i < PROFILES.length; i++) { // Just to get an update in the terminal
             System.out.println(PROFILES[i].getName() + " : " + PROFILES[i].getScore() + "%");
+        }
+
+        boolean saveResult = inputData.get("save_result").getAsBoolean();
+        if (saveResult) {
+            String query = "INSERT INTO resultats_test (id_metier, pourcentage_similitude, rang, timestamp, humain) VALUES (?, ?, ?, NOW(), ?);";
+            try (PreparedStatement pstmt = DatabaseManager.getPreparedStatement(query)) {
+                setResults(pstmt, true);
+                pstmt.executeBatch();
+            } catch (Exception e) {
+                System.out.println("Erreur SQL : " + e.getMessage());
+            }
         }
 
         JsonObject output = new JsonObject();
