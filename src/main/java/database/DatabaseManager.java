@@ -1,7 +1,6 @@
 package main.java.database;
 
 import java.sql.*;
-import java.util.List;
 
 import main.java.model.*;
 
@@ -60,31 +59,6 @@ public class DatabaseManager {
 
         } catch (SQLException e) {
             return false;
-        }
-    }
-
-    public static String updateWeight(double newWeight, String columnName, String profileName) {
-
-        final List<String> ALLOWED_COLUMNS = List.of(
-        // ✏️ Skills List TO BE COMPLETED
-        );
-        if (!ALLOWED_COLUMNS.contains(columnName))
-            return "Erreur : colonne invalide";
-
-        String query = "UPDATE poids SET " + columnName + " = ? WHERE id = ?;";
-
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, columnName);
-            pstmt.setDouble(2, newWeight);
-            // ✏️ Profile ID TO BE COMPLETED with a JOIN statement
-
-            pstmt.executeUpdate();
-
-            return "SUCCESS";
-
-        } catch (SQLException e) {
-            return "Erreur SQL : " + e.getMessage();
         }
     }
 

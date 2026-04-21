@@ -57,5 +57,8 @@ GROUP BY
 ORDER BY total_top_1 DESC;
 
 SELECT * FROM liste_taches;
+SELECT * FROM resultats_test WHERE humain = false;
 
 SELECT * FROM metiers LEFT JOIN poids ON metiers.id_poids = poids.id;
+
+SELECT c.* FROM competences c LEFT JOIN resultats_test rt ON c.id = rt.id_competences;

@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS liste_taches (
 
 CREATE TABLE IF NOT EXISTS modules (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR (50) NOT NULL,
-    secteur VARCHAR (50)
+    nom VARCHAR(50) NOT NULL,
+    secteur VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS competences (
@@ -55,9 +55,10 @@ CREATE TABLE IF NOT EXISTS poids (
     gestion_projet FLOAT NOT NULL,
     storytelling FLOAT NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS branches (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR (10) NOT NULL, -- nom abrégé comme DocWeb
+    nom VARCHAR(10) NOT NULL, -- nom abrégé comme DocWeb
     sujet VARCHAR(50) NOT NULL, -- description du cours comme Développement Web (HTML/CSS)
     id_module INT REFERENCES modules (id) NOT NULL,
     duree_semestre INT -- durée en demi semestre (1 à 4)
@@ -65,18 +66,17 @@ CREATE TABLE IF NOT EXISTS branches (
 
 CREATE TABLE IF NOT EXISTS utilisateurs (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR (50) NOT NULL,
-    prenom VARCHAR (50) NOT NULL,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
     classe VARCHAR(8),
     est_eleve BOOLEAN NOT NULL,
-    email VARCHAR (30),
+    email VARCHAR(30),
     date_naissance VARCHAR(10),
-    id_competences INT REFERENCES competences (id)
 );
 
 CREATE TABLE IF NOT EXISTS metiers (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR (50),
+    nom VARCHAR(50),
     description TEXT,
     id_poids INT REFERENCES poids (id)
 );
@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS metiers (
 CREATE TABLE IF NOT EXISTS resultats_test (
     id SERIAL PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateurs (id),
+    id_competences INT REFERENCES competences (id)
     id_metier INT REFERENCES metiers (id) NOT NULL,
     pourcentage_similitude FLOAT NOT NULL,
     rang SMALLINT NOT NULL,
@@ -95,5 +96,5 @@ CREATE TABLE IF NOT EXISTS utilisateurs_branches (
     id SERIAL PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateurs (id),
     id_branches INT REFERENCES branches (id),
-    moyenne DECIMAL(2,1)
+    moyenne DECIMAL(2, 1)
 );
