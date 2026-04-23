@@ -1,4 +1,4 @@
--- Active: 1775506739659@@localhost@5432@displayflex
+-- Active: 1775506739659@@localhost@5432
 --SELECT ZONE--
 SELECT * FROM utilisateurs;
 

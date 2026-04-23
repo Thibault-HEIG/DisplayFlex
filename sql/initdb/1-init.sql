@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     classe VARCHAR(8),
     est_eleve BOOLEAN NOT NULL,
     email VARCHAR(30),
-    date_naissance VARCHAR(10),
+    date_naissance VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS metiers (
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS metiers (
 CREATE TABLE IF NOT EXISTS resultats_test (
     id SERIAL PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateurs (id),
-    id_competences INT REFERENCES competences (id)
+    id_competences INT REFERENCES competences (id),
     id_metier INT REFERENCES metiers (id) NOT NULL,
     pourcentage_similitude FLOAT NOT NULL,
     rang SMALLINT NOT NULL,
