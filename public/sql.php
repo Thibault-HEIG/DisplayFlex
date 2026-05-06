@@ -7,23 +7,39 @@ $serverResponse = '';
 $userId = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action_type']) && $_POST['action_type'] === 'undo' && !empty($userId)) {
-        undoInsertStudent($userId);
-        $userId = null;
-        $submitted = false;
-        $serverResponse = "Étudiant supprimé avec succès.";
+    $action = $_POST['action_type'] ?? 'insert';
+
+    if ($action === 'undo') {
+        $userId = $_POST['user_id'] ?? null;
+        if (!empty($userId)) {
+            if (undoInsertUser($userId)) {
+                $userId = null;
+                $submitted = false;
+                $serverResponse = "Opération annulée avec succès.";
+            } else {
+                $serverResponse = "Erreur lors de l'annulation.";
+                $submitted = true;
+            }
+        }
     } else {
-        $userId = insertStudent();
+        $userId = handleInsert();
     }
 }
 
-function insertStudent() {
+function handleInsert() {
     global $submitted, $serverResponse;
     $prenom = $_POST["prenom"];
     $nom = $_POST["nom"];
     $estEleve = filter_input(INPUT_POST, "est-eleve", FILTER_VALIDATE_BOOL) ?? false;
     $email = $_POST["email"];
     $dateNaissance = $_POST["date-naissance"];
+
+    $validation = validateUser($prenom, $nom, $email, $dateNaissance);
+    if ($validation !== "ok") {
+        $serverResponse = $validation;
+        $submitted = false;
+        return null;
+    }
 
     try {
         $pdo = getConnection();
@@ -40,16 +56,44 @@ function insertStudent() {
     }
 }
 
-function undoInsertStudent($idStudent)
+function validateUser($prenom, $nom, $email, $dateNaissance) {
+    if (!empty($email) && !str_ends_with($email, "@heig-vd.ch")) {
+        return "Merci d'utiliser un email professionnel (@heig-vd.ch)";
+    }
+
+    if (!empty($dateNaissance)) {
+        $year = (int)date('Y', strtotime($dateNaissance));
+        if ($year > 2010) {
+            return "Erreur : il semble que $year soit trop récent pour une date de naissance...";
+        }
+    }
+
+    try {
+        $pdo = getConnection();
+        $query = "SELECT id FROM utilisateurs WHERE prenom = ? AND nom = ?";
+        $pstmt = $pdo->prepare($query);
+        $pstmt->execute([$prenom, $nom]);
+        if ($pstmt->fetch()) {
+            return "L'élève figure déjà dans la base de données. L'opération a été annulée.";
+        }
+    } catch (PDOException $e) {
+        return "Erreur lors de la vérification des doublons : " . $e->getMessage();
+    }
+
+    return "ok";
+}
+
+function undoInsertUser($idUser)
 {
-
-    $pdo = getConnection();
-
-    $query = "DELETE FROM utilisateurs WHERE id = ? ;";
-    $pstmt = $pdo->prepare($query);
-    $pstmt->execute([$idStudent]);
-
-    return true;
+    try {
+        $pdo = getConnection();
+        $query = "DELETE FROM utilisateurs WHERE id = ? ;";
+        $pstmt = $pdo->prepare($query);
+        $pstmt->execute([$idUser]);
+        return true;
+    } catch (PDOException $e) {
+        return false;
+    }
 }
 
 ?>
@@ -78,25 +122,26 @@ function undoInsertStudent($idStudent)
             <p>Ces informations seront directement ajoutées à la base de données.</p>
 
             <form id="input-group" action="sql.php" method="post">
+                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId ?? ''); ?>">
                 <div class="field">
                     <label for="prenom">Prénom</label>
-                    <input type="text" name="prenom" id="prenom" placeholder="Thibault" required>
+                    <input type="text" name="prenom" id="prenom" placeholder="Thibault" value="<?php echo htmlspecialchars($_POST['prenom'] ?? ''); ?>" required>
                 </div>
                 <div class="field">
                     <label for="nom">Nom</label>
-                    <input type="text" name="nom" id="nom" placeholder="Moret" required>
+                    <input type="text" name="nom" id="nom" placeholder="Moret" value="<?php echo htmlspecialchars($_POST['nom'] ?? ''); ?>" required>
                 </div>
                 <div class="field">
-                    <label for="classe">Élève</label>
-                    <input type="checkbox" name="est-eleve" id="est-eleve">
+                    <label for="est-eleve">Élève</label>
+                    <input type="checkbox" name="est-eleve" id="est-eleve" <?php echo isset($_POST['est-eleve']) ? 'checked' : ''; ?>>
                 </div>
                 <div class="field">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="prenom.nom@heig-vd.ch">
+                    <input type="email" name="email" id="email" placeholder="prenom.nom@heig-vd.ch" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                 </div>
                 <div class="field">
                     <label for="date-naissance">Date de naissance</label>
-                    <input type="date" name="date-naissance" id="date-naissance">
+                    <input type="date" name="date-naissance" id="date-naissance" value="<?php echo htmlspecialchars($_POST['date-naissance'] ?? ''); ?>">
                 </div>
                 <button type="submit" name="action_type" value="insert">Valider</button>
                 <button type="submit" name="action_type" value="undo" id="undo-button" class="<?php if (!$submitted) {
@@ -106,7 +151,7 @@ function undoInsertStudent($idStudent)
 
             <div id="responseArea">
                 <span class="label">Réponse du serveur :</span>
-                <p id="serverOutput"><?php if ($submitted == false) {
+                <p id="serverOutput"><?php if ($submitted == false && empty($serverResponse)) {
                                             echo '...';
                                         } else {
                                             echo $serverResponse;

@@ -21,12 +21,10 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL, PHP et Git
 │   │   ├── ☕ BaseApiHandler.java   <-- 🔴 Classe abstraite parent (Gère la structure HTTP commune)
 │   │   └── ☕ TrucHandler.java      <-- 🟢 Gère la logique de transformation d'un input en output
 │   ├── 📁 database/                 <-- 🟢 Interactions Database
-│   │   ├── ☕ DatabaseManager.java  <-- 🟢 Exécution des requêtes SQL
-│   │   └── ☕ DatabaseSecurity.java <-- 🟠 Vérifications avant insertion
+│   │   └── ☕ DatabaseManager.java  <-- 🟢 Exécution des requêtes SQL
 │   └── 📁 model/                    <-- 🟢 Classes objets
 │       ├── ☕ Vector.java           <-- 🟢 Objet vecteur
-│       ├── ☕ Profile.java          <-- 🟢 Objet métier
-│       └── ☕ Student.java          <-- 🟢 Objet élève
+│       └── ☕ Profile.java          <-- 🟢 Objet métier
 │
 ├── 📁 public/                       <-- 🎨 FRONT-END
 │   ├── 📄 file.html                 <-- 🟢 Structure HTML d'une page statique
@@ -39,8 +37,7 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL, PHP et Git
 │       ├── 📄 db-connection.php     <-- 🟠 Script de création de connexion avec la DB
 │       ├── 📄 script-home.php       <-- 🟢 Script pour afficher la liste des tâches sur l'accueil
 │       ├── 📄 projectCount.js       <-- 🟢 Script pour afficher le nombre de projets
-│       ├── 📄 profileGuesser.js     <-- 🟢 Script lié à l'orientateur de métier
-│       └── 📄 insertStudent.js      <-- 🟢 Script avec l'appel fetch() vers /api/students
+│       └── 📄 profileGuesser.js     <-- 🟢 Script lié à l'orientateur de métier
 │
 ├── 📁 sql/                          <-- 🗄️ STRUCTURE DES DONNÉES
 │   ├── 📁 initdb/                   <-- 🟠 Scripts exécutés au démarrage du conteneur DB         
