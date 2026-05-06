@@ -78,7 +78,7 @@ public class TestingProfileGuesser {
         }
 
         Arrays.sort(PROFILES, Comparator.comparingInt(Profile::getScore).reversed());
-        ProfileGuesserHandler.setResults(pstmt, false);
+        ProfileGuesserHandler.setResults(pstmt, 0, false);
     }
 
     public static void main(String[] args) {

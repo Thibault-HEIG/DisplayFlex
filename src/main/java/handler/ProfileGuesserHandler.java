@@ -74,7 +74,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
         completeJobHashMap();
     }
 
-    public static void setResults(PreparedStatement pstmt, boolean human) {
+    public static void setResults(PreparedStatement pstmt, int compId, boolean human) {
 
         for (int i = 0; i < PROFILES.length; i++) {
             int rank = i + 1;
@@ -83,7 +83,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
 
             // Update the database
             try {
-                DatabaseManager.setProfileGuesserResult(pstmt, jobId, percentage, human, rank);
+                DatabaseManager.setProfileGuesserResult(pstmt, compId, jobId, percentage, human, rank);
             } catch (SQLException e) {
                 System.out.println("Erreur SQL : " + e.getMessage());
             }
@@ -140,9 +140,10 @@ public class ProfileGuesserHandler extends BaseApiHandler {
 
         boolean saveResult = inputData.get("save_result").getAsBoolean();
         if (saveResult) {
-            String query = "INSERT INTO resultats_test (id_metier, pourcentage_similitude, rang, timestamp, humain) VALUES (?, ?, ?, NOW(), ?);";
+            int compId = inputData.get("id_competences").getAsInt();
+            String query = "INSERT INTO resultats_test (id_competences, id_metier, pourcentage_similitude, rang, timestamp, humain) VALUES (?, ?, ?, ?, NOW(), ?);";
             try (PreparedStatement pstmt = DatabaseManager.getPreparedStatement(query)) {
-                setResults(pstmt, true);
+                setResults(pstmt, compId, true);
                 pstmt.executeBatch();
             } catch (Exception e) {
                 System.out.println("Erreur SQL : " + e.getMessage());

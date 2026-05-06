@@ -22,7 +22,7 @@ $results    = null; // Résultats de l'API
 $errorMsg   = null;
 $posted     = [];
 
-require_once 'php/db-connection.php';
+require_once 'scripts/db-connection.php';
 
 $jobDescriptions = [];
 try {
@@ -46,74 +46,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $save = isset($_POST['save']); // true or false
 
+    $compId = null;
+
+    if ($save) {
+        try {
+            $pdo = getConnection();
+
+            // query : INSERT INTO competences (all, skills, mentioned) VALUES (all, skill, values)
+            $dbCols = [
+                'marketing', 'design_graphique', 'programmation', 'ecriture', 'design_interface',
+                'data', 'media', 'maths', 'english', 'economie', 'leadership',
+                'communication_orale', 'creativite', 'pensee_analytique', 'gestion_projet', 'storytelling'
+            ];
+            $placeholders = implode(',', array_fill(0, count($dbCols), '?'));
+            $sqlComp = "INSERT INTO competences (" . implode(',', $dbCols) . ") VALUES ($placeholders)";
+            $stmtComp = $pdo->prepare($sqlComp);
+            
+            // Collect values in the same order as columns
+            $compValues = [];
+            foreach ($skills as $id => $name) {
+                $compValues[] = $posted[$id];
+            }
+            
+            $stmtComp->execute($compValues);
+            $compId = (int)$pdo->lastInsertId();
+        } catch (PDOException $e) {
+            $errorMsg = "Erreur base de données : " . $e->getMessage();
+        }
+    }
+
+    $skillsPayload = [];
+    foreach ($skills as $id => $name) {
+        $skillsPayload[] = [
+            "skill" => $name,
+            "value" => (int)$posted[$id]
+        ];
+    }
+
     $payload = [
+        "id_competences" => $compId,
         "save_result" => $save,
-        "skills" => [
-            [
-                "skill" => "Marketing",
-                "value" => (int)$posted['s0']
-            ],
-            [
-                "skill" => "Graphic Design",
-                "value" => (int)$posted['s1']
-            ],
-            [
-                "skill" => "Coding",
-                "value" => (int)$posted['s2']
-            ],
-            [
-                "skill" => "Writing",
-                "value" => (int)$posted['s3']
-            ],
-            [
-                "skill" => "Interface",
-                "value" => (int)$posted['s4']
-            ],
-            [
-                "skill" => "Data",
-                "value" => (int)$posted['s5']
-            ],
-            [
-                "skill" => "Media",
-                "value" => (int)$posted['s6']
-            ],
-            [
-                "skill" => "Maths",
-                "value" => (int)$posted['s7']
-            ],
-            [
-                "skill" => "English",
-                "value" => (int)$posted['s8']
-            ],
-            [
-                "skill" => "Economy",
-                "value" => (int)$posted['s9']
-            ],
-            [
-                "skill" => "Leadership",
-                "value" => (int)$posted['s10']
-            ],
-            [
-                "skill" => "Oral Communication",
-                "value" => (int)$posted['s11']
-            ],
-            [
-                "skill" => "Creativity",
-                "value" => (int)$posted['s12']
-            ],
-            [
-                "skill" => "Analytical Thinking",
-                "value" => (int)$posted['s13']
-            ],
-            [
-                "skill" => "Project Management",
-                "value" => (int)$posted['s14']
-            ],
-            [
-                "skill" => "Storytelling",
-                "value" => (int)$posted['s15']
-            ]
-        ],
+        "skills" => $skillsPayload,
         "student" => null
     ];
 

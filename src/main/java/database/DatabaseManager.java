@@ -90,13 +90,14 @@ public class DatabaseManager {
         }
     }
 
-    public static void setProfileGuesserResult(PreparedStatement pstmt, int jobId, int percentage, boolean human,
+    public static void setProfileGuesserResult(PreparedStatement pstmt, int compId, int jobId, int percentage, boolean human,
             int rank) throws SQLException {
 
-        pstmt.setInt(1, jobId);
-        pstmt.setInt(2, percentage);
-        pstmt.setInt(3, rank);
-        pstmt.setBoolean(4, human);
+        pstmt.setInt(1, compId);
+        pstmt.setInt(2, jobId);
+        pstmt.setInt(3, percentage);
+        pstmt.setInt(4, rank);
+        pstmt.setBoolean(5, human);
 
         pstmt.addBatch();
     }

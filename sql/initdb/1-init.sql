@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
-    classe VARCHAR(8),
     est_eleve BOOLEAN NOT NULL,
     email VARCHAR(30),
     date_naissance VARCHAR(10)

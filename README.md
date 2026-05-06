@@ -35,10 +35,9 @@ Projet pour mettre en pratique les compétences HTML, CSS, Java, SQL, PHP et Git
 │   │   ├── 📄 reset.css             <-- 🟠 Reset pour toute feuille de style
 │   │   ├── 📄 theme.css             <-- 🟢 Réglages du thème (charte graphique)
 │   │   └── 📄 file.css              <-- 🟢 Feuille de style propre à chaque page
-│   ├── 📁 php/                      <-- 🟢 Design et mise en page CSS
-│   │   ├── 📄 db-connection.php     <-- 🟠 Script de création de connexion avec la DB
-│   │   └── 📄 script-home.php       <-- 🟢 Script pour afficher la liste des tâches sur l'accueil
-│   └── 📁 scripts/                  <-- 🟢 Scripts JavaScript
+│   └── 📁 scripts/                  <-- 🟢 Scripts JavaScript et PHP
+│       ├── 📄 db-connection.php     <-- 🟠 Script de création de connexion avec la DB
+│       ├── 📄 script-home.php       <-- 🟢 Script pour afficher la liste des tâches sur l'accueil
 │       ├── 📄 projectCount.js       <-- 🟢 Script pour afficher le nombre de projets
 │       ├── 📄 profileGuesser.js     <-- 🟢 Script lié à l'orientateur de métier
 │       └── 📄 insertStudent.js      <-- 🟢 Script avec l'appel fetch() vers /api/students

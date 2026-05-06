@@ -20,7 +20,6 @@ INSERT INTO
     utilisateurs (
         nom,
         prenom,
-        classe,
         est_eleve,
         email,
         date_naissance
@@ -28,7 +27,6 @@ INSERT INTO
 VALUES (
         'Moret',
         'Thibault',
-        'M54-2',
         TRUE,
         'thibault.moret@heig-vd.ch',
         '2005-07-05'
@@ -62,3 +60,5 @@ SELECT * FROM resultats_test WHERE humain = false;
 SELECT * FROM metiers LEFT JOIN poids ON metiers.id_poids = poids.id;
 
 SELECT c.* FROM competences c LEFT JOIN resultats_test rt ON c.id = rt.id_competences;
+
+SELECT * FROM competences;
