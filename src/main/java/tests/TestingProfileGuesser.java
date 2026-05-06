@@ -1,9 +1,13 @@
 package main.java.tests;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 import main.java.database.DatabaseManager;
@@ -12,6 +16,33 @@ import main.java.model.Profile;
 import main.java.model.Vector;
 
 public class TestingProfileGuesser {
+
+    private double[][] matrix;
+    private int csvNbOfRows;
+
+    public static Profile[] PROFILES = ProfileGuesserHandler.PROFILES;
+
+    public void loadCSV(String path) {
+        List<double[]> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            br.readLine(); // Skip first line (header)
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                System.out.println(Arrays.toString(parts));
+                double[] row = new double[parts.length];
+                for (int i = 0; i < parts.length; i++) {
+                    row[i] = Double.parseDouble(parts[i].trim());
+                }
+                rows.add(row);
+            }
+        } catch (IOException e) {
+            System.out.println("Erreur lecture CSV : " + e.getMessage());
+        }
+        matrix = rows.toArray(new double[0][]);
+        csvNbOfRows = matrix.length;
+    }
 
     public double[] generateRandomValues() {
         double[] values = new double[ProfileGuesserHandler.NB_OF_SKILLS];
@@ -23,23 +54,20 @@ public class TestingProfileGuesser {
 
     public double[] generateSemiRandomValues() {
 
-        int i = new Random().nextInt((ProfileGuesserHandler.NB_OF_PROFILES - 1) - 0 + 1);
+        int row = new Random().nextInt(csvNbOfRows);
 
-        double[] matrixLineCopy = new double[ProfileGuesserHandler.NB_OF_SKILLS];
-        for (int j = 0; j < matrixLineCopy.length; j++) {
-            matrixLineCopy[j] += (ProfileGuesserHandler.WEIGHTS_MATRIX[i][j]) + new Random().nextInt(6 + 1) - 3;
+        double[] skills = new double[ProfileGuesserHandler.NB_OF_SKILLS];
+        for (int i = 0; i < skills.length; i++) {
+            skills[i] = Math.max(0, Math.min(10, matrix[row][i] + new Random().nextInt(7) - 3));
         }
-
-        return matrixLineCopy;
+        return skills;
     }
 
     public void runTest(double[] generatedValues, PreparedStatement pstmt) {
 
         // Recreate envrionnement
         Profile userProfile = new Profile("Bot", generatedValues);
-        Profile[] PROFILES = ProfileGuesserHandler.PROFILES;
 
-        ProfileGuesserHandler.initProfiles();
         Vector userVector = userProfile.getVector();
 
         // findFinalScore() appelle en cascade : calculerCosAngle →
@@ -50,32 +78,24 @@ public class TestingProfileGuesser {
         }
 
         Arrays.sort(PROFILES, Comparator.comparingInt(Profile::getScore).reversed());
-
-        for (int i = 0; i < PROFILES.length; i++) {
-            int rank = i + 1;
-            String jobName = ProfileGuesserHandler.PROFILES[i].getName();
-            int percentage = PROFILES[i].getScore();
-
-            // Update to the database
-            try {
-                DatabaseManager.setProfileGuesserResult(pstmt, jobName, percentage, false, rank);
-            } catch (SQLException e) {
-                System.out.println("Erreur SQL : " + e.getMessage());
-            }
-        }
+        ProfileGuesserHandler.setResults(pstmt, 0, false);
     }
 
     public static void main(String[] args) {
 
-        String query = "INSERT INTO resultats_test (metier, pourcentage, rang, timestamp, humain) VALUES (?, ?, ?, NOW(), ?);";
+        ProfileGuesserHandler.initProfiles();
+
+        String query = "INSERT INTO resultats_test (id_metier, pourcentage_similitude, rang, timestamp, humain) VALUES (?, ?, ?, NOW(), ?);";
         try (PreparedStatement pstmt = DatabaseManager.getPreparedStatement(query)) {
 
             TestingProfileGuesser test = new TestingProfileGuesser();
-            for (int i = 0; i < 8000; i++) { // 20%
+            test.loadCSV("public/data/training-data.csv");
+
+            for (int i = 0; i < 2000; i++) { // 20%
                 double[] generatedValues = test.generateRandomValues();
                 test.runTest(generatedValues, pstmt);
             }
-            for (int i = 0; i < 2000; i++) { // 80%
+            for (int i = 0; i < 8000; i++) { // 80%
                 double[] generatedValues = test.generateSemiRandomValues();
                 test.runTest(generatedValues, pstmt);
             }

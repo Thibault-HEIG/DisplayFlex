@@ -1,4 +1,4 @@
-<?php require_once 'php/script-home.php'; ?>
+<?php require_once __DIR__ . '/scripts/script-home.php'; ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,8 +15,8 @@
         <nav>
             <div class="nav-menu">
                 <a href="websites.html">Projets Web</a>
-                <a href="sql.html">DataBase</a>
-                <a href="profile-guesser.html">Orientation</a>
+                <a href="sql.php">DataBase</a>
+                <a href="profile-guesser.php">Orientation</a>
                 <a href="mini-games.html">Mini-Jeux</a>
             </div>
             <fieldset>

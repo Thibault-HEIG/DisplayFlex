@@ -1,7 +1,5 @@
 -- Active: 1775506739659@@localhost@5432@displayflex
 
---INSERT ZONE--
-
 INSERT INTO
     modules (nom, secteur)
 VALUES (
@@ -196,7 +194,7 @@ WHERE
     nom = 'Utilisateurs et interfaces';
 
 INSERT INTO
-    task_list (task)
+    liste_taches (tache)
 VALUES (
         'Créer un bouton qui permet dafficher la liste des matières'
     ),

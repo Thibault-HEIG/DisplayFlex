@@ -35,7 +35,7 @@ services:
     # These are pulling values from a local .env file so you don't hardcode
     # sensitive passwords directly into this file.
     environment:
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=db
       - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}

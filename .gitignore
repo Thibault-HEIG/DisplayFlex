@@ -1,5 +1,6 @@
 # Fichiers compilés Java
 *.class
+out
 
 # Fichiers système Mac
 .DS_Store
