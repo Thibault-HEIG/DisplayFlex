@@ -62,3 +62,4 @@ SELECT * FROM metiers LEFT JOIN poids ON metiers.id_poids = poids.id;
 SELECT c.* FROM competences c LEFT JOIN resultats_test rt ON c.id = rt.id_competences;
 
 SELECT * FROM competences;
+DELETE FROM utilisateurs;
