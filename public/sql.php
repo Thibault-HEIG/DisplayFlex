@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-function handleInsert() {
+function handleInsert(): ?int {
     global $submitted, $serverResponse;
     $prenom = $_POST["prenom"];
     $nom = $_POST["nom"];
@@ -56,8 +56,8 @@ function handleInsert() {
     }
 }
 
-function validateUser($prenom, $nom, $email, $dateNaissance) {
-    if (!empty($email) && !str_ends_with($email, "@heig-vd.ch")) {
+function validateUser(string $prenom, string $nom, string $email, string $dateNaissance) {
+    if (empty($email) || !str_ends_with($email, "@heig-vd.ch")) {
         return "Merci d'utiliser un email professionnel (@heig-vd.ch)";
     }
 
@@ -83,7 +83,7 @@ function validateUser($prenom, $nom, $email, $dateNaissance) {
     return "ok";
 }
 
-function undoInsertUser($idUser)
+function undoInsertUser(int $idUser)
 {
     try {
         $pdo = getConnection();
