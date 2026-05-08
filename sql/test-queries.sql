@@ -39,15 +39,18 @@ SELECT
     MIN(pourcentage_similitude) AS min_score,
     MAX(pourcentage_similitude) AS max_score,
     AVG(rang) AS average_rank
-FROM resultats_test LEFT JOIN metiers m ON m.id = resultats_test.id_metier
+FROM resultats_test
+    LEFT JOIN metiers m ON m.id = resultats_test.id_metier
 WHERE
-    rang <= 3 AND humain = true
+    rang <= 3
+    AND humain = true
 GROUP BY
     m.nom
 ORDER BY total_recommendations DESC;
 
 SELECT m.nom, COUNT(*) AS total_top_1
-FROM resultats_test LEFT JOIN metiers m ON m.id = resultats_test.id_metier
+FROM resultats_test
+    LEFT JOIN metiers m ON m.id = resultats_test.id_metier
 WHERE
     rang = 1
 GROUP BY
@@ -55,11 +58,22 @@ GROUP BY
 ORDER BY total_top_1 DESC;
 
 SELECT * FROM liste_taches;
+
 SELECT * FROM resultats_test WHERE humain = false;
 
 SELECT * FROM metiers LEFT JOIN poids ON metiers.id_poids = poids.id;
 
-SELECT c.* FROM competences c LEFT JOIN resultats_test rt ON c.id = rt.id_competences;
+SELECT c.*
+FROM
+    competences c
+    LEFT JOIN resultats_test rt ON c.id = rt.id_competences;
 
 SELECT * FROM competences;
+
 DELETE FROM utilisateurs;
+
+SELECT *
+FROM resultats_test
+    LEFT JOIN competences ON competences.id = resultats_test.id_competences
+WHERE
+    humain = true;

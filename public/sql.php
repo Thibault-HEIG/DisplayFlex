@@ -1,15 +1,23 @@
 <?php
 
+/**
+ * Ce fichier gère l'ajout d'utilisateurs dans la base de données.
+ * Il contient une logique de validation (vérifier si les données sont correctes)
+ * et une option pour "annuler" la dernière insertion.
+ */
+
 require_once "scripts/db-connection.php";
 
-$submitted = false;
-$serverResponse = '';
-$userId = null;
+$submitted = false; // Devient vrai si l'ajout a réussi
+$serverResponse = ''; // Message à afficher à l'utilisateur
+$userId = null; // Stocke l'ID de l'utilisateur qu'on vient d'ajouter (pour le undo)
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // On regarde quel bouton a été cliqué (Valider ou Annuler)
     $action = $_POST['action_type'] ?? 'insert';
 
     if ($action === 'undo') {
+        // Si on clique sur "Annuler", on supprime l'utilisateur qu'on vient de créer
         $userId = $_POST['user_id'] ?? null;
         if (!empty($userId)) {
             if (undoInsertUser($userId)) {
@@ -22,18 +30,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     } else {
+        // Sinon, on procède à l'insertion
         $userId = handleInsert();
     }
 }
 
-function handleInsert(): ?int {
+/**
+ * Fonction principale pour gérer l'ajout d'un utilisateur.
+ */
+function handleInsert(): ?int // retourne l'id inséré
+{
     global $submitted, $serverResponse;
+
+    // On récupère les données envoyées par le formulaire HTML
     $prenom = $_POST["prenom"];
     $nom = $_POST["nom"];
     $estEleve = filter_input(INPUT_POST, "est-eleve", FILTER_VALIDATE_BOOL) ?? false;
     $email = $_POST["email"];
     $dateNaissance = $_POST["date-naissance"];
 
+    // 1. Validation : on vérifie que tout est en ordre (email HEIG, âge, doublons)
     $validation = validateUser($prenom, $nom, $email, $dateNaissance);
     if ($validation !== "ok") {
         $serverResponse = $validation;
@@ -41,14 +57,17 @@ function handleInsert(): ?int {
         return null;
     }
 
+    // 2. Insertion : si tout est OK, on enregistre dans la DB
     try {
         $pdo = getConnection();
+        // On utilise des "?" (paramètres préparés) pour éviter le piratage (Injections SQL)
         $query = "INSERT INTO utilisateurs (prenom, nom, est_eleve, email, date_naissance) VALUES (?, ?, ?, ?, ?)";
         $pstmt = $pdo->prepare($query);
         $pstmt->execute([$prenom, $nom, $estEleve ? 1 : 0, $email, $dateNaissance]);
 
         $submitted = true;
         $serverResponse = "Étudiant ajouté avec succès.";
+        // On renvoie l'ID généré pour permettre l'annulation si besoin
         return $pdo->lastInsertId();
     } catch (PDOException $e) {
         $serverResponse = "Erreur : " . $e->getMessage();
@@ -56,11 +75,17 @@ function handleInsert(): ?int {
     }
 }
 
-function validateUser(string $prenom, string $nom, string $email, string $dateNaissance) {
+/**
+ * Vérifie si les données de l'utilisateur sont valides.
+ */
+function validateUser(string $prenom, string $nom, string $email, string $dateNaissance)
+{
+    // On vérifie que c'est bien un email de l'école
     if (empty($email) || !str_ends_with($email, "@heig-vd.ch")) {
         return "Merci d'utiliser un email professionnel (@heig-vd.ch)";
     }
 
+    // On vérifie que la date de naissance n'est pas dans le futur ou trop récente
     if (!empty($dateNaissance)) {
         $year = (int)date('Y', strtotime($dateNaissance));
         if ($year > 2010) {
@@ -68,6 +93,7 @@ function validateUser(string $prenom, string $nom, string $email, string $dateNa
         }
     }
 
+    // On vérifie si la personne n'est pas déjà dans la base (Doublon)
     try {
         $pdo = getConnection();
         $query = "SELECT id FROM utilisateurs WHERE prenom = ? AND nom = ?";
@@ -83,6 +109,9 @@ function validateUser(string $prenom, string $nom, string $email, string $dateNa
     return "ok";
 }
 
+/**
+ * Supprime un utilisateur (utilisé par le bouton Annuler).
+ */
 function undoInsertUser(int $idUser)
 {
     try {
