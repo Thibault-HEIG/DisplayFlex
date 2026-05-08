@@ -52,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo = getConnection();
 
-            // query : INSERT INTO competences (all, skills, mentioned) VALUES (all, skill, values)
             $dbCols = [
                 'marketing', 'design_graphique', 'programmation', 'ecriture', 'design_interface',
                 'data', 'media', 'maths', 'english', 'economie', 'leadership',
