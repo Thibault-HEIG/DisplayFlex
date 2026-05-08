@@ -2,7 +2,10 @@
 DROP TABLE branches;
 DROP TABLE modules;
 DROP TABLE poids;
+TRUNCATE TABLE poids RESTART IDENTITY CASCADE;
 DROP TABLE metiers;
+TRUNCATE TABLE metiers RESTART IDENTITY CASCADE;
+TRUNCATE TABLE competences RESTART IDENTITY CASCADE;
 DROP TABLE utilisateurs_branches;
 
 DROP TABLE utilisateurs; -- /!\ DANGER - utiliser pour hard reset les élèves et leur id /!\

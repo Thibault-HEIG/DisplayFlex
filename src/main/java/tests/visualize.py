@@ -29,7 +29,7 @@ try:
     query = """
     SELECT id_metier, COUNT(*) AS total_recommendations, AVG(pourcentage_similitude) AS average_score, MIN(pourcentage_similitude) AS min_score, MAX(pourcentage_similitude) AS max_score, AVG(rang) AS average_rank
     FROM resultats_test
-    WHERE rang <= 3
+    WHERE rang <= 5
     GROUP BY id_metier
     ORDER BY total_recommendations DESC;
     """

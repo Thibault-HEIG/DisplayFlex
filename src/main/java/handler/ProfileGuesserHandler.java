@@ -21,6 +21,7 @@ import main.java.model.Vector;
 public class ProfileGuesserHandler extends BaseApiHandler {
     
     public static final int NB_OF_SKILLS = 16;
+    public static final int NB_OF_RESULTS = 5;
 
     /**
      * Cette méthode contient le coeur de l'algorithme.
@@ -40,7 +41,9 @@ public class ProfileGuesserHandler extends BaseApiHandler {
 
         // On trie la liste : les métiers les plus ressemblants arrivent en haut (index 0)
         profiles.sort(Comparator.comparingInt(Profile::getScore).reversed());
-        return profiles;
+
+        // On ne garde que les meilleurs résultats pour plus de clarté
+        return profiles.subList(0, Math.min(NB_OF_RESULTS, profiles.size()));
     }
 
     @Override
@@ -58,10 +61,10 @@ public class ProfileGuesserHandler extends BaseApiHandler {
         }
 
         // On récupère les profils métiers depuis la base de données
-        List<Profile> profiles = DatabaseManager.getJobProfiles(NB_OF_SKILLS);
+        List<Profile> allProfiles = DatabaseManager.getJobProfiles(NB_OF_SKILLS);
         
-        // On lance le calcul du classement
-        calculateRanking(userScores, profiles);
+        // On lance le calcul du classement et on ne garde que les meilleurs
+        List<Profile> topProfiles = calculateRanking(userScores, allProfiles);
 
         // On regarde si le JSON dit de sauver le résultat
         boolean saveResult = inputData.get("save_result").getAsBoolean();
@@ -69,7 +72,7 @@ public class ProfileGuesserHandler extends BaseApiHandler {
             try {
                 int compId = DatabaseManager.insertCompetences(userScores);
                 Map<String, Integer> jobHashMap = DatabaseManager.getJobHashMap();
-                DatabaseManager.saveTestResults(compId, profiles, jobHashMap, true);
+                DatabaseManager.saveTestResults(compId, topProfiles, jobHashMap, true);
             } catch (SQLException e) {
                 System.err.println("Database error during result saving: " + e.getMessage());
             }
@@ -80,8 +83,8 @@ public class ProfileGuesserHandler extends BaseApiHandler {
         output.addProperty("status", "success");
 
         JsonArray results = new JsonArray();
-        for (int i = 0; i < profiles.size(); i++) {
-            Profile p = profiles.get(i);
+        for (int i = 0; i < topProfiles.size(); i++) {
+            Profile p = topProfiles.get(i);
             JsonObject result = new JsonObject();
             result.addProperty("name", p.getName());
             result.addProperty("rank", i + 1);

@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section id="test-form">
         <div class="container">
             <h3>Auto-évaluez vos compétences dans ces domaines.</h3>
-            <p>L'algorithme trouvera les métiers adaptés pour vous.</p>
+            <p>L'algorithme trouvera les 5 métiers les plus adaptés pour vous.</p>
             <div id="server-output">
                 <?php if ($errorMsg): ?>
                     <p class="error"><?= htmlspecialchars($errorMsg) ?></p>
