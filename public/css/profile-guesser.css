@@ -166,6 +166,13 @@ div#server-output {
         }
     }
 
+    div.rank-4, div.rank-5 {
+        span.result-rank {
+            color: var(--color-grey);
+            font-size: 1.5rem;
+        }
+    }
+
     div.result-item {
         display: flex;
         width: 80%;

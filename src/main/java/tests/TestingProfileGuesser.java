@@ -77,9 +77,9 @@ public class TestingProfileGuesser {
             for (Profile p : baseProfiles) {
                 testProfiles.add(new Profile(p.getName(), p.getVector().getValues()));
             }
-            // On calcule le classement pour ce test précis
-            ProfileGuesserHandler.calculateRanking(generatedValues, testProfiles);
-            allRankings.add(testProfiles);
+            // On calcule le classement pour ce test précis (on ne garde que le top 5)
+            List<Profile> topProfiles = ProfileGuesserHandler.calculateRanking(generatedValues, testProfiles);
+            allRankings.add(topProfiles);
         }
         
         // On envoie d'abord les compétences (en groupe)
