@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Ce fichier PHP fait deux choses :
+ * 1. Il demande des infos à la Base de Données (PDO).
+ * 2. Il envoie vos réponses à l'algorithme Java (cURL).
+ */
+
 $skills = [
     's0'  => 'Marketing',
     's1'  => 'Graphic Design',
@@ -18,7 +25,7 @@ $skills = [
     's15' => 'Storytelling',
 ];
 
-$results    = null; // Résultats de l'API
+$results    = null; // Ici on stockera les métiers trouvés par l'algorithme
 $errorMsg   = null;
 $posted     = [];
 
@@ -26,54 +33,71 @@ require_once 'scripts/db-connection.php';
 
 $jobDescriptions = [];
 try {
+    // On se connecte à la DB pour récupérer les noms et descriptions des métiers
     $pdo  = getConnection();
     $stmt = $pdo->query('SELECT nom, description FROM metiers');
 
-    // PDO::FETCH_KEY_PAIR : transforme directement le ResultSet en tableau associatif
-    // clé = nom, valeur = description
+    // On transforme le résultat en un tableau "clé => valeur"
+    // Exemple : ['Developpeur' => 'Crée des sites web', ...]
     $jobDescriptions = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 } catch (PDOException $e) {
     $errorMsg = 'Impossible de charger les métiers : ' . $e->getMessage();
 }
 
-
+// Si l'utilisateur a cliqué sur le bouton "Valider" (méthode POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // On récupère les notes (0 à 10) que l'utilisateur a mises sur le site
     foreach ($skills as $id => $name) {
         $val = isset($_POST[$id]) ? (int) $_POST[$id] : 5;
         $posted[$id] = $val;
     }
 
-    $save = isset($_POST['save']); // true or false
+    $save = isset($_POST['save']); // Est-ce que la case "Sauvegarder" est cochée ?
 
-    $compId = null;
+    $compId = null; // On créé une variable nulle pour stocker le futur id généré lors de l'insertion des compétences
 
     if ($save) {
         try {
+            // On insère d'abord les notes dans la table 'competences'
             $pdo = getConnection();
 
             $dbCols = [
-                'marketing', 'design_graphique', 'programmation', 'ecriture', 'design_interface',
-                'data', 'media', 'maths', 'english', 'economie', 'leadership',
-                'communication_orale', 'creativite', 'pensee_analytique', 'gestion_projet', 'storytelling'
+                'marketing',
+                'design_graphique',
+                'programmation',
+                'ecriture',
+                'design_interface',
+                'data',
+                'media',
+                'maths',
+                'english',
+                'economie',
+                'leadership',
+                'communication_orale',
+                'creativite',
+                'pensee_analytique',
+                'gestion_projet',
+                'storytelling'
             ];
             $placeholders = implode(',', array_fill(0, count($dbCols), '?'));
             $sqlComp = "INSERT INTO competences (" . implode(',', $dbCols) . ") VALUES ($placeholders)";
             $stmtComp = $pdo->prepare($sqlComp);
-            
-            // Collect values in the same order as columns
+
             $compValues = [];
             foreach ($skills as $id => $name) {
                 $compValues[] = $posted[$id];
             }
-            
+
             $stmtComp->execute($compValues);
+            // On récupère l'ID que la DB vient de créer automatiquement
             $compId = (int)$pdo->lastInsertId();
         } catch (PDOException $e) {
             $errorMsg = "Erreur base de données : " . $e->getMessage();
         }
     }
 
+    // On prépare le "paquet" (JSON) à envoyer à notre programme Java
     $skillsPayload = [];
     foreach ($skills as $id => $name) {
         $skillsPayload[] = [
@@ -89,24 +113,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "student" => null
     ];
 
+    // La cURL permet de relier PHP et Java, ils communiquent via HTTP (☝🏼Lecorney prime)
     $ch = curl_init('http://app:8000/api/algorithm/job');
     curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
-        CURLOPT_POSTFIELDS     => json_encode($payload),
+        CURLOPT_RETURNTRANSFER => true, // On veut lire la réponse
+        CURLOPT_POST           => true, // On envoie des données
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'], // Le type d'envoi
+        CURLOPT_POSTFIELDS     => json_encode($payload), // Le paquet de données
     ]);
     $response = curl_exec($ch);
     $curlError = curl_error($ch);
 
     if ($curlError) {
-        $errorMsg = $curlError;
+        $errorMsg = "L'algorithme Java ne répond pas : " . $curlError;
     } else {
+        // On déballe la réponse reçue de Java (JSON) pour l'utiliser en PHP
         $data = json_decode($response, true);
         if (isset($data['status']) && $data['status'] === 'success') {
-            $results = $data['results']; // Tableau de résultats à afficher
+            $results = $data['results']; // On a nos résultats !
         } else {
-            $errorMsg = $data['message'] ?? 'Erreur inconnue';
+            $errorMsg = $data['message'] ?? 'Erreur inconnue de l\'algorithme';
         }
     }
 }
@@ -124,10 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <nav>
         <a href="index.php">← Retour à l'accueil</a>
-            <div>
-                <input type="checkbox" name="save" value="1" form="main-form">
-                <label>Sauvegarder le résultat</label>
-            </div>
+        <div>
+            <input type="checkbox" name="save" value="1" form="main-form">
+            <label>Sauvegarder le résultat</label>
+        </div>
     </nav>
 
     <section id="hero">
