@@ -17,6 +17,7 @@
                 <a href="websites.html">Projets Web</a>
                 <a href="sql.php">DataBase</a>
                 <a href="profile-guesser.php">Orientation</a>
+                <a href="music-reco.php">Music Recommender</a>
                 <a href="mini-games.html">Mini-Jeux</a>
             </div>
             <fieldset>
