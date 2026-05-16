@@ -97,3 +97,14 @@ CREATE TABLE IF NOT EXISTS utilisateurs_branches (
     id_branches INT REFERENCES branches (id),
     moyenne DECIMAL(2, 1)
 );
+
+CREATE TABLE IF NOT EXISTS resultats_recommandations (
+    id SERIAL PRIMARY KEY,
+    track_id VARCHAR(50) NOT NULL,
+    artists VARCHAR(100),
+    album_name VARCHAR(100),
+    track_name VARCHAR(100),
+    timestamp TIMESTAMP NOT NULL,
+    rank INTEGER NOT NULL,
+    distance REAL NOT NULL
+);

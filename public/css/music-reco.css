@@ -1,0 +1,301 @@
+@import "theme.css";
+@import "reset.css";
+
+section#hero {
+    padding: var(--margin);
+}
+
+section#hero h1 {
+    text-align: center;
+    margin: 3rem 0;
+}
+
+section#hero h2 {
+    text-align: center;
+}
+
+section#input {
+    padding: var(--margin);
+}
+
+section#input div.container {
+    border-radius: 20px;
+    padding: var(--margin);
+    background-color: var(--color-dark-primary);
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    margin: 0 auto;
+    color: var(--color-light-bg);
+}
+
+section#input div.container h3 {
+    font-size: var(--fs-medium);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+section#input div.container > p {
+    color: var(--color-light-bg);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#music-form {
+    width: 100%;
+}
+
+#songs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.song-row {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.song-row .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+    position: relative;
+}
+
+.song-row .field label {
+    font-size: var(--fs-small);
+    color: var(--color-grey);
+    margin-left: 0.5rem;
+}
+
+.song-row .field input {
+    font-family: Jost;
+    font-size: var(--fs-base);
+    padding: 0.7rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: solid 2px var(--color-accent);
+    color: var(--color-light-bg);
+    border-radius: 10px;
+}
+
+.song-row .field input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.song-row .field input.is-valid {
+    background-color: #548258;
+    border-color: #4caf50;
+    color: white;
+}
+
+.song-row .field input::placeholder {
+    color: var(--color-grey);
+    opacity: 0.5;
+}
+
+.song-row .remove-row {
+    background: none;
+    border: 2px solid var(--color-grey);
+    color: var(--color-grey);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    margin-bottom: 5px;
+}
+
+.song-row .remove-row:hover {
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-light-bg);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 1000;
+    margin-top: 5px;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+}
+
+.autocomplete-item {
+    padding: 10px 15px;
+    color: var(--color-dark-bg);
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: background 0.2s;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background-color: var(--color-light-primary);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.form-actions button {
+    font-family: Jost;
+    padding: 0.8rem 2.5rem;
+    border-radius: 30px;
+    font-size: var(--fs-base);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#add-row {
+    background: transparent;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+#add-row:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+}
+
+button[type="submit"] {
+    background: linear-gradient(to right, var(--color-accent), var(--color-accent-hover));
+    border: none;
+    color: var(--color-white);
+    font-weight: 600;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 151, 38, 0.3);
+}
+
+section#responseArea {
+    max-width: 90%;
+    margin: 3rem auto;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    display: none;
+}
+
+section#responseArea:not(:empty) {
+    display: block;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.recommendation-card {
+    background: var(--color-dark-primary);
+    border-radius: 24px;
+    padding: 2rem;
+    color: var(--color-light-bg);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 5px solid var(--color-accent);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.recommendation-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-top-color: var(--color-primary);
+    background: rgba(19, 73, 118, 0.95);
+}
+
+.recommendation-card .rank {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    font-size: 0.75rem;
+    background: var(--color-accent);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(212, 151, 38, 0.4);
+    letter-spacing: 0.5px;
+}
+
+.recommendation-card h4 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0 0.2rem 0;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.recommendation-card .artist {
+    color: var(--color-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.recommendation-card .album {
+    font-size: 0.8rem;
+    color: var(--color-grey);
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 12px;
+    border-radius: 6px;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+}
+
+.recommendation-card .distance {
+    margin-top: auto;
+    font-size: 0.7rem;
+    color: var(--color-grey);
+    opacity: 0.5;
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.recommendation-card a {
+    transition: all 0.3s ease !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid transparent;
+}
+
+.recommendation-card a:hover {
+    opacity: 0.8;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #1DB954;
+}

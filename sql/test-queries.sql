@@ -77,3 +77,5 @@ FROM resultats_test
     LEFT JOIN competences ON competences.id = resultats_test.id_competences
 WHERE
     humain = true;
+
+SELECT * FROM resultats_recommandations;
