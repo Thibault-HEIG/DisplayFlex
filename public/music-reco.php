@@ -30,7 +30,7 @@ function runPythonScript($trackIds)
     $args = "";
 
     foreach ($trackIds as $trackId) {
-        // $trackId = escapeshellarg($trackId);
+        $trackId = escapeshellarg($trackId);
         $args .=  $trackId . " ";
     }
 
